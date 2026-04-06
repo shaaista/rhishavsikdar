@@ -180,7 +180,7 @@
   mask-composite: exclude;
 }
 
-/* Default: Spinning conic gradient (Therapy) */
+/* Default: Spinning conic gradient (InnerWork) */
 .glass-border-ring::before {
   content: '';
   position: absolute;
@@ -197,8 +197,8 @@
   animation: spin-border 3s linear infinite;
 }
 
-/* Magic variant: static blue glow border */
-.glass-button-wrap--magic .glass-border-ring::before {
+/* Illusionist variant: static blue glow border */
+.glass-button-wrap--illusionist .glass-border-ring::before {
   inset: 0;
   border-radius: inherit;
   background: rgba(80, 140, 255, 0.4);
@@ -227,8 +227,49 @@
   transition: all var(--anim-time) var(--anim-ease);
 }
 
-/* Magic variant: always-on blue glow */
-.glass-button-wrap--magic .glass-button {
+/* 3D Glassy Variant (for landing page Illusionist button) */
+.glass-button-wrap--3d .glass-border-ring {
+  display: none;
+}
+
+.glass-button-wrap--3d .glass-button {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, rgba(160, 140, 255, 0.7) 0%, rgba(130, 120, 255, 0.8) 50%, rgba(90, 80, 255, 0.9) 100%);
+  box-shadow: 
+    inset 4px 4px 10px rgba(255, 255, 255, 0.6),
+    inset -4px -4px 10px rgba(255, 255, 255, 0.3),
+    0 15px 30px rgba(100, 90, 255, 0.5),
+    0 8px 15px rgba(100, 90, 255, 0.3);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  transition: all var(--anim-time) var(--anim-ease);
+}
+
+.glass-button-wrap--3d .glass-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: 
+    radial-gradient(ellipse 60% 30% at 20% 10%, rgba(255, 255, 255, 0.5) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 20% at 80% 90%, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass-button-wrap--3d:hover .glass-button {
+  transform: translateY(-2px) scale(1.02);
+  background: linear-gradient(135deg, rgba(170, 150, 255, 0.8) 0%, rgba(140, 130, 255, 0.9) 50%, rgba(100, 90, 255, 1) 100%);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    inset 5px 5px 12px rgba(255, 255, 255, 0.7),
+    inset -5px -5px 12px rgba(255, 255, 255, 0.4),
+    0 20px 40px rgba(100, 90, 255, 0.6),
+    0 10px 20px rgba(100, 90, 255, 0.4);
+}
+
+/* Illusionist variant: always-on blue glow */
+.glass-button-wrap--illusionist .glass-button {
   border: 1px solid rgba(100, 160, 255, 0.5);
   box-shadow:
     inset 0 1px 3px rgba(200, 230, 255, 0.2),
@@ -299,7 +340,7 @@
   );
 }
 
-/* Reusable spinning blue border for Therapy page glass components */
+/* Reusable spinning blue border for InnerWork page glass components */
 .therapy-spin-border {
   position: absolute;
   inset: -2px;

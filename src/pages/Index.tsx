@@ -30,23 +30,33 @@ const Index = () => {
       {/* WebGL fluid background */}
       <WebGLCanvas />
 
-      {/* Portrait layer */}
-      <div
-        className="fixed inset-0 z-[3] bg-no-repeat bg-contain bg-bottom"
-        style={{
-          backgroundImage: `url(${portraitImg})`,
-          filter: "brightness(1) contrast(1.15) saturate(1.1)",
-        }}
-      />
-
       {/* Shadow overlay */}
       <div
-        className="fixed inset-0 z-[4] pointer-events-none"
+        className="fixed inset-0 z-[2] pointer-events-none"
         style={{ background: "var(--overlay-gradient)" }}
       />
 
-      {/* Split name */}
-      <SplitName />
+      {/* Content Layout (Name top, Photo below) */}
+      <div className="fixed inset-0 z-[3] flex flex-col items-center pointer-events-none">
+        
+        {/* Name Section */}
+        <div className="relative pt-[8vh] md:pt-[4vh] flex justify-center w-full shrink-0 z-[4]">
+          <SplitName />
+        </div>
+
+        {/* Photo Section */}
+        <div className="relative flex-1 w-full flex justify-center items-end z-[3] -mt-[3vh] md:-mt-[5vh]">
+          <img
+            src={portraitImg}
+            alt="Rhishav Sikdar"
+            className="w-auto h-full object-contain object-bottom drop-shadow-2xl"
+            style={{
+              filter: "brightness(1) contrast(1.15) saturate(1.1)",
+            }}
+          />
+        </div>
+
+      </div>
 
       {/* Glass blobs */}
       <GlassBlobs />

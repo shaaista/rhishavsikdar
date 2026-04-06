@@ -7,7 +7,7 @@ const GlassPanel = ({ side, label, onClick }: { side: "left" | "right"; label: s
 
   return (
     <div
-      className={`glass-button-wrap ${side === "left" ? "glass-button-wrap--magic" : ""} w-[22%] h-full pointer-events-auto cursor-pointer`}
+      className={`glass-button-wrap ${side === "left" ? "glass-button-wrap--3d" : "glass-button-wrap--illusionist"} w-[22%] h-full pointer-events-auto cursor-pointer`}
       style={{ borderRadius: radius }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -35,8 +35,8 @@ const GlassBlobs = () => {
 
   return (
     <div className="fixed bottom-[30vh] left-0 w-screen h-[14vh] z-[5] pointer-events-none flex justify-between px-4">
-      <GlassPanel side="left" label="Magic" onClick={() => navigate("/magic")} />
-      <GlassPanel side="right" label="Therapy" onClick={() => navigate("/therapy")} />
+      <GlassPanel side="left" label="Illusionist" onClick={() => navigate("/illusionist")} />
+      <GlassPanel side="right" label="InnerWork" onClick={() => navigate("/innerwork")} />
     </div>
   );
 };

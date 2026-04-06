@@ -3,49 +3,31 @@ import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
-import { LogoCloud } from "@/components/LogoCloud";
-import { InfiniteSlider } from "@/components/ui/infinite-slider";
 import portraitImg from "@/assets/portrait.png";
-import googleLogo from "@/assets/logos/google.png";
-import sonyLogo from "@/assets/logos/sony.png";
-import bmwLogo from "@/assets/logos/bmw.png";
-import vistaraLogo from "@/assets/logos/vistara.png";
-import olaLogo from "@/assets/logos/ola.png";
-import shellLogo from "@/assets/logos/shell.png";
-import exonLogo from "@/assets/logos/exon.png";
-import bpLogo from "@/assets/logos/bharatpetrolium.png";
-import brigadeLogo from "@/assets/logos/brigade.png";
-import puravankaraLogo from "@/assets/logos/puravankara.png";
-import nexusLogo from "@/assets/logos/nexus.png";
-import jwMarriottLogo from "@/assets/logos/jwmarriott.png";
-import radissonLogo from "@/assets/logos/radisson.png";
-import razorpayLogo from "@/assets/logos/razorpay.png";
-import morganStanleyLogo from "@/assets/logos/morganstanley.png";
-import jpMorganLogo from "@/assets/logos/jpmorgan.png";
-import withumLogo from "@/assets/logos/withum.png";
-import nethradhamaLogo from "@/assets/logos/nethradhama.png";
 
-const topLogos = [
-  { src: googleLogo, alt: "Google" },
-  { src: sonyLogo, alt: "Sony" },
-  { src: bmwLogo, alt: "BMW" },
-  { src: vistaraLogo, alt: "Vistara" },
-  { src: olaLogo, alt: "Ola" },
-  { src: shellLogo, alt: "Shell" },
-  { src: exonLogo, alt: "ExxonMobil" },
-  { src: bpLogo, alt: "Bharat Petroleum" },
-  { src: brigadeLogo, alt: "Brigade" },
-  { src: puravankaraLogo, alt: "Puravankara" },
-  { src: nexusLogo, alt: "Nexus" },
-  { src: jwMarriottLogo, alt: "JW Marriott" },
-  { src: radissonLogo, alt: "Radisson" },
-  { src: razorpayLogo, alt: "Razorpay" },
-  { src: morganStanleyLogo, alt: "Morgan Stanley" },
-  { src: jpMorganLogo, alt: "JP Morgan" },
-  { src: withumLogo, alt: "Withum" },
-  { src: nethradhamaLogo, alt: "Nethradhama" },
+const approaches = [
+  {
+    label: "Somatic Awareness",
+    text: "Reconnecting mind and body through guided presence — feeling what words cannot reach, releasing what the body holds in silence.",
+    fontFamily: "'Technor', sans-serif",
+  },
+  {
+    label: "Shadow Integration",
+    text: "Gently illuminating the hidden parts of self. Not to fix, but to understand — transforming shame into wholeness, fear into freedom.",
+    fontFamily: "'Helica', sans-serif",
+  },
+  {
+    label: "Breathwork & Regulation",
+    text: "Using the breath as an anchor to calm the nervous system, dissolve anxiety, and return to a state of deep inner stillness.",
+    fontFamily: "'SelfDeception', sans-serif",
+    fontSizeScale: 1.2,
+  },
+  {
+    label: "Relational Healing",
+    text: "Exploring the patterns we carry from past bonds — learning to trust, to set boundaries, and to love without losing ourselves.",
+    fontFamily: "'Outfit', sans-serif",
+  },
 ];
-
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -56,34 +38,7 @@ const fadeUp = {
   }),
 };
 
-const services = [
-  {
-    number: "01",
-    title: "Energy Healing",
-    description:
-      "Channeling universal life force to restore balance, dissolve energetic blockages, and awaken the body's innate ability to heal itself. Each session is intuitively guided and deeply transformative.",
-  },
-  {
-    number: "02",
-    title: "Aura Cleansing",
-    description:
-      "A purification ritual that clears stagnant and negative energy from your auric field, leaving you feeling lighter, clearer, and reconnected to your highest vibration.",
-  },
-  {
-    number: "03",
-    title: "Manifestation Work",
-    description:
-      "Aligning intention with action through sacred practice. Together we craft powerful rituals and visualizations that bridge the gap between where you are and where you're meant to be.",
-  },
-  {
-    number: "04",
-    title: "Intuitive Guidance",
-    description:
-      "Deep readings that tap into the unseen — past lives, karmic patterns, and soul contracts — to illuminate your path forward with clarity and purpose.",
-  },
-];
-
-const Magic = () => {
+const InnerWork = () => {
   const navigate = useNavigate();
 
   return (
@@ -95,11 +50,11 @@ const Magic = () => {
             color={[0.4, 0.8, 0.9]}
             mouseReact
             amplitude={0.1}
-            speed={1}
+            speed={0.8}
           />
         </div>
 
-        {/* Fixed light overlay for readability */}
+        {/* Light overlay for readability */}
         <div
           className="fixed inset-0 z-[1] pointer-events-none"
           style={{
@@ -137,7 +92,7 @@ const Magic = () => {
                 fontFamily: "'Eastham', sans-serif",
               }}
             >
-              Contact Us
+              Get in Touch
             </span>
           </div>
         </div>
@@ -170,7 +125,6 @@ const Magic = () => {
                       filter: "brightness(0.95) contrast(1.1) saturate(1.1)",
                     }}
                   />
-                  {/* Subtle overlay on image */}
                   <div
                     className="absolute inset-0"
                     style={{
@@ -195,11 +149,11 @@ const Magic = () => {
                 <h1
                   className="text-[12vw] md:text-[6vw] uppercase leading-[0.9] tracking-[0.15em]"
                   style={{
-                  fontFamily: "'Eastham', sans-serif",
-                  color: "hsl(0, 0%, 0%)",
-                }}
-              >
-                Magic
+                    fontFamily: "'Eastham', sans-serif",
+                    color: "hsl(0, 0%, 0%)",
+                  }}
+                >
+                  InnerWork
                 </h1>
                 <div
                   className="w-16 h-[2px]"
@@ -211,19 +165,18 @@ const Magic = () => {
                 <p
                   className="text-base md:text-lg leading-relaxed max-w-lg"
                   style={{
-                    fontFamily: "'Outfit', sans-serif",
+                    fontFamily: "'Zodiak', sans-serif",
                     color: "hsla(0, 0%, 0%, 0.7)",
                   }}
                 >
-                  Where intention meets energy. Rhishav works at the intersection
-                  of ancient wisdom and modern consciousness — guiding
-                  transformative experiences that transcend the ordinary and
-                  unlock what lies beyond the visible.
+                  A safe, sacred space to unravel, to feel, to become. InnerWork is
+                  not about fixing — it's about returning to the truth of who you
+                  already are.
                 </p>
                 <p
                   className="text-sm leading-relaxed max-w-lg"
                   style={{
-                    fontFamily: "'Outfit', sans-serif",
+                    fontFamily: "'Gambetta', sans-serif",
                     color: "hsla(0, 0%, 0%, 0.5)",
                   }}
                 >
@@ -234,7 +187,7 @@ const Magic = () => {
             </div>
           </section>
 
-          {/* Services section */}
+          {/* Approaches section */}
           <section className="px-6 md:px-16 lg:px-24 pb-32">
             <div className="max-w-5xl mx-auto">
               <motion.h2
@@ -248,14 +201,14 @@ const Magic = () => {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6 }}
               >
-                What I Offer
+                The Approach
               </motion.h2>
 
               <div className="flex flex-col gap-6 items-center">
-                {services.map((service, i) => (
+                {approaches.map((item, i) => (
                   <motion.div
-                    key={service.number}
-                    className="relative w-full max-w-2xl p-8 md:p-10 rounded-2xl overflow-hidden text-center"
+                    key={item.label}
+                    className="relative w-full max-w-4xl px-12 md:px-16 py-6 md:py-8 rounded-2xl text-center overflow-hidden"
                     style={{
                       background:
                         "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
@@ -270,16 +223,6 @@ const Magic = () => {
                     whileInView="visible"
                     viewport={{ once: true, margin: "-80px" }}
                   >
-                    {/* Corner accent */}
-                    <div
-                      className="absolute top-0 left-0 w-12 h-12 pointer-events-none"
-                      style={{
-                        borderTop: "1px solid hsla(200, 60%, 70%, 0.2)",
-                        borderLeft: "1px solid hsla(200, 60%, 70%, 0.2)",
-                        borderTopLeftRadius: "1rem",
-                      }}
-                    />
-
                     <h3
                       className="text-2xl md:text-3xl uppercase tracking-[0.1em] mb-3"
                       style={{
@@ -287,16 +230,17 @@ const Magic = () => {
                         color: "hsl(0, 0%, 0%)",
                       }}
                     >
-                      {service.title}
+                      {item.label}
                     </h3>
                     <p
                       className="text-sm md:text-base leading-relaxed"
                       style={{
-                        fontFamily: "'Outfit', sans-serif",
+                        fontFamily: item.fontFamily,
                         color: "hsla(0, 0%, 0%, 0.6)",
+                        ...(item.fontSizeScale && { fontSize: `calc(1em * ${item.fontSizeScale})` }),
                       }}
                     >
-                      {service.description}
+                      {item.text}
                     </p>
                   </motion.div>
                 ))}
@@ -304,57 +248,39 @@ const Magic = () => {
             </div>
           </section>
 
-          {/* Clients section */}
-          <section className="px-6 md:px-16 lg:px-24 pb-24">
+          {/* Quote section */}
+          <section className="px-6 md:px-16 lg:px-24 py-24">
             <motion.div
-              className="max-w-6xl mx-auto"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              className="max-w-3xl mx-auto text-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.8 }}
             >
-              <p
-                className="text-center text-xs uppercase tracking-[0.35em] mb-10"
+              <div
+                className="text-[6vw] md:text-[2.5vw] leading-[1.3] italic"
                 style={{
-                  fontFamily: "'Outfit', sans-serif",
-                  color: "hsla(0, 0%, 0%, 0.4)",
+                  fontFamily: "'Eastham', sans-serif",
+                  color: "hsla(0, 0%, 0%, 0.75)",
                 }}
               >
-                Featured In & Trusted By
-              </p>
-              <LogoCloud logos={topLogos} />
-              <div className="mt-12 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-                <InfiniteSlider gap={40} speed={45}>
-                  {topLogos.map((logo) => {
-                    const needsLarger = ["Puravankara", "JW Marriott", "Nethradhama"].includes(logo.alt);
-                    return (
-                      <div
-                        key={`glass-${logo.alt}`}
-                        className="w-44 h-20 md:w-52 md:h-24 rounded-xl flex items-center justify-center px-6 py-3 flex-shrink-0"
-                        style={{
-                          background:
-                            "linear-gradient(135deg, hsla(0,0%,100%,0.08) 0%, hsla(0,0%,100%,0.02) 100%)",
-                          border: "1.5px solid rgba(100, 160, 255, 0.35)",
-                          backdropFilter: "blur(20px)",
-                        }}
-                      >
-                        <img
-                          src={logo.src}
-                          alt={logo.alt}
-                          className={`w-auto h-auto object-contain select-none pointer-events-none ${needsLarger ? "max-w-[95%] max-h-[95%] scale-125" : "max-w-[90%] max-h-[90%]"}`}
-                        />
-                      </div>
-                    );
-                  })}
-                </InfiniteSlider>
+                "Healing doesn't ask you to be strong.
+                <br />
+                It asks you to be honest."
               </div>
+              <div
+                className="mt-8 w-8 h-[1px] mx-auto"
+                style={{
+                  background:
+                    "linear-gradient(to right, transparent, hsla(0, 0%, 0%, 0.4), transparent)",
+                }}
+              />
             </motion.div>
           </section>
-
         </div>
       </div>
     </PageTransition>
   );
 };
 
-export default Magic;
+export default InnerWork;
