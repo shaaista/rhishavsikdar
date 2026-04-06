@@ -66,7 +66,12 @@ const InnerWork = () => {
         {/* Back button */}
         <button
           onClick={() => navigate("/")}
-          className="fixed top-6 left-6 z-50 p-2 rounded-full backdrop-blur-md bg-black/5 border border-black/10 text-black/60 hover:text-black hover:bg-black/10 transition-all duration-300 cursor-pointer"
+          className="fixed top-6 left-6 z-50 p-2 rounded-full backdrop-blur-md bg-black/5 text-black/60 hover:text-black hover:bg-black/10 transition-all duration-300 cursor-pointer"
+          style={{
+            border: "2px solid rgba(100, 160, 255, 0.6)",
+            boxShadow:
+              "0 0 10px rgba(80, 140, 255, 0.4), 0 0 20px rgba(80, 140, 255, 0.2), 0 0 30px rgba(80, 140, 255, 0.1)",
+          }}
           aria-label="Back"
         >
           <ArrowLeft className="w-4 h-4" />
@@ -163,7 +168,7 @@ const InnerWork = () => {
                   }}
                 />
                 <p
-                  className="text-base md:text-lg leading-relaxed max-w-lg"
+                  className="text-base md:text-lg leading-relaxed max-w-lg font-bold"
                   style={{
                     fontFamily: "'Zodiak', sans-serif",
                     color: "hsla(0, 0%, 0%, 0.7)",
