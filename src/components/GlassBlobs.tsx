@@ -7,7 +7,7 @@ const GlassPanel = ({ side, label, onClick }: { side: "left" | "right"; label: s
 
   return (
     <div
-      className={`glass-button-wrap ${side === "left" ? "glass-button-wrap--3d" : "glass-button-wrap--illusionist"} w-[45%] md:w-[22%] h-full pointer-events-auto cursor-pointer`}
+      className={`glass-button-wrap ${side === "left" ? "glass-button-wrap--3d" : "glass-button-wrap--illusionist"} w-[40%] md:w-[22%] h-full pointer-events-auto cursor-pointer`}
       style={{ borderRadius: radius }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -19,7 +19,7 @@ const GlassPanel = ({ side, label, onClick }: { side: "left" | "right"; label: s
         style={{ borderRadius: "inherit" }}
       >
         <span
-          className="glass-button-text relative z-10 block select-none uppercase tracking-[0.2em] md:tracking-[0.3em] font-light px-2 text-center text-[1.1rem] md:text-[1.4rem]"
+          className="glass-button-text relative z-10 block select-none uppercase tracking-[0.15em] md:tracking-[0.3em] font-light px-1 md:px-2 text-center text-[0.6rem] md:text-[1.4rem]"
           style={{ color: "hsl(0, 0%, 100%)", fontFamily: "'Eastham', sans-serif" }}
         >
           {label}
@@ -34,7 +34,7 @@ const GlassBlobs = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="fixed bottom-[30vh] left-0 w-screen h-[14vh] z-[5] pointer-events-none flex justify-between px-4">
+    <div className="fixed bottom-[6vh] md:bottom-[30vh] left-0 w-screen h-[5.5vh] md:h-[14vh] z-[5] pointer-events-none flex flex-row justify-center md:justify-between items-center gap-4 md:gap-0 px-4 md:px-12">
       <GlassPanel side="left" label="Illusionist" onClick={() => navigate("/illusionist")} />
       <GlassPanel side="right" label="InnerWork" onClick={() => navigate("/innerwork")} />
     </div>
