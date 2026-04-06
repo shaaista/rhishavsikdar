@@ -8,7 +8,7 @@ const SplitName = () => {
   };
 
   return (
-    <div className="flex w-full items-start justify-center gap-4 md:gap-8 pointer-events-none px-4 md:px-6">
+    <div className="flex flex-col md:flex-row w-full items-center md:items-start justify-center gap-1 md:gap-8 pointer-events-none px-4 md:px-6">
       <h1
         className="text-[12vw] md:text-[7.5vw] uppercase tracking-[0.2em] leading-none"
         style={glowStyle}

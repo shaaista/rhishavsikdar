@@ -259,7 +259,7 @@ const Illusionist = () => {
                 {services.map((service, i) => (
                   <motion.div
                     key={service.number}
-                    className="relative w-full max-w-4xl px-12 md:px-16 py-6 md:py-8 rounded-2xl text-center overflow-hidden"
+                    className="relative w-full max-w-4xl px-6 md:px-16 py-6 md:py-8 rounded-2xl text-center overflow-hidden"
                     style={{
                       background:
                         "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
