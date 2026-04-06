@@ -234,12 +234,12 @@
 
 .glass-button-wrap--3d .glass-button {
   border: 1px solid rgba(255, 255, 255, 0.4);
-  background: linear-gradient(135deg, rgba(160, 140, 255, 0.7) 0%, rgba(130, 120, 255, 0.8) 50%, rgba(90, 80, 255, 0.9) 100%);
+  background: linear-gradient(135deg, rgba(120, 180, 255, 0.7) 0%, rgba(100, 160, 255, 0.8) 50%, rgba(80, 140, 255, 0.9) 100%);
   box-shadow: 
     inset 4px 4px 10px rgba(255, 255, 255, 0.6),
     inset -4px -4px 10px rgba(255, 255, 255, 0.3),
-    0 15px 30px rgba(100, 90, 255, 0.5),
-    0 8px 15px rgba(100, 90, 255, 0.3);
+    0 15px 30px rgba(80, 140, 255, 0.5),
+    0 8px 15px rgba(80, 140, 255, 0.3);
   backdrop-filter: blur(12px) saturate(1.2);
   -webkit-backdrop-filter: blur(12px) saturate(1.2);
   transition: all var(--anim-time) var(--anim-ease);
@@ -259,13 +259,13 @@
 
 .glass-button-wrap--3d:hover .glass-button {
   transform: translateY(-2px) scale(1.02);
-  background: linear-gradient(135deg, rgba(170, 150, 255, 0.8) 0%, rgba(140, 130, 255, 0.9) 50%, rgba(100, 90, 255, 1) 100%);
+  background: linear-gradient(135deg, rgba(140, 200, 255, 0.8) 0%, rgba(120, 180, 255, 0.9) 50%, rgba(100, 160, 255, 1) 100%);
   border-color: rgba(255, 255, 255, 0.6);
   box-shadow: 
     inset 5px 5px 12px rgba(255, 255, 255, 0.7),
     inset -5px -5px 12px rgba(255, 255, 255, 0.4),
-    0 20px 40px rgba(100, 90, 255, 0.6),
-    0 10px 20px rgba(100, 90, 255, 0.4);
+    0 20px 40px rgba(80, 140, 255, 0.6),
+    0 10px 20px rgba(80, 140, 255, 0.4);
 }
 
 /* Illusionist variant: always-on blue glow */
