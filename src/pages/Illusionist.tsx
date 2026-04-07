@@ -215,7 +215,7 @@ const Illusionist = () => {
                 <p
                   className="text-base md:text-lg leading-relaxed max-w-lg"
                   style={{
-                    fontFamily: "'Outfit', sans-serif",
+                    fontFamily: "'Helica', sans-serif",
                     color: "hsla(0, 0%, 0%, 0.7)",
                   }}
                 >
@@ -227,7 +227,7 @@ const Illusionist = () => {
                 <p
                   className="text-sm leading-relaxed max-w-lg"
                   style={{
-                    fontFamily: "'Outfit', sans-serif",
+                    fontFamily: "'Helica', sans-serif",
                     color: "hsla(0, 0%, 0%, 0.5)",
                   }}
                 >
@@ -296,7 +296,7 @@ const Illusionist = () => {
                     <p
                       className="text-sm md:text-base leading-relaxed"
                       style={{
-                        fontFamily: "'Outfit', sans-serif",
+                        fontFamily: "'Helica', sans-serif",
                         color: "hsla(0, 0%, 0%, 0.6)",
                       }}
                     >
@@ -320,7 +320,7 @@ const Illusionist = () => {
               <p
                 className="text-center text-xs uppercase tracking-[0.35em] mb-10"
                 style={{
-                  fontFamily: "'Outfit', sans-serif",
+                  fontFamily: "'Helica', sans-serif",
                   color: "hsla(0, 0%, 0%, 0.4)",
                 }}
               >

@@ -9,23 +9,22 @@ const approaches = [
   {
     label: "Somatic Awareness",
     text: "Reconnecting mind and body through guided presence — feeling what words cannot reach, releasing what the body holds in silence.",
-    fontFamily: "'Technor', sans-serif",
+    fontFamily: "'Zodiak', sans-serif",
   },
   {
     label: "Shadow Integration",
     text: "Gently illuminating the hidden parts of self. Not to fix, but to understand — transforming shame into wholeness, fear into freedom.",
-    fontFamily: "'Helica', sans-serif",
+    fontFamily: "'Zodiak', sans-serif",
   },
   {
     label: "Breathwork & Regulation",
     text: "Using the breath as an anchor to calm the nervous system, dissolve anxiety, and return to a state of deep inner stillness.",
-    fontFamily: "'SelfDeception', sans-serif",
-    fontSizeScale: 1.2,
+    fontFamily: "'Zodiak', sans-serif",
   },
   {
     label: "Relational Healing",
     text: "Exploring the patterns we carry from past bonds — learning to trust, to set boundaries, and to love without losing ourselves.",
-    fontFamily: "'Outfit', sans-serif",
+    fontFamily: "'Zodiak', sans-serif",
   },
 ];
 
@@ -181,7 +180,7 @@ const InnerWork = () => {
                 <p
                   className="text-sm leading-relaxed max-w-lg"
                   style={{
-                    fontFamily: "'Gambetta', sans-serif",
+                    fontFamily: "'Zodiak', sans-serif",
                     color: "hsla(0, 0%, 0%, 0.5)",
                   }}
                 >
@@ -242,7 +241,6 @@ const InnerWork = () => {
                       style={{
                         fontFamily: item.fontFamily,
                         color: "hsla(0, 0%, 0%, 0.6)",
-                        ...(item.fontSizeScale && { fontSize: `calc(1em * ${item.fontSizeScale})` }),
                       }}
                     >
                       {item.text}

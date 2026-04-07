@@ -20,7 +20,7 @@ const GlassPanel = ({ side, label, onClick }: { side: "left" | "right"; label: s
       >
         <span
           className="glass-button-text relative z-10 block select-none uppercase tracking-[0.15em] md:tracking-[0.3em] font-light px-1 md:px-2 text-center text-[0.6rem] md:text-[1.4rem]"
-          style={{ color: "hsl(0, 0%, 100%)", fontFamily: "'Eastham', sans-serif" }}
+          style={{ color: "black", fontFamily: "'Eastham', sans-serif" }}
         >
           {label}
         </span>

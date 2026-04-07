@@ -1,7 +1,7 @@
 const SplitName = () => {
   const glowStyle: React.CSSProperties = {
     fontFamily: "'Zina', sans-serif",
-    color: "hsl(0, 0%, 100%)",
+    color: "black",
     WebkitTextStroke: "1.5px rgba(100, 160, 255, 0.8)",
     textShadow:
       "0 0 10px rgba(80, 140, 255, 0.5), 0 0 20px rgba(80, 140, 255, 0.3), 0 0 40px rgba(80, 140, 255, 0.15), 0 0 60px rgba(100, 160, 255, 0.2)",
