@@ -49,7 +49,7 @@ const InnerWork = () => {
             color={[0.4, 0.8, 0.9]}
             mouseReact
             amplitude={0.1}
-            speed={0.8}
+            speed={0.2}
           />
         </div>
 
@@ -167,10 +167,10 @@ const InnerWork = () => {
                   }}
                 />
                 <p
-                  className="text-base md:text-lg leading-relaxed max-w-lg font-bold"
+                  className="text-base md:text-lg leading-relaxed max-w-lg"
                   style={{
                     fontFamily: "'Zodiak', sans-serif",
-                    color: "hsla(0, 0%, 0%, 0.7)",
+                    color: "hsl(0, 0%, 0%)",
                   }}
                 >
                   A safe, sacred space to unravel, to feel, to become. InnerWork is
@@ -181,7 +181,7 @@ const InnerWork = () => {
                   className="text-sm leading-relaxed max-w-lg"
                   style={{
                     fontFamily: "'Zodiak', sans-serif",
-                    color: "hsla(0, 0%, 0%, 0.5)",
+                    color: "hsl(0, 0%, 0%)",
                   }}
                 >
                   Every session is a journey inward — a sacred space where healing,
@@ -240,7 +240,7 @@ const InnerWork = () => {
                       className="text-sm md:text-base leading-relaxed"
                       style={{
                         fontFamily: item.fontFamily,
-                        color: "hsla(0, 0%, 0%, 0.6)",
+                        color: "hsl(0, 0%, 0%)",
                       }}
                     >
                       {item.text}

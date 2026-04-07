@@ -94,7 +94,7 @@ const Illusionist = () => {
             color={[0.4, 0.8, 0.9]}
             mouseReact
             amplitude={0.1}
-            speed={1}
+            speed={0.2}
           />
         </div>
 
@@ -197,13 +197,13 @@ const Illusionist = () => {
                 }}
               >
                 <h1
-                  className="text-[12vw] md:text-[6vw] uppercase leading-[0.9] tracking-[0.15em]"
+                  className="text-[12vw] md:text-[6vw] uppercase leading-[0.9] tracking-[0.15em] font-bold"
                   style={{
-                  fontFamily: "'Eastham', sans-serif",
-                  color: "hsl(0, 0%, 0%)",
-                }}
-              >
-                Illusionist
+                    fontFamily: "'Eastham', sans-serif",
+                    color: "hsl(0, 0%, 0%)",
+                  }}
+                >
+                  Illusionist
                 </h1>
                 <div
                   className="w-16 h-[2px]"
@@ -213,7 +213,7 @@ const Illusionist = () => {
                   }}
                 />
                 <p
-                  className="text-base md:text-lg leading-relaxed max-w-lg"
+                  className="text-base md:text-lg leading-relaxed max-w-lg font-bold"
                   style={{
                     fontFamily: "'Helica', sans-serif",
                     color: "hsla(0, 0%, 0%, 0.7)",
@@ -225,7 +225,7 @@ const Illusionist = () => {
                   unlock what lies beyond the visible.
                 </p>
                 <p
-                  className="text-sm leading-relaxed max-w-lg"
+                  className="text-sm leading-relaxed max-w-lg font-bold"
                   style={{
                     fontFamily: "'Helica', sans-serif",
                     color: "hsla(0, 0%, 0%, 0.5)",
@@ -242,7 +242,7 @@ const Illusionist = () => {
           <section className="px-6 md:px-16 lg:px-24 pb-32">
             <div className="max-w-5xl mx-auto">
               <motion.h2
-                className="text-[8vw] md:text-[3vw] uppercase tracking-[0.2em] mb-16 text-center"
+                className="text-[8vw] md:text-[3vw] uppercase tracking-[0.2em] mb-16 text-center font-bold"
                 style={{
                   fontFamily: "'Eastham', sans-serif",
                   color: "hsl(0, 0%, 0%)",
@@ -285,7 +285,7 @@ const Illusionist = () => {
                     />
 
                     <h3
-                      className="text-2xl md:text-3xl uppercase tracking-[0.1em] mb-3"
+                      className="text-2xl md:text-3xl uppercase tracking-[0.1em] mb-3 font-bold"
                       style={{
                         fontFamily: "'Eastham', sans-serif",
                         color: "hsl(0, 0%, 0%)",
@@ -294,7 +294,7 @@ const Illusionist = () => {
                       {service.title}
                     </h3>
                     <p
-                      className="text-sm md:text-base leading-relaxed"
+                      className="text-sm md:text-base leading-relaxed font-bold"
                       style={{
                         fontFamily: "'Helica', sans-serif",
                         color: "hsla(0, 0%, 0%, 0.6)",
@@ -318,7 +318,7 @@ const Illusionist = () => {
               transition={{ duration: 0.7 }}
             >
               <p
-                className="text-center text-xs uppercase tracking-[0.35em] mb-10"
+                className="text-center text-xs uppercase tracking-[0.35em] mb-10 font-bold"
                 style={{
                   fontFamily: "'Helica', sans-serif",
                   color: "hsla(0, 0%, 0%, 0.4)",

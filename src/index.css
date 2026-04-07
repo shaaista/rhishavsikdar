@@ -58,6 +58,14 @@
 }
 
 @font-face {
+  font-family: 'Zodiak-ExtraboldItalic';
+  src: url('./assets/fonts/Zodiak-ExtraboldItalic.woff2') format('woff2');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Gambetta';
   src: url('./assets/fonts/Gambetta-LightItalic.woff2') format('woff2');
   font-weight: 300;
