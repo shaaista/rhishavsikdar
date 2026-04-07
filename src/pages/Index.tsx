@@ -45,7 +45,7 @@ const Index = () => {
             <img
               src={portraitImg}
               alt="Rhishav Sikdar"
-              className="w-auto h-full object-contain object-bottom drop-shadow-2xl scale-[1.05] md:scale-110 origin-bottom"
+              className="w-auto h-full object-contain object-bottom drop-shadow-2xl scale-[0.85] md:scale-110 origin-bottom"
               style={{
                 filter: "brightness(1) contrast(1.15) saturate(1.1)",
               }}
