@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
-import portraitImg from "@/assets/portrait.png";
+import portraitImg from "@/assets/color-removebg-preview.png";
 import googleLogo from "@/assets/logos/google.png";
 import sonyLogo from "@/assets/logos/sony.png";
 import bmwLogo from "@/assets/logos/bmw.png";
@@ -159,7 +159,7 @@ const Illusionist = () => {
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
                 <div
-                  className="relative rounded-[2rem] overflow-hidden"
+                  className="relative rounded-[2rem] overflow-hidden aspect-square flex items-center justify-center"
                   style={{
                     border: "2.5px solid rgba(100, 160, 255, 0.6)",
                     boxShadow:
@@ -169,7 +169,7 @@ const Illusionist = () => {
                   <img
                     src={portraitImg}
                     alt="Rhishav Sikdar"
-                    className="w-full h-auto object-cover"
+                    className="w-full h-full object-cover"
                     style={{
                       filter: "brightness(0.95) contrast(1.1) saturate(1.1)",
                     }}

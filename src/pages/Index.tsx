@@ -1,4 +1,4 @@
-import portraitImg from "@/assets/portrait.png";
+import portraitImg from "@/assets/color-removebg-preview.png";
 import WebGLCanvas from "@/components/WebGLCanvas";
 import SplitName from "@/components/SplitName";
 import GlassBlobs from "@/components/GlassBlobs";
@@ -45,7 +45,7 @@ const Index = () => {
             <img
               src={portraitImg}
               alt="Rhishav Sikdar"
-              className="w-auto h-full object-contain object-bottom drop-shadow-2xl"
+              className="w-auto h-full object-contain object-bottom drop-shadow-2xl scale-[1.05] md:scale-110 origin-bottom"
               style={{
                 filter: "brightness(1) contrast(1.15) saturate(1.1)",
               }}
