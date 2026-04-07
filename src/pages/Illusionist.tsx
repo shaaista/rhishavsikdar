@@ -197,7 +197,7 @@ const Illusionist = () => {
                 }}
               >
                 <h1
-                  className="text-[12vw] md:text-[6vw] uppercase leading-[0.9] tracking-[0.15em] font-bold"
+                  className="text-[12vw] md:text-[6vw] uppercase leading-[0.9] tracking-[0.15em]"
                   style={{
                     fontFamily: "'Eastham', sans-serif",
                     color: "hsl(0, 0%, 0%)",
@@ -213,10 +213,10 @@ const Illusionist = () => {
                   }}
                 />
                 <p
-                  className="text-base md:text-lg leading-relaxed max-w-lg font-bold"
+                  className="text-base md:text-lg leading-relaxed max-w-lg font-light"
                   style={{
                     fontFamily: "'Helica', sans-serif",
-                    color: "hsl(0, 0%, 0%)",
+                    color: "hsla(0, 0%, 0%, 0.85)",
                   }}
                 >
                   Where intention meets energy. Rhishav works at the intersection
@@ -225,10 +225,10 @@ const Illusionist = () => {
                   unlock what lies beyond the visible.
                 </p>
                 <p
-                  className="text-sm leading-relaxed max-w-lg font-bold"
+                  className="text-sm leading-relaxed max-w-lg font-light"
                   style={{
                     fontFamily: "'Helica', sans-serif",
-                    color: "hsl(0, 0%, 0%)",
+                    color: "hsla(0, 0%, 0%, 0.85)",
                   }}
                 >
                   Every session is a journey inward — a sacred space where healing,
@@ -242,7 +242,7 @@ const Illusionist = () => {
           <section className="px-6 md:px-16 lg:px-24 pb-32">
             <div className="max-w-5xl mx-auto">
               <motion.h2
-                className="text-[8vw] md:text-[3vw] uppercase tracking-[0.2em] mb-16 text-center font-bold"
+                className="text-[8vw] md:text-[3vw] uppercase tracking-[0.2em] mb-16 text-center"
                 style={{
                   fontFamily: "'Eastham', sans-serif",
                   color: "hsl(0, 0%, 0%)",
@@ -285,7 +285,7 @@ const Illusionist = () => {
                     />
 
                     <h3
-                      className="text-2xl md:text-3xl uppercase tracking-[0.1em] mb-3 font-bold"
+                      className="text-2xl md:text-3xl uppercase tracking-[0.1em] mb-3"
                       style={{
                         fontFamily: "'Eastham', sans-serif",
                         color: "hsl(0, 0%, 0%)",
@@ -294,10 +294,10 @@ const Illusionist = () => {
                       {service.title}
                     </h3>
                     <p
-                      className="text-sm md:text-base leading-relaxed font-bold"
+                      className="text-sm md:text-base leading-relaxed font-light"
                       style={{
                         fontFamily: "'Helica', sans-serif",
-                        color: "hsl(0, 0%, 0%)",
+                        color: "hsla(0, 0%, 0%, 0.85)",
                       }}
                     >
                       {service.description}
@@ -318,10 +318,10 @@ const Illusionist = () => {
               transition={{ duration: 0.7 }}
             >
               <p
-                className="text-center text-xs uppercase tracking-[0.35em] mb-10 font-bold"
+                className="text-center text-xs uppercase tracking-[0.35em] mb-10 font-light"
                 style={{
                   fontFamily: "'Helica', sans-serif",
-                  color: "hsl(0, 0%, 0%)",
+                  color: "hsla(0, 0%, 0%, 0.85)",
                 }}
               >
                 Featured In & Trusted By
