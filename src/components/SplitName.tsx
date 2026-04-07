@@ -16,7 +16,7 @@ const SplitName = () => {
       </h1>
       <h1
         className="text-[12vw] md:text-[7.5vw] uppercase tracking-[0.2em] leading-none"
-        style={glowStyle}
+        style={{ ...glowStyle, color: "black" }}
       >
         Sikdar
       </h1>
