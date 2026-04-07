@@ -216,7 +216,7 @@ const Illusionist = () => {
                   className="text-base md:text-lg leading-relaxed max-w-lg font-bold"
                   style={{
                     fontFamily: "'Helica', sans-serif",
-                    color: "hsla(0, 0%, 0%, 0.7)",
+                    color: "hsl(0, 0%, 0%)",
                   }}
                 >
                   Where intention meets energy. Rhishav works at the intersection
@@ -228,7 +228,7 @@ const Illusionist = () => {
                   className="text-sm leading-relaxed max-w-lg font-bold"
                   style={{
                     fontFamily: "'Helica', sans-serif",
-                    color: "hsla(0, 0%, 0%, 0.5)",
+                    color: "hsl(0, 0%, 0%)",
                   }}
                 >
                   Every session is a journey inward — a sacred space where healing,
@@ -297,7 +297,7 @@ const Illusionist = () => {
                       className="text-sm md:text-base leading-relaxed font-bold"
                       style={{
                         fontFamily: "'Helica', sans-serif",
-                        color: "hsla(0, 0%, 0%, 0.6)",
+                        color: "hsl(0, 0%, 0%)",
                       }}
                     >
                       {service.description}
@@ -321,7 +321,7 @@ const Illusionist = () => {
                 className="text-center text-xs uppercase tracking-[0.35em] mb-10 font-bold"
                 style={{
                   fontFamily: "'Helica', sans-serif",
-                  color: "hsla(0, 0%, 0%, 0.4)",
+                  color: "hsl(0, 0%, 0%)",
                 }}
               >
                 Featured In & Trusted By
