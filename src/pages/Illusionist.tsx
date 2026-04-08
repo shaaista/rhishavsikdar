@@ -91,7 +91,7 @@ const Illusionist = () => {
         {/* Fixed iridescent background */}
         <div className="fixed inset-0 z-0">
           <Iridescence
-            color={[0.5, 0.6, 0.8]}
+            color={[0.5, 0.9, 1]}
             mouseReact
             amplitude={0.1}
             speed={0.2}
