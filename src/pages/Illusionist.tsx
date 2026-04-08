@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
-import portraitImg from "@/assets/color-removebg-preview.png";
+import portraitImg from "@/assets/rsbw.png";
 import googleLogo from "@/assets/logos/google.png";
 import sonyLogo from "@/assets/logos/sony.png";
 import bmwLogo from "@/assets/logos/bmw.png";
@@ -91,7 +91,7 @@ const Illusionist = () => {
         {/* Fixed iridescent background */}
         <div className="fixed inset-0 z-0">
           <Iridescence
-            color={[0.4, 0.8, 0.9]}
+            color={[0.5, 0.6, 0.8]}
             mouseReact
             amplitude={0.1}
             speed={0.2}
@@ -169,7 +169,7 @@ const Illusionist = () => {
                   <img
                     src={portraitImg}
                     alt="Rhishav Sikdar"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain object-bottom scale-90 origin-bottom"
                     style={{
                       filter: "brightness(0.95) contrast(1.1) saturate(1.1)",
                     }}

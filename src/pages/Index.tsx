@@ -1,4 +1,4 @@
-import portraitImg from "@/assets/color-removebg-preview.png";
+import portraitImg from "@/assets/rsbw.png";
 import WebGLCanvas from "@/components/WebGLCanvas";
 import SplitName from "@/components/SplitName";
 import GlassBlobs from "@/components/GlassBlobs";
@@ -41,11 +41,11 @@ const Index = () => {
           </div>
 
           {/* Photo Section */}
-          <div className="relative flex-1 w-full flex justify-center items-end z-[3] -mt-[3vh] md:-mt-[5vh]">
+          <div className="relative flex-1 w-full flex justify-center items-end z-[3] pb-0">
             <img
               src={portraitImg}
               alt="Rhishav Sikdar"
-              className="w-auto h-full object-contain object-bottom drop-shadow-2xl scale-[0.85] md:scale-110 origin-bottom"
+              className="w-auto h-full max-h-[65vh] md:max-h-[75vh] object-contain object-bottom drop-shadow-2xl origin-bottom"
               style={{
                 filter: "brightness(1) contrast(1.15) saturate(1.1)",
               }}
