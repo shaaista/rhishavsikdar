@@ -138,7 +138,7 @@ const Illusionist = () => {
               className="uppercase tracking-[0.3em] text-sm font-bold"
               style={{
                 color: "hsl(0, 0%, 0%)",
-                fontFamily: "'Eastham', sans-serif",
+                fontFamily: "'Nestborn', sans-serif",
               }}
             >
               Get in Touch
@@ -199,7 +199,7 @@ const Illusionist = () => {
                 <h1
                   className="text-[12vw] md:text-[6vw] uppercase leading-[0.9] tracking-[0.15em]"
                   style={{
-                    fontFamily: "'Eastham', sans-serif",
+                    fontFamily: "'Nestborn', sans-serif",
                     color: "hsl(0, 0%, 0%)",
                   }}
                 >
@@ -244,7 +244,7 @@ const Illusionist = () => {
               <motion.h2
                 className="text-[8vw] md:text-[3vw] uppercase tracking-[0.2em] mb-16 text-center"
                 style={{
-                  fontFamily: "'Eastham', sans-serif",
+                  fontFamily: "'Nestborn', sans-serif",
                   color: "hsl(0, 0%, 0%)",
                 }}
                 initial={{ opacity: 0, y: 30 }}
@@ -287,7 +287,7 @@ const Illusionist = () => {
                     <h3
                       className="text-2xl md:text-3xl uppercase tracking-[0.1em] mb-3"
                       style={{
-                        fontFamily: "'Eastham', sans-serif",
+                        fontFamily: "'Nestborn', sans-serif",
                         color: "hsl(0, 0%, 0%)",
                       }}
                     >
