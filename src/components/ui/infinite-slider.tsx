@@ -25,6 +25,11 @@ export function InfiniteSlider({
   const currentOffset = useRef(0);
   const animationPaused = useRef(false);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const momentumRaf = useRef<number | null>(null);
+  const lastMoveX = useRef(0);
+  const lastMoveTime = useRef(0);
+  const velocity = useRef(0);
+  const isTouch = useRef(false);
 
   useEffect(() => {
     const scroller = scrollerRef.current;
@@ -46,6 +51,10 @@ export function InfiniteSlider({
   const pauseAnimation = useCallback(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
+    if (momentumRaf.current) {
+      cancelAnimationFrame(momentumRaf.current);
+      momentumRaf.current = null;
+    }
     const transform = getComputedStyle(scroller).transform;
     if (transform && transform !== "none") {
       const matrix = new DOMMatrix(transform);
@@ -60,11 +69,9 @@ export function InfiniteSlider({
     const scroller = scrollerRef.current;
     if (!scroller || !duplicated) return;
     const halfWidth = scroller.scrollWidth / 2;
-    // Normalize offset to stay within -halfWidth..0 range
     let offset = currentOffset.current % halfWidth;
     if (offset > 0) offset -= halfWidth;
     currentOffset.current = offset;
-    // Calculate where we are as a fraction of the animation
     const progress = Math.abs(offset) / halfWidth;
     scroller.style.transform = "";
     scroller.style.animation = `infinite-scroll ${duration}s linear infinite`;
@@ -73,10 +80,33 @@ export function InfiniteSlider({
     animationPaused.current = false;
   }, [duration, reverse, duplicated]);
 
+  const startMomentum = useCallback(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    const friction = 0.95;
+    const animate = () => {
+      velocity.current *= friction;
+      if (Math.abs(velocity.current) < 0.5) {
+        resumeTimer.current = setTimeout(() => {
+          resumeAnimation();
+        }, 600);
+        return;
+      }
+      currentOffset.current += velocity.current;
+      scroller.style.transform = `translateX(${currentOffset.current}px)`;
+      momentumRaf.current = requestAnimationFrame(animate);
+    };
+    momentumRaf.current = requestAnimationFrame(animate);
+  }, [resumeAnimation]);
+
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     isDragging.current = true;
+    isTouch.current = e.pointerType === "touch";
     startX.current = e.clientX;
     dragOffset.current = 0;
+    velocity.current = 0;
+    lastMoveX.current = e.clientX;
+    lastMoveTime.current = Date.now();
     if (resumeTimer.current) clearTimeout(resumeTimer.current);
     pauseAnimation();
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
@@ -86,8 +116,19 @@ export function InfiniteSlider({
     if (!isDragging.current) return;
     const scroller = scrollerRef.current;
     if (!scroller) return;
-    const delta = e.clientX - startX.current;
+    const now = Date.now();
+    const rawDelta = e.clientX - startX.current;
+    // On touch, multiply movement for faster feel with less finger travel
+    const multiplier = isTouch.current ? 2.5 : 1;
+    const delta = rawDelta * multiplier;
     dragOffset.current = delta;
+    // Track velocity for momentum
+    const dt = now - lastMoveTime.current;
+    if (dt > 0) {
+      velocity.current = (e.clientX - lastMoveX.current) * multiplier / dt * 16;
+    }
+    lastMoveX.current = e.clientX;
+    lastMoveTime.current = now;
     scroller.style.transform = `translateX(${currentOffset.current + delta}px)`;
   }, []);
 
@@ -96,11 +137,15 @@ export function InfiniteSlider({
     isDragging.current = false;
     currentOffset.current += dragOffset.current;
     dragOffset.current = 0;
-    // Resume auto-scroll after a short delay
-    resumeTimer.current = setTimeout(() => {
-      resumeAnimation();
-    }, 800);
-  }, [resumeAnimation]);
+    // If there's enough velocity, glide with momentum then resume
+    if (Math.abs(velocity.current) > 1) {
+      startMomentum();
+    } else {
+      resumeTimer.current = setTimeout(() => {
+        resumeAnimation();
+      }, 800);
+    }
+  }, [resumeAnimation, startMomentum]);
 
   return (
     <div
