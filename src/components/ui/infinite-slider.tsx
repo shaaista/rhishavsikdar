@@ -23,9 +23,11 @@ export function InfiniteSlider({
   const startX = useRef(0);
   const dragOffset = useRef(0);
   const currentOffset = useRef(0);
-  const animationPaused = useRef(false);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const momentumRaf = useRef<number | null>(null);
+  const dragRaf = useRef<number | null>(null);
+  const targetX = useRef(0);
+  const smoothX = useRef(0);
   const lastMoveX = useRef(0);
   const lastMoveTime = useRef(0);
   const velocity = useRef(0);
@@ -60,9 +62,10 @@ export function InfiniteSlider({
       const matrix = new DOMMatrix(transform);
       currentOffset.current = matrix.m41;
     }
+    smoothX.current = currentOffset.current;
+    targetX.current = currentOffset.current;
     scroller.style.animation = "none";
     scroller.style.transform = `translateX(${currentOffset.current}px)`;
-    animationPaused.current = true;
   }, []);
 
   const resumeAnimation = useCallback(() => {
@@ -77,23 +80,46 @@ export function InfiniteSlider({
     scroller.style.animation = `infinite-scroll ${duration}s linear infinite`;
     scroller.style.animationDirection = reverse ? "reverse" : "normal";
     scroller.style.animationDelay = `-${progress * duration}s`;
-    animationPaused.current = false;
   }, [duration, reverse, duplicated]);
+
+  // Smooth drag loop — lerps toward target position at 60fps
+  const startDragLoop = useCallback(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    const loop = () => {
+      if (!isDragging.current) return;
+      // Lerp: smoothly interpolate toward the target
+      smoothX.current += (targetX.current - smoothX.current) * 0.35;
+      scroller.style.transform = `translateX(${smoothX.current}px)`;
+      dragRaf.current = requestAnimationFrame(loop);
+    };
+    dragRaf.current = requestAnimationFrame(loop);
+  }, []);
+
+  const stopDragLoop = useCallback(() => {
+    if (dragRaf.current) {
+      cancelAnimationFrame(dragRaf.current);
+      dragRaf.current = null;
+    }
+  }, []);
 
   const startMomentum = useCallback(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
-    const friction = 0.95;
+    const friction = 0.96;
+    smoothX.current = currentOffset.current;
     const animate = () => {
       velocity.current *= friction;
-      if (Math.abs(velocity.current) < 0.5) {
+      if (Math.abs(velocity.current) < 0.3) {
         resumeTimer.current = setTimeout(() => {
           resumeAnimation();
         }, 600);
         return;
       }
       currentOffset.current += velocity.current;
-      scroller.style.transform = `translateX(${currentOffset.current}px)`;
+      // Smooth lerp for momentum too
+      smoothX.current += (currentOffset.current - smoothX.current) * 0.4;
+      scroller.style.transform = `translateX(${smoothX.current}px)`;
       momentumRaf.current = requestAnimationFrame(animate);
     };
     momentumRaf.current = requestAnimationFrame(animate);
@@ -106,38 +132,38 @@ export function InfiniteSlider({
     dragOffset.current = 0;
     velocity.current = 0;
     lastMoveX.current = e.clientX;
-    lastMoveTime.current = Date.now();
+    lastMoveTime.current = performance.now();
     if (resumeTimer.current) clearTimeout(resumeTimer.current);
     pauseAnimation();
+    startDragLoop();
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
-  }, [pauseAnimation]);
+  }, [pauseAnimation, startDragLoop]);
 
   const handlePointerMove = useCallback((e: React.PointerEvent) => {
     if (!isDragging.current) return;
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-    const now = Date.now();
+    const now = performance.now();
     const rawDelta = e.clientX - startX.current;
-    // On touch, multiply movement for faster feel with less finger travel
-    const multiplier = isTouch.current ? 2.5 : 1;
+    const multiplier = isTouch.current ? 1.75 : 1;
     const delta = rawDelta * multiplier;
     dragOffset.current = delta;
-    // Track velocity for momentum
+    // Set the target — the drag loop will smoothly interpolate to it
+    targetX.current = currentOffset.current + delta;
+    // Track velocity with smoothing
     const dt = now - lastMoveTime.current;
     if (dt > 0) {
-      velocity.current = (e.clientX - lastMoveX.current) * multiplier / dt * 16;
+      const instantVel = (e.clientX - lastMoveX.current) * multiplier / dt * 16;
+      velocity.current = velocity.current * 0.6 + instantVel * 0.4;
     }
     lastMoveX.current = e.clientX;
     lastMoveTime.current = now;
-    scroller.style.transform = `translateX(${currentOffset.current + delta}px)`;
   }, []);
 
   const handlePointerUp = useCallback(() => {
     if (!isDragging.current) return;
     isDragging.current = false;
+    stopDragLoop();
     currentOffset.current += dragOffset.current;
     dragOffset.current = 0;
-    // If there's enough velocity, glide with momentum then resume
     if (Math.abs(velocity.current) > 1) {
       startMomentum();
     } else {
@@ -145,7 +171,7 @@ export function InfiniteSlider({
         resumeAnimation();
       }, 800);
     }
-  }, [resumeAnimation, startMomentum]);
+  }, [resumeAnimation, startMomentum, stopDragLoop]);
 
   return (
     <div
@@ -164,6 +190,7 @@ export function InfiniteSlider({
           gap: `${gap}px`,
           animation: `infinite-scroll ${duration}s linear infinite`,
           animationDirection: reverse ? "reverse" : "normal",
+          willChange: "transform",
         }}
       >
         {children}
