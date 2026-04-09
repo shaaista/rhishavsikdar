@@ -41,7 +41,7 @@ const Index = () => {
           </div>
 
           {/* Photo Section */}
-          <div className="relative flex-1 w-full flex justify-center items-end z-[3] pb-0">
+          <div className="relative flex-1 w-full flex justify-center items-end z-[3] pb-0 pt-[6vh] md:pt-0">
             <img
               src={portraitImg}
               alt="Rhishav Sikdar"
