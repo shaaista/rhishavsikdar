@@ -23,10 +23,14 @@ import morganStanleyLogo from "@/assets/logos/morganstanley.png";
 import jpMorganLogo from "@/assets/logos/jpmorgan.png";
 import withumLogo from "@/assets/logos/withum.png";
 import nethradhamaLogo from "@/assets/logos/nethradhama.png";
+import metaLogo from "@/assets/logos/meta.png";
+import bentleyLogo from "@/assets/logos/bentley.png";
 
 const topLogos = [
   { src: googleLogo, alt: "Google" },
   { src: sonyLogo, alt: "Sony" },
+  { src: metaLogo, alt: "Meta" },
+  { src: bentleyLogo, alt: "Bentley" },
   { src: bmwLogo, alt: "BMW" },
   { src: vistaraLogo, alt: "Vistara" },
   { src: olaLogo, alt: "Ola" },
@@ -326,7 +330,7 @@ const Illusionist = () => {
                 Featured In & Trusted By
               </p>
               <div className="mt-12 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-                <InfiniteSlider gap={40} speed={70}>
+                <InfiniteSlider gap={40} speed={80}>
                   {topLogos.map((logo) => {
                     const needsLarger = ["Puravankara", "JW Marriott", "Nethradhama"].includes(logo.alt);
                     return (
