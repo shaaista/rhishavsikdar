@@ -14,7 +14,7 @@ const blocks = [
 const Index = () => {
   return (
     <PageTransition>
-      <div className="relative min-h-screen flex flex-col">
+      <div className="relative h-screen overflow-hidden flex flex-col">
         {/* SVG Filter */}
         <svg style={{ position: "absolute", width: 0, height: 0 }} aria-hidden="true">
           <defs>
@@ -45,7 +45,7 @@ const Index = () => {
             <img
               src={portraitImg}
               alt="Rhishav Sikdar"
-              className="w-auto h-full max-h-[58vh] md:max-h-[75vh] object-contain object-bottom drop-shadow-2xl origin-bottom"
+              className="w-auto h-full max-h-[52vh] md:max-h-[75vh] object-contain object-bottom drop-shadow-2xl origin-bottom"
               style={{
                 filter: "brightness(1) contrast(1.15) saturate(1.1)",
               }}
