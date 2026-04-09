@@ -167,7 +167,7 @@ const InnerWork = () => {
                   }}
                 />
                 <p
-                  className="text-base md:text-lg leading-relaxed max-w-lg font-light"
+                  className="text-lg leading-relaxed max-w-lg font-light"
                   style={{
                     fontFamily: "'Helica', sans-serif",
                     color: "hsla(0, 0%, 0%, 0.85)",
@@ -237,7 +237,7 @@ const InnerWork = () => {
                       {item.label}
                     </h3>
                     <p
-                      className="text-sm md:text-base leading-relaxed font-light"
+                      className="text-base leading-relaxed font-light"
                       style={{
                         fontFamily: item.fontFamily,
                         color: "hsla(0, 0%, 0%, 0.85)",

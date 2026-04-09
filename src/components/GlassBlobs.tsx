@@ -35,7 +35,7 @@ const GlassBlobs = () => {
 
   return (
     <div className="fixed top-[32vh] md:top-auto bottom-auto md:bottom-[30vh] left-0 w-screen h-[7.5vh] md:h-[14vh] z-[5] pointer-events-none flex flex-row justify-between items-center px-5 md:px-12">
-      <GlassPanel side="left" label="Illusionist" onClick={() => navigate("/illusionist")} />
+      <GlassPanel side="left" label="Illusion" onClick={() => navigate("/illusionist")} />
       <GlassPanel side="right" label="InnerWork" onClick={() => navigate("/innerwork")} />
     </div>
   );

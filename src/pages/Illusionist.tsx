@@ -125,12 +125,11 @@ const Illusionist = () => {
         <div
           className="fixed top-6 right-6 z-50 rounded-[4rem] overflow-hidden cursor-pointer"
           style={{
-            border: "2.5px solid rgba(100, 160, 255, 0.6)",
+            border: "1px solid rgba(255, 255, 255, 0.4)",
+            background: "linear-gradient(135deg, rgba(120, 180, 255, 0.7) 0%, rgba(100, 160, 255, 0.8) 50%, rgba(80, 140, 255, 0.9) 100%)",
             boxShadow:
-              "0 0 20px rgba(80, 140, 255, 0.4), 0 0 40px rgba(80, 140, 255, 0.2), 0 0 60px rgba(80, 140, 255, 0.1)",
-            backdropFilter: "blur(20px)",
-            background:
-              "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
+              "inset 4px 4px 10px rgba(255, 255, 255, 0.6), inset -4px -4px 10px rgba(255, 255, 255, 0.3), 0 15px 30px rgba(80, 140, 255, 0.5), 0 8px 15px rgba(80, 140, 255, 0.3)",
+            backdropFilter: "blur(12px) saturate(1.2)",
           }}
         >
           <div className="px-8 py-3 flex items-center justify-center">
@@ -203,7 +202,7 @@ const Illusionist = () => {
                     color: "hsl(0, 0%, 0%)",
                   }}
                 >
-                  Illusionist
+                  Illusion
                 </h1>
                 <div
                   className="w-16 h-[2px]"
@@ -213,7 +212,7 @@ const Illusionist = () => {
                   }}
                 />
                 <p
-                  className="text-base md:text-lg leading-relaxed max-w-lg font-light"
+                  className="text-lg leading-relaxed max-w-lg font-light"
                   style={{
                     fontFamily: "'Helica', sans-serif",
                     color: "hsla(0, 0%, 0%, 0.85)",
@@ -294,7 +293,7 @@ const Illusionist = () => {
                       {service.title}
                     </h3>
                     <p
-                      className="text-sm md:text-base leading-relaxed font-light"
+                      className="text-base leading-relaxed font-light"
                       style={{
                         fontFamily: "'Helica', sans-serif",
                         color: "hsla(0, 0%, 0%, 0.85)",
@@ -318,16 +317,16 @@ const Illusionist = () => {
               transition={{ duration: 0.7 }}
             >
               <p
-                className="text-center text-xs uppercase tracking-[0.35em] mb-10 font-light"
+                className="text-center text-base md:text-xl uppercase tracking-[0.35em] mb-10 font-light"
                 style={{
-                  fontFamily: "'Helica', sans-serif",
+                  fontFamily: "'Nestborn', sans-serif",
                   color: "hsla(0, 0%, 0%, 0.85)",
                 }}
               >
                 Featured In & Trusted By
               </p>
               <div className="mt-12 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-                <InfiniteSlider gap={40} speed={45}>
+                <InfiniteSlider gap={40} speed={70}>
                   {topLogos.map((logo) => {
                     const needsLarger = ["Puravankara", "JW Marriott", "Nethradhama"].includes(logo.alt);
                     return (
