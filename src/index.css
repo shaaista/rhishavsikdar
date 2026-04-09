@@ -129,6 +129,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Nestborn';
+  src: url('./assets/fonts/Nestborn.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
