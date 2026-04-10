@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
 import portraitImg from "@/assets/rsbw.png";
+import GetInTouchButton from "@/components/GetInTouchButton";
 
 const approaches = [
   {
@@ -77,29 +78,7 @@ const InnerWork = () => {
         </button>
 
         {/* Fixed Contact Us button */}
-        <div
-          className="fixed top-6 right-6 z-50 rounded-[4rem] overflow-hidden cursor-pointer"
-          style={{
-            border: "2.5px solid rgba(100, 160, 255, 0.6)",
-            boxShadow:
-              "0 0 20px rgba(80, 140, 255, 0.4), 0 0 40px rgba(80, 140, 255, 0.2), 0 0 60px rgba(80, 140, 255, 0.1)",
-            backdropFilter: "blur(20px)",
-            background:
-              "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
-          }}
-        >
-          <div className="px-8 py-3 flex items-center justify-center">
-            <span
-              className="uppercase tracking-[0.3em] text-sm font-bold"
-              style={{
-                color: "hsl(0, 0%, 0%)",
-                fontFamily: "'Nestborn', sans-serif",
-              }}
-            >
-              Get in Touch
-            </span>
-          </div>
-        </div>
+        <GetInTouchButton className="fixed top-6 right-6 z-50" />
 
         {/* Scrollable content */}
         <div className="relative z-[2]">

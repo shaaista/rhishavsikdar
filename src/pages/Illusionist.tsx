@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import GetInTouchButton from "@/components/GetInTouchButton";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
@@ -126,28 +127,7 @@ const Illusionist = () => {
         </button>
 
         {/* Fixed Contact Us button */}
-        <div
-          className="fixed top-6 right-6 z-50 rounded-[4rem] overflow-hidden cursor-pointer"
-          style={{
-            border: "1px solid rgba(255, 255, 255, 0.4)",
-            background: "linear-gradient(135deg, rgba(120, 180, 255, 0.7) 0%, rgba(100, 160, 255, 0.8) 50%, rgba(80, 140, 255, 0.9) 100%)",
-            boxShadow:
-              "inset 4px 4px 10px rgba(255, 255, 255, 0.6), inset -4px -4px 10px rgba(255, 255, 255, 0.3), 0 15px 30px rgba(80, 140, 255, 0.5), 0 8px 15px rgba(80, 140, 255, 0.3)",
-            backdropFilter: "blur(12px) saturate(1.2)",
-          }}
-        >
-          <div className="px-8 py-3 flex items-center justify-center">
-            <span
-              className="uppercase tracking-[0.3em] text-sm font-bold"
-              style={{
-                color: "hsl(0, 0%, 0%)",
-                fontFamily: "'Nestborn', sans-serif",
-              }}
-            >
-              Get in Touch
-            </span>
-          </div>
-        </div>
+        <GetInTouchButton className="fixed top-6 right-6 z-50" variant="blue" />
 
         {/* Scrollable content */}
         <div className="relative z-[2]">

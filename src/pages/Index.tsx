@@ -3,6 +3,7 @@ import WebGLCanvas from "@/components/WebGLCanvas";
 import SplitName from "@/components/SplitName";
 import GlassBlobs from "@/components/GlassBlobs";
 import PageTransition from "@/components/PageTransition";
+import GetInTouchButton from "@/components/GetInTouchButton";
 
 const blocks = [
   { title: "About", description: "Designer & developer crafting digital experiences with precision and soul." },
@@ -56,6 +57,9 @@ const Index = () => {
 
         {/* Glass blobs */}
         <GlassBlobs />
+
+        {/* Get in Touch — glass pill, bottom center */}
+        <GetInTouchButton className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[10] pointer-events-auto" />
 
       </div>
     </PageTransition>

@@ -9,6 +9,7 @@ import { AnimatePresence } from "framer-motion";
 const Index = lazy(() => import("./pages/Index.tsx"));
 const Illusionist = lazy(() => import("./pages/Illusionist.tsx"));
 const InnerWork = lazy(() => import("./pages/InnerWork.tsx"));
+const Contact = lazy(() => import("./pages/Contact.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<Index />} />
           <Route path="/illusionist" element={<Illusionist />} />
           <Route path="/innerwork" element={<InnerWork />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
