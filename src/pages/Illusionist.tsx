@@ -330,7 +330,7 @@ const Illusionist = () => {
                 Featured In & Trusted By
               </p>
               <div className="mt-12 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-                <InfiniteSlider gap={40} speed={90}>
+                <InfiniteSlider gap={40} speed={180}>
                   {topLogos.map((logo) => {
                     const needsLarger = ["Puravankara", "JW Marriott", "Nethradhama"].includes(logo.alt);
                     return (
