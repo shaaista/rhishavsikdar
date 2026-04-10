@@ -51,7 +51,7 @@ const GetInTouchButton = ({ className = "", variant = "frost" }: GetInTouchButto
       >
         <div className="px-8 py-3 flex items-center justify-center">
           <span
-            className="uppercase tracking-[0.3em] text-sm font-bold"
+            className="uppercase tracking-[0.15em] md:tracking-[0.3em] text-xs md:text-sm font-bold whitespace-nowrap"
             style={{
               color: "hsl(0, 0%, 0%)",
               fontFamily: "'Nestborn', sans-serif",
