@@ -68,9 +68,9 @@ const InnerWork = () => {
           onClick={() => navigate("/")}
           className="fixed top-6 left-6 z-50 p-2 rounded-full backdrop-blur-md bg-black/5 text-black/60 hover:text-black hover:bg-black/10 transition-all duration-300 cursor-pointer"
           style={{
-            border: "2px solid rgba(100, 160, 255, 0.6)",
+            border: "1px solid rgba(20, 55, 150, 0.6)",
             boxShadow:
-              "0 0 10px rgba(80, 140, 255, 0.4), 0 0 20px rgba(80, 140, 255, 0.2), 0 0 30px rgba(80, 140, 255, 0.1)",
+              "0 0 5px rgba(10, 40, 130, 0.4), 0 0 10px rgba(10, 40, 130, 0.2), 0 0 15px rgba(10, 40, 130, 0.1)",
           }}
           aria-label="Back"
         >
@@ -78,7 +78,7 @@ const InnerWork = () => {
         </button>
 
         {/* Fixed Contact Us button */}
-        <GetInTouchButton className="fixed top-6 right-6 z-50" />
+        <GetInTouchButton className="fixed top-6 right-6 z-50" variant="blue" />
 
         {/* Scrollable content */}
         <div className="relative z-[2]">
@@ -95,9 +95,9 @@ const InnerWork = () => {
                 <div
                   className="relative rounded-[2rem] overflow-hidden aspect-square flex items-center justify-center"
                   style={{
-                    border: "2.5px solid rgba(100, 160, 255, 0.6)",
+                    border: "1px solid rgba(20, 55, 150, 0.6)",
                     boxShadow:
-                      "0 0 20px rgba(80, 140, 255, 0.4), 0 0 40px rgba(80, 140, 255, 0.2), 0 0 60px rgba(80, 140, 255, 0.1), 0 20px 60px hsla(0,0%,0%,0.5)",
+                      "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1), 0 20px 60px hsla(0,0%,0%,0.5)",
                   }}
                 >
                   <img
@@ -203,10 +203,10 @@ const InnerWork = () => {
                     style={{
                       background:
                         "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
-                      border: "2.5px solid rgba(100, 160, 255, 0.6)",
+                      border: "1px solid rgba(20, 55, 150, 0.6)",
                       backdropFilter: "blur(20px)",
                       boxShadow:
-                        "0 0 20px rgba(80, 140, 255, 0.4), 0 0 40px rgba(80, 140, 255, 0.2), 0 0 60px rgba(80, 140, 255, 0.1)",
+                        "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
                     }}
                     custom={i}
                     variants={fadeUp}

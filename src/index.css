@@ -241,9 +241,9 @@
   background: conic-gradient(from 0deg,
       transparent 0%,
       transparent 55%,
-      rgba(80, 140, 255, 0.8) 72%,
-      rgba(120, 180, 255, 1) 78%,
-      rgba(80, 140, 255, 0.8) 84%,
+      rgba(10, 40, 130, 0.8) 72%,
+      rgba(20, 55, 150, 1) 78%,
+      rgba(10, 40, 130, 0.8) 84%,
       transparent 100%);
   animation: spin-border 3s linear infinite;
 }
@@ -252,7 +252,7 @@
 .glass-button-wrap--illusionist .glass-border-ring::before {
   inset: 0;
   border-radius: inherit;
-  background: rgba(80, 140, 255, 0.4);
+  background: rgba(10, 40, 130, 0.4);
   animation: none;
 }
 
@@ -319,13 +319,13 @@
 
 /* Illusionist variant: always-on blue glow */
 .glass-button-wrap--illusionist .glass-button {
-  border: 1px solid rgba(100, 160, 255, 0.5);
+  border: 1px solid rgba(20, 55, 150, 0.5);
   box-shadow:
-    inset 0 1px 3px rgba(200, 230, 255, 0.2),
+    inset 0 1px 3px rgba(20, 55, 150, 0.2),
     inset 0 -1px 2px rgba(0, 0, 0, 0.08),
-    inset 0 0 40px rgba(180, 215, 255, 0.06),
-    0 0 15px rgba(80, 140, 255, 0.3),
-    0 0 30px rgba(80, 140, 255, 0.15);
+    inset 0 0 40px rgba(10, 40, 130, 0.06),
+    0 0 8px rgba(10, 40, 130, 0.3),
+    0 0 15px rgba(10, 40, 130, 0.15);
 }
 
 .glass-button::before {
@@ -346,12 +346,12 @@
   transform: scale(0.98);
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(1px);
-  border-color: rgba(100, 160, 255, 0.5);
+  border-color: rgba(20, 55, 150, 0.5);
   box-shadow:
     inset 0 2px 2px rgba(0, 0, 0, 0.02),
-    inset 0 -2px 2px rgba(100, 160, 255, 0.25),
-    0 0 15px rgba(80, 140, 255, 0.3),
-    0 0 30px rgba(80, 140, 255, 0.15),
+    inset 0 -2px 2px rgba(20, 55, 150, 0.25),
+    0 0 8px rgba(10, 40, 130, 0.3),
+    0 0 15px rgba(10, 40, 130, 0.15),
     0 2px 1px -1.5px rgba(0, 0, 0, 0.2);
 }
 
@@ -381,8 +381,8 @@
   filter: blur(12px);
   opacity: 1;
   background: linear-gradient(to bottom,
-      rgba(80, 140, 255, 0.15),
-      rgba(100, 160, 255, 0.05));
+      rgba(10, 40, 130, 0.15),
+      rgba(20, 55, 150, 0.05));
 }
 
 /* Reusable spinning blue border for InnerWork page glass components */
@@ -407,9 +407,9 @@
   background: conic-gradient(from 0deg,
       transparent 0%,
       transparent 55%,
-      rgba(80, 140, 255, 0.8) 72%,
-      rgba(120, 180, 255, 1) 78%,
-      rgba(80, 140, 255, 0.8) 84%,
+      rgba(10, 40, 130, 0.8) 72%,
+      rgba(20, 55, 150, 1) 78%,
+      rgba(10, 40, 130, 0.8) 84%,
       transparent 100%);
   animation: spin-border 3s linear infinite;
 }
@@ -426,12 +426,12 @@
 
 @layer utilities {
   .name-glow {
-    text-shadow: 0 0 10px rgba(0, 180, 255, 1), 0 0 20px rgba(80, 140, 255, 1), 0 0 30px rgba(80, 140, 255, 1), 0 0 50px rgba(80, 140, 255, 1), 0 0 80px rgba(80, 140, 255, 1), 0 0 120px rgba(80, 140, 255, 1);
+    text-shadow: 0 0 6px rgba(0, 40, 160, 1), 0 0 12px rgba(10, 40, 130, 1), 0 0 20px rgba(10, 40, 130, 1), 0 0 35px rgba(10, 40, 130, 1), 0 0 55px rgba(10, 40, 130, 1), 0 0 80px rgba(10, 40, 130, 1);
   }
 
   @media (min-width: 768px) {
     .name-glow {
-      text-shadow: 0 0 10px rgba(80, 140, 255, 0.5), 0 0 20px rgba(80, 140, 255, 0.3), 0 0 40px rgba(80, 140, 255, 0.15), 0 0 60px rgba(100, 160, 255, 0.2);
+      text-shadow: 0 0 6px rgba(10, 40, 130, 0.5), 0 0 12px rgba(10, 40, 130, 0.3), 0 0 22px rgba(10, 40, 130, 0.15), 0 0 35px rgba(20, 55, 150, 0.2);
     }
   }
 }

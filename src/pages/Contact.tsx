@@ -27,8 +27,8 @@ const Contact = () => {
   const focusStyle = (field: string): React.CSSProperties =>
     focused === field
       ? {
-          borderColor: "rgba(100, 160, 255, 0.6)",
-          boxShadow: "0 0 12px rgba(80, 140, 255, 0.2), 0 0 24px rgba(80, 140, 255, 0.08)",
+          borderColor: "rgba(20, 55, 150, 0.6)",
+          boxShadow: "0 0 6px rgba(10, 40, 130, 0.2), 0 0 12px rgba(10, 40, 130, 0.08)",
         }
       : {};
 
@@ -52,8 +52,8 @@ const Contact = () => {
           onClick={() => navigate(-1)}
           className="fixed top-6 left-6 z-50 p-2 rounded-full backdrop-blur-md bg-black/5 text-black/60 hover:text-black hover:bg-black/10 transition-all duration-300 cursor-pointer"
           style={{
-            border: "2px solid rgba(100, 160, 255, 0.3)",
-            boxShadow: "0 0 10px rgba(80, 140, 255, 0.2), 0 0 20px rgba(80, 140, 255, 0.1)",
+            border: "1px solid rgba(20, 55, 150, 0.3)",
+            boxShadow: "0 0 5px rgba(10, 40, 130, 0.2), 0 0 10px rgba(10, 40, 130, 0.1)",
           }}
           aria-label="Back"
         >
@@ -89,9 +89,9 @@ const Contact = () => {
             className="w-full max-w-lg rounded-3xl p-8 flex flex-col gap-5"
             style={{
               background: "linear-gradient(135deg, hsla(0,0%,100%,0.07) 0%, hsla(0,0%,100%,0.02) 100%)",
-              border: "2px solid rgba(100, 160, 255, 0.25)",
+              border: "1px solid rgba(20, 55, 150, 0.25)",
               backdropFilter: "blur(28px)",
-              boxShadow: "0 0 40px rgba(80, 140, 255, 0.08), 0 20px 60px rgba(0,0,0,0.06)",
+              boxShadow: "0 0 20px rgba(10, 40, 130, 0.08), 0 20px 60px rgba(0,0,0,0.06)",
             }}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
