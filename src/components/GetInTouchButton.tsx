@@ -9,7 +9,7 @@ interface GetInTouchButtonProps {
 const styles = {
   frost: {
     default: {
-      border: "2.5px solid rgba(100, 160, 255, 0.3)",
+      border: "2.5px solid rgba(10, 40, 130, 0.6)",
       boxShadow: "0 0 10px rgba(80, 140, 255, 0.2), 0 0 20px rgba(80, 140, 255, 0.1), 0 0 30px rgba(80, 140, 255, 0.05)",
       backdropFilter: "blur(20px)",
       background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
