@@ -5,7 +5,7 @@ import GetInTouchButton from "@/components/GetInTouchButton";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
-import portraitImg from "@/assets/rsbw.png";
+import portraitImg from "@/assets/illusion.png";
 import googleLogo from "@/assets/logos/google.png";
 import sonyLogo from "@/assets/logos/sony.png";
 import bmwLogo from "@/assets/logos/bmw.png";
@@ -23,9 +23,20 @@ import razorpayLogo from "@/assets/logos/razorpay.png";
 import morganStanleyLogo from "@/assets/logos/morganstanley.png";
 import jpMorganLogo from "@/assets/logos/jpmorgan.png";
 import withumLogo from "@/assets/logos/withum.png";
-import nethradhamaLogo from "@/assets/logos/nethradhama.png";
 import metaLogo from "@/assets/logos/meta.png";
 import bentleyLogo from "@/assets/logos/bentley.png";
+import corenetLogo from "@/assets/logos/corenet.png";
+import nipponPaintsLogo from "@/assets/logos/nipponpaints.png";
+import netcoreLogo from "@/assets/logos/netcore.png";
+import thoughtFocusLogo from "@/assets/logos/thoughtfocus.png";
+import stonehillLogo from "@/assets/logos/stonehill.png";
+import harmanLogo from "@/assets/logos/harman.png";
+import adityaBirlaLogo from "@/assets/logos/adityabirla.png";
+import ibmLogo from "@/assets/logos/ibm.png";
+import dhruvaSpaceLogo from "@/assets/logos/dhruvaspace.png";
+import arcesiumLogo from "@/assets/logos/arcesium.png";
+import visionetLogo from "@/assets/logos/visionet.png";
+import ofiLogo from "@/assets/logos/ofi.png";
 
 const topLogos = [
   { src: googleLogo, alt: "Google" },
@@ -47,7 +58,18 @@ const topLogos = [
   { src: morganStanleyLogo, alt: "Morgan Stanley" },
   { src: jpMorganLogo, alt: "JP Morgan" },
   { src: withumLogo, alt: "Withum" },
-  { src: nethradhamaLogo, alt: "Nethradhama" },
+  { src: corenetLogo, alt: "Corenet" },
+  { src: nipponPaintsLogo, alt: "Nippon Paints" },
+  { src: netcoreLogo, alt: "Netcore Cloud" },
+  { src: thoughtFocusLogo, alt: "Thought Focus" },
+  { src: stonehillLogo, alt: "Stonehill International School" },
+  { src: harmanLogo, alt: "Harman" },
+  { src: adityaBirlaLogo, alt: "Aditya Birla" },
+  { src: ibmLogo, alt: "IBM" },
+  { src: dhruvaSpaceLogo, alt: "Dhruva Space" },
+  { src: arcesiumLogo, alt: "Arcesium" },
+  { src: visionetLogo, alt: "Visionet" },
+  { src: ofiLogo, alt: "OFI" },
 ];
 
 
@@ -152,17 +174,24 @@ const Illusionist = () => {
                   <img
                     src={portraitImg}
                     alt="Rhishav Sikdar"
-                    className="w-full h-full object-contain object-bottom scale-90 origin-bottom"
+                    className="w-full h-full object-cover object-top"
                     style={{
-                      filter: "brightness(0.95) contrast(1.1) saturate(1.1)",
+                      filter: "brightness(0.95) contrast(1.05) saturate(0.9)",
                     }}
                   />
-                  {/* Subtle overlay on image */}
+                  {/* Edge blend overlays */}
                   <div
-                    className="absolute inset-0"
+                    className="absolute inset-0 pointer-events-none"
                     style={{
                       background:
-                        "linear-gradient(to top, hsla(0,0%,0%,0.4) 0%, transparent 50%)",
+                        "radial-gradient(ellipse at center, transparent 50%, hsla(0,0%,0%,0.3) 100%)",
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(to top, hsla(0,0%,0%,0.35) 0%, transparent 30%), linear-gradient(to bottom, hsla(0,0%,0%,0.15) 0%, transparent 20%)",
                     }}
                   />
                 </div>
@@ -291,6 +320,61 @@ const Illusionist = () => {
             </div>
           </section>
 
+          {/* Videos section */}
+          <section className="px-6 md:px-16 lg:px-24 pb-32">
+            <div className="max-w-6xl mx-auto">
+              <motion.h2
+                className="text-[8vw] md:text-[3vw] uppercase tracking-[0.2em] mb-16 text-center"
+                style={{
+                  fontFamily: "'Nestborn', sans-serif",
+                  color: "hsl(0, 0%, 0%)",
+                }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6 }}
+              >
+                Moments of Magic
+              </motion.h2>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                {[
+                  "wJ66StdNk-w",
+                  "ejoAXoEA6-E",
+                  "kNELGcY56_0",
+                  "wZHUZ8wF4bo",
+                ].map((videoId, i) => (
+                  <motion.div
+                    key={videoId}
+                    className="relative rounded-2xl overflow-hidden aspect-[9/16]"
+                    style={{
+                      border: "2.5px solid rgba(100, 160, 255, 0.6)",
+                      backdropFilter: "blur(20px)",
+                      boxShadow:
+                        "0 0 20px rgba(80, 140, 255, 0.4), 0 0 40px rgba(80, 140, 255, 0.2), 0 0 60px rgba(80, 140, 255, 0.1)",
+                      background:
+                        "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
+                    }}
+                    custom={i}
+                    variants={fadeUp}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-80px" }}
+                  >
+                    <iframe
+                      src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
+                      title={`Performance ${i + 1}`}
+                      className="absolute inset-0 w-full h-full"
+                      allow="autoplay; encrypted-media"
+                      loading="lazy"
+                      style={{ border: "none" }}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+
           {/* Clients section */}
           <section className="px-6 md:px-16 lg:px-24 pb-24">
             <motion.div
@@ -312,7 +396,8 @@ const Illusionist = () => {
               <div className="mt-12 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
                 <InfiniteSlider gap={40} speed={180}>
                   {topLogos.map((logo) => {
-                    const needsLarger = ["Puravankara", "JW Marriott", "Nethradhama"].includes(logo.alt);
+                    const needsExtraLarge = ["Puravankara", "JW Marriott"].includes(logo.alt);
+                    const needsLarger = ["Thought Focus", "Arcesium"].includes(logo.alt);
                     return (
                       <div
                         key={`glass-${logo.alt}`}
@@ -327,7 +412,7 @@ const Illusionist = () => {
                         <img
                           src={logo.src}
                           alt={logo.alt}
-                          className={`w-auto h-auto object-contain select-none pointer-events-none ${needsLarger ? "max-w-[95%] max-h-[95%] scale-125" : "max-w-[90%] max-h-[90%]"}`}
+                          className={`w-auto h-auto object-contain select-none pointer-events-none ${needsExtraLarge ? "max-w-[100%] max-h-[100%] scale-150" : needsLarger ? "max-w-[95%] max-h-[95%] scale-125" : "max-w-[90%] max-h-[90%]"}`}
                         />
                       </div>
                     );

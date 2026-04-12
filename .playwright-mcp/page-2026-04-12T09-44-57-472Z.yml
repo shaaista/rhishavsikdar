@@ -1,0 +1,33 @@
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - generic [ref=e4]:
+    - button "Back" [ref=e8] [cursor=pointer]:
+      - img [ref=e9]
+    - generic [ref=e14] [cursor=pointer]: Get in Touch
+    - generic [ref=e15]:
+      - generic [ref=e17]:
+        - img "Rhishav Sikdar" [ref=e20]
+        - generic [ref=e21]:
+          - heading "InnerWork" [level=1] [ref=e22]
+          - paragraph [ref=e24]: A safe, sacred space to unravel, to feel, to become. InnerWork is not about fixing — it's about returning to the truth of who you already are.
+          - paragraph [ref=e25]: Every session is a journey inward — a sacred space where healing, clarity, and deep transformation unfold naturally.
+      - generic [ref=e27]:
+        - heading "The Approach" [level=2] [ref=e28]
+        - generic [ref=e29]:
+          - generic [ref=e30]:
+            - heading "Somatic Awareness" [level=3] [ref=e31]
+            - paragraph [ref=e32]: Reconnecting mind and body through guided presence — feeling what words cannot reach, releasing what the body holds in silence.
+          - generic [ref=e33]:
+            - heading "Shadow Integration" [level=3] [ref=e34]
+            - paragraph [ref=e35]: Gently illuminating the hidden parts of self. Not to fix, but to understand — transforming shame into wholeness, fear into freedom.
+          - generic [ref=e36]:
+            - heading "Breathwork & Regulation" [level=3] [ref=e37]
+            - paragraph [ref=e38]: Using the breath as an anchor to calm the nervous system, dissolve anxiety, and return to a state of deep inner stillness.
+          - generic [ref=e39]:
+            - heading "Relational Healing" [level=3] [ref=e40]
+            - paragraph [ref=e41]: Exploring the patterns we carry from past bonds — learning to trust, to set boundaries, and to love without losing ourselves.
+      - generic [ref=e44]:
+        - text: "\"Healing doesn't ask you to be strong."
+        - text: It asks you to be honest."

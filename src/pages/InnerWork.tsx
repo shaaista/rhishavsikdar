@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
-import portraitImg from "@/assets/rsbw.png";
+import portraitImg from "@/assets/innerwork.png";
 import GetInTouchButton from "@/components/GetInTouchButton";
 
 const approaches = [
@@ -103,16 +103,24 @@ const InnerWork = () => {
                   <img
                     src={portraitImg}
                     alt="Rhishav Sikdar"
-                    className="w-full h-full object-contain object-bottom scale-90 origin-bottom"
+                    className="w-full h-full object-cover object-top"
                     style={{
-                      filter: "brightness(0.95) contrast(1.1) saturate(1.1)",
+                      filter: "brightness(0.95) contrast(1.05) saturate(0.9)",
+                    }}
+                  />
+                  {/* Edge blend overlays */}
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background:
+                        "radial-gradient(ellipse at center, transparent 50%, hsla(0,0%,0%,0.3) 100%)",
                     }}
                   />
                   <div
-                    className="absolute inset-0"
+                    className="absolute inset-0 pointer-events-none"
                     style={{
                       background:
-                        "linear-gradient(to top, hsla(0,0%,0%,0.4) 0%, transparent 50%)",
+                        "linear-gradient(to top, hsla(0,0%,0%,0.35) 0%, transparent 30%), linear-gradient(to bottom, hsla(0,0%,0%,0.15) 0%, transparent 20%)",
                     }}
                   />
                 </div>

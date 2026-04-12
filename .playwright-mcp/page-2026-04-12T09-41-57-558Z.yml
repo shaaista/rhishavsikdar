@@ -1,0 +1,157 @@
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - generic [ref=e4]:
+    - button "Back" [ref=e8] [cursor=pointer]:
+      - img [ref=e9]
+    - generic [ref=e14] [cursor=pointer]: Get in Touch
+    - generic [ref=e15]:
+      - generic [ref=e17]:
+        - img "Rhishav Sikdar" [ref=e20]
+        - generic [ref=e21]:
+          - heading "Illusion" [level=1] [ref=e22]
+          - paragraph [ref=e24]: Where intention meets energy. Rhishav works at the intersection of ancient wisdom and modern consciousness — guiding transformative experiences that transcend the ordinary and unlock what lies beyond the visible.
+          - paragraph [ref=e25]: Every session is a journey inward — a sacred space where healing, clarity, and deep transformation unfold naturally.
+      - generic [ref=e27]:
+        - heading "What I Offer" [level=2] [ref=e28]
+        - generic [ref=e29]:
+          - generic [ref=e30]:
+            - heading "Energy Healing" [level=3] [ref=e31]
+            - paragraph [ref=e32]: Channeling universal life force to restore balance, dissolve energetic blockages, and awaken the body's innate ability to heal itself. Each session is intuitively guided and deeply transformative.
+          - generic [ref=e33]:
+            - heading "Aura Cleansing" [level=3] [ref=e34]
+            - paragraph [ref=e35]: A purification ritual that clears stagnant and negative energy from your auric field, leaving you feeling lighter, clearer, and reconnected to your highest vibration.
+          - generic [ref=e36]:
+            - heading "Manifestation Work" [level=3] [ref=e37]
+            - paragraph [ref=e38]: Aligning intention with action through sacred practice. Together we craft powerful rituals and visualizations that bridge the gap between where you are and where you're meant to be.
+          - generic [ref=e39]:
+            - heading "Intuitive Guidance" [level=3] [ref=e40]
+            - paragraph [ref=e41]: Deep readings that tap into the unseen — past lives, karmic patterns, and soul contracts — to illuminate your path forward with clarity and purpose.
+      - generic [ref=e43]:
+        - paragraph [ref=e44]: Featured In & Trusted By
+        - generic [ref=e47]:
+          - generic [ref=e48]:
+            - img "Google"
+          - generic [ref=e49]:
+            - img "Sony"
+          - generic [ref=e50]:
+            - img "Meta"
+          - generic [ref=e51]:
+            - img "Bentley"
+          - generic [ref=e52]:
+            - img "BMW"
+          - generic [ref=e53]:
+            - img "Vistara"
+          - generic [ref=e54]:
+            - img "Ola"
+          - generic [ref=e55]:
+            - img "Shell"
+          - generic [ref=e56]:
+            - img "ExxonMobil"
+          - generic [ref=e57]:
+            - img "Bharat Petroleum"
+          - generic [ref=e58]:
+            - img "Brigade"
+          - generic [ref=e59]:
+            - img "Puravankara"
+          - generic [ref=e60]:
+            - img "Nexus"
+          - generic [ref=e61]:
+            - img "JW Marriott"
+          - generic [ref=e62]:
+            - img "Radisson"
+          - generic [ref=e63]:
+            - img "Razorpay"
+          - generic [ref=e64]:
+            - img "Morgan Stanley"
+          - generic [ref=e65]:
+            - img "JP Morgan"
+          - generic [ref=e66]:
+            - img "Withum"
+          - generic [ref=e67]:
+            - img "Corenet"
+          - generic [ref=e68]:
+            - img "Nippon Paints"
+          - generic [ref=e69]:
+            - img "Netcore Cloud"
+          - generic [ref=e70]:
+            - img "Thought Focus"
+          - generic [ref=e71]:
+            - img "Stonehill International School"
+          - generic [ref=e72]:
+            - img "Harman"
+          - generic [ref=e73]:
+            - img "Aditya Birla"
+          - generic [ref=e74]:
+            - img "IBM"
+          - generic [ref=e75]:
+            - img "Dhruva Space"
+          - generic [ref=e76]:
+            - img "Arcesium"
+          - generic [ref=e77]:
+            - img "Visionet"
+          - generic [ref=e78]:
+            - img "OFI"
+          - generic [ref=e79]:
+            - img
+          - generic [ref=e80]:
+            - img
+          - generic [ref=e81]:
+            - img
+          - generic [ref=e82]:
+            - img
+          - generic [ref=e83]:
+            - img
+          - generic [ref=e84]:
+            - img
+          - generic [ref=e85]:
+            - img
+          - generic [ref=e86]:
+            - img
+          - generic [ref=e87]:
+            - img
+          - generic [ref=e88]:
+            - img
+          - generic [ref=e89]:
+            - img
+          - generic [ref=e90]:
+            - img
+          - generic [ref=e91]:
+            - img
+          - generic [ref=e92]:
+            - img
+          - generic [ref=e93]:
+            - img
+          - generic [ref=e94]:
+            - img
+          - generic [ref=e95]:
+            - img
+          - generic [ref=e96]:
+            - img
+          - generic [ref=e97]:
+            - img
+          - generic [ref=e98]:
+            - img
+          - generic [ref=e99]:
+            - img
+          - generic [ref=e100]:
+            - img
+          - generic [ref=e101]:
+            - img
+          - generic [ref=e102]:
+            - img
+          - generic [ref=e103]:
+            - img
+          - generic [ref=e104]:
+            - img
+          - generic [ref=e105]:
+            - img
+          - generic [ref=e106]:
+            - img
+          - generic [ref=e107]:
+            - img
+          - generic [ref=e108]:
+            - img
+          - generic [ref=e109]:
+            - img
