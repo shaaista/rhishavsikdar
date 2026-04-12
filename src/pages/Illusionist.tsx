@@ -339,10 +339,10 @@ const Illusionist = () => {
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 {[
-                  "wJ66StdNk-w",
                   "ejoAXoEA6-E",
                   "kNELGcY56_0",
                   "wZHUZ8wF4bo",
+                  "8jDlJWRpTM8",
                 ].map((videoId, i) => (
                   <motion.div
                     key={videoId}
