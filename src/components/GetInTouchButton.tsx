@@ -21,7 +21,7 @@ const styles = {
   },
   blue: {
     default: {
-      border: "1px solid rgba(255, 255, 255, 0.4)",
+      border: "1px solid rgba(10, 40, 130, 0.8)",
       background: "linear-gradient(135deg, rgba(120, 180, 255, 0.7) 0%, rgba(100, 160, 255, 0.8) 50%, rgba(80, 140, 255, 0.9) 100%)",
       boxShadow: "inset 4px 4px 10px rgba(255, 255, 255, 0.6), inset -4px -4px 10px rgba(255, 255, 255, 0.3), 0 15px 30px rgba(80, 140, 255, 0.5), 0 8px 15px rgba(80, 140, 255, 0.3)",
       backdropFilter: "blur(12px) saturate(1.2)",

@@ -158,7 +158,7 @@ const Contact = () => {
             <motion.button
               className="mt-1 w-full py-3.5 rounded-2xl flex items-center justify-center gap-3 cursor-pointer"
               style={{
-                border: "1px solid rgba(255,255,255,0.4)",
+                border: "1px solid rgba(10,40,130,0.8)",
                 background: "linear-gradient(135deg, rgba(120,180,255,0.7) 0%, rgba(100,160,255,0.8) 50%, rgba(80,140,255,0.9) 100%)",
                 boxShadow: "inset 4px 4px 10px rgba(255,255,255,0.5), inset -4px -4px 10px rgba(255,255,255,0.2), 0 10px 24px rgba(80,140,255,0.35)",
                 fontFamily: "'Nestborn', sans-serif",
