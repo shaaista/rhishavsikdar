@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.\\(jsx?|tsx?\\)$|^d\")",
+      "Bash(grep -E \"\\\\.\\(png|jpg|jpeg|webp|svg\\)$\")"
+    ]
+  }
+}
