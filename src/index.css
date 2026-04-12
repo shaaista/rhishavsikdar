@@ -426,7 +426,7 @@
 
 @layer utilities {
   .name-glow {
-    text-shadow: 0 0 2px rgba(0, 40, 160, 1), 0 0 3px rgba(10, 40, 130, 1), 0 0 5px rgba(10, 40, 130, 1), 0 0 9px rgba(10, 40, 130, 1), 0 0 14px rgba(10, 40, 130, 1), 0 0 20px rgba(10, 40, 130, 1);
+    text-shadow: 0 0 1px rgba(40, 80, 200, 0.8), 0 0 2px rgba(30, 70, 180, 0.7), 0 0 3px rgba(30, 70, 180, 0.6), 0 0 5px rgba(30, 70, 180, 0.5), 0 0 7px rgba(30, 70, 180, 0.4), 0 0 10px rgba(30, 70, 180, 0.3);
   }
 
   @media (min-width: 768px) {
