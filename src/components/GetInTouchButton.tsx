@@ -35,6 +35,8 @@ const styles = {
   },
 };
 
+const textColor = { frost: "white", blue: "hsl(0, 0%, 0%)" };
+
 const GetInTouchButton = ({ className = "", variant = "frost" }: GetInTouchButtonProps) => {
   const navigate = useNavigate();
   const s = styles[variant];
@@ -53,7 +55,7 @@ const GetInTouchButton = ({ className = "", variant = "frost" }: GetInTouchButto
           <span
             className="uppercase tracking-[0.15em] md:tracking-[0.3em] text-xs md:text-sm font-bold whitespace-nowrap"
             style={{
-              color: "hsl(0, 0%, 0%)",
+              color: textColor[variant],
               fontFamily: "'Nestborn', sans-serif",
             }}
           >
