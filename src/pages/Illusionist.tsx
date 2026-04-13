@@ -348,10 +348,10 @@ const Illusionist = () => {
                     key={videoId}
                     className="relative rounded-2xl overflow-hidden aspect-[9/16]"
                     style={{
-                      border: "1px solid rgba(20, 55, 150, 0.6)",
+                      border: "2.5px solid rgba(20, 55, 150, 0.8)",
                       backdropFilter: "blur(20px)",
                       boxShadow:
-                        "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
+                        "0 0 14px rgba(10, 40, 130, 0.5), 0 0 28px rgba(10, 40, 130, 0.3), 0 0 42px rgba(10, 40, 130, 0.15)",
                       background:
                         "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
                     }}

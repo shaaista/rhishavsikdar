@@ -37,7 +37,7 @@ const Index = () => {
         <div className="fixed inset-0 z-[3] flex flex-col items-center pointer-events-none">
 
           {/* Name Section */}
-          <div className="relative pt-[8vh] md:pt-[4vh] flex justify-center w-full shrink-0 z-[4]">
+          <div className="relative pt-[12vh] md:pt-[4vh] flex justify-center w-full shrink-0 z-[4]">
             <SplitName />
           </div>
 
@@ -58,8 +58,8 @@ const Index = () => {
         {/* Glass blobs */}
         <GlassBlobs />
 
-        {/* Get in Touch — glass pill, bottom center */}
-        <GetInTouchButton className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[10] pointer-events-auto" variant="blue" />
+        {/* Get in Touch — top right */}
+        <GetInTouchButton className="fixed top-6 right-6 z-[10] pointer-events-auto" variant="blue" />
 
       </div>
     </PageTransition>
