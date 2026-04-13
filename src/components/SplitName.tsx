@@ -1,7 +1,7 @@
 const SplitName = () => {
   const glowStyle: React.CSSProperties = {
     fontFamily: "'AquireLight', sans-serif",
-    color: "white",
+    color: "black",
   };
 
   return (

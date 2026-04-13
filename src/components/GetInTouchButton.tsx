@@ -35,7 +35,7 @@ const styles = {
   },
 };
 
-const textColor = { frost: "white", blue: "hsl(0, 0%, 0%)" };
+const textColor = { frost: "black", blue: "hsl(0, 0%, 0%)" };
 
 const GetInTouchButton = ({ className = "", variant = "frost" }: GetInTouchButtonProps) => {
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const GetInTouchButton = ({ className = "", variant = "frost" }: GetInTouchButto
       >
         <div className="px-8 py-3 flex items-center justify-center">
           <span
-            className="uppercase tracking-[0.15em] md:tracking-[0.3em] text-xs md:text-sm font-bold whitespace-nowrap"
+            className="uppercase tracking-[0.15em] md:tracking-[0.3em] text-sm md:text-base font-bold whitespace-nowrap"
             style={{
               color: textColor[variant],
               fontFamily: "'Nestborn', sans-serif",
