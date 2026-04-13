@@ -59,7 +59,7 @@ const Index = () => {
         <GlassBlobs />
 
         {/* Get in Touch — glass pill, bottom center */}
-        <GetInTouchButton className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[10] pointer-events-auto" />
+        <GetInTouchButton className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[10] pointer-events-auto" variant="blue" />
 
       </div>
     </PageTransition>
