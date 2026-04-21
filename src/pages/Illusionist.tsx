@@ -5,7 +5,7 @@ import GetInTouchButton from "@/components/GetInTouchButton";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
-import portraitImg from "@/assets/illusion.png";
+import portraitImg from "@/assets/diceimg.png";
 import googleLogo from "@/assets/logos/google.png";
 import sonyLogo from "@/assets/logos/sony.png";
 import bmwLogo from "@/assets/logos/bmw.png";
@@ -88,24 +88,28 @@ const services = [
     title: "Energy Healing",
     description:
       "Channeling universal life force to restore balance, dissolve energetic blockages, and awaken the body's innate ability to heal itself. Each session is intuitively guided and deeply transformative.",
+    fontFamily: "'Montserrat', sans-serif",
   },
   {
     number: "02",
     title: "Aura Cleansing",
     description:
       "A purification ritual that clears stagnant and negative energy from your auric field, leaving you feeling lighter, clearer, and reconnected to your highest vibration.",
+    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
   },
   {
     number: "03",
     title: "Manifestation Work",
     description:
       "Aligning intention with action through sacred practice. Together we craft powerful rituals and visualizations that bridge the gap between where you are and where you're meant to be.",
+    fontFamily: "'Merriweather', serif",
   },
   {
     number: "04",
     title: "Intuitive Guidance",
     description:
       "Deep readings that tap into the unseen — past lives, karmic patterns, and soul contracts — to illuminate your path forward with clarity and purpose.",
+    fontFamily: "Georgia, serif",
   },
 ];
 
@@ -308,7 +312,7 @@ const Illusionist = () => {
                     <p
                       className="text-base leading-relaxed font-light"
                       style={{
-                        fontFamily: "'Helica', sans-serif",
+                        fontFamily: service.fontFamily,
                         color: "hsla(0, 0%, 0%, 0.85)",
                       }}
                     >
@@ -385,10 +389,10 @@ const Illusionist = () => {
               transition={{ duration: 0.7 }}
             >
               <p
-                className="text-center text-base md:text-xl uppercase tracking-[0.35em] mb-10 font-light"
+                className="text-center text-2xl md:text-4xl uppercase tracking-[0.35em] mb-10 font-bold"
                 style={{
                   fontFamily: "'Nestborn', sans-serif",
-                  color: "hsla(0, 0%, 0%, 0.85)",
+                  color: "hsla(0, 0%, 0%, 0.95)",
                 }}
               >
                 Featured In & Trusted By

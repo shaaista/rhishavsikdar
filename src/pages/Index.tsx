@@ -3,7 +3,6 @@ import WebGLCanvas from "@/components/WebGLCanvas";
 import SplitName from "@/components/SplitName";
 import GlassBlobs from "@/components/GlassBlobs";
 import PageTransition from "@/components/PageTransition";
-import GetInTouchButton from "@/components/GetInTouchButton";
 
 const blocks = [
   { title: "About", description: "Designer & developer crafting digital experiences with precision and soul." },
@@ -42,11 +41,11 @@ const Index = () => {
           </div>
 
           {/* Photo Section */}
-          <div className="relative flex-1 w-full flex justify-center items-end z-[3] pb-0 pt-[6vh] md:pt-0">
+          <div className="relative flex-1 w-full flex justify-center items-end z-[3] pb-0 mt-[8vh] md:mt-0 pt-0 md:pt-0">
             <img
               src={portraitImg}
               alt="Rhishav Sikdar"
-              className="w-auto h-full max-h-[52vh] md:max-h-[75vh] object-contain object-bottom drop-shadow-2xl origin-bottom"
+              className="w-auto h-full max-h-[38vh] md:max-h-[75vh] object-contain object-bottom drop-shadow-2xl origin-bottom"
               style={{
                 filter: "brightness(1) contrast(1.15) saturate(1.1)",
               }}
@@ -57,9 +56,6 @@ const Index = () => {
 
         {/* Glass blobs */}
         <GlassBlobs />
-
-        {/* Get in Touch — top right */}
-        <GetInTouchButton className="fixed top-6 right-6 z-[10] pointer-events-auto" variant="blue" />
 
       </div>
     </PageTransition>

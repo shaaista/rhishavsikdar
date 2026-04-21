@@ -10,22 +10,22 @@ const approaches = [
   {
     label: "Somatic Awareness",
     text: "Reconnecting mind and body through guided presence — feeling what words cannot reach, releasing what the body holds in silence.",
-    fontFamily: "'Cascadia Code', sans-serif",
+    fontFamily: "'Rogue Black', 'Impact', sans-serif",
   },
   {
     label: "Shadow Integration",
     text: "Gently illuminating the hidden parts of self. Not to fix, but to understand — transforming shame into wholeness, fear into freedom.",
-    fontFamily: "'DejaVu Serif', serif",
+    fontFamily: "'Nunito', sans-serif",
   },
   {
     label: "Breathwork & Regulation",
     text: "Using the breath as an anchor to calm the nervous system, dissolve anxiety, and return to a state of deep inner stillness.",
-    fontFamily: "'Consolas', monospace",
+    fontFamily: "'Playfair Display', serif",
   },
   {
     label: "Relational Healing",
     text: "Exploring the patterns we carry from past bonds — learning to trust, to set boundaries, and to love without losing ourselves.",
-    fontFamily: "'Guavine', sans-serif",
+    fontFamily: "'Neuton', serif",
   },
 ];
 
