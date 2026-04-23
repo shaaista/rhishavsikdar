@@ -85,31 +85,24 @@ const fadeUp = {
 const services = [
   {
     number: "01",
-    title: "Energy Healing",
+    title: "Stage",
     description:
-      "Channeling universal life force to restore balance, dissolve energetic blockages, and awaken the body's innate ability to heal itself. Each session is intuitively guided and deeply transformative.",
-    fontFamily: "'Montserrat', sans-serif",
+      "A highly interactive stage performance featuring raw, unfiltered mentalism — where thoughts are revealed, predictions unfold, and entire rooms share moments they’ll never forget.",
+    fontFamily: "'Nunito', sans-serif",
   },
   {
     number: "02",
-    title: "Aura Cleansing",
+    title: "Close-up",
     description:
-      "A purification ritual that clears stagnant and negative energy from your auric field, leaving you feeling lighter, clearer, and reconnected to your highest vibration.",
-    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+      "An intimate, walk-around experience designed for smaller groups within a larger setting — where the magic happens inches away, and reality bends in the most direct and astonishing way.",
+    fontFamily: "'Nunito', sans-serif",
   },
   {
     number: "03",
-    title: "Manifestation Work",
+    title: "Complete",
     description:
-      "Aligning intention with action through sacred practice. Together we craft powerful rituals and visualizations that bridge the gap between where you are and where you're meant to be.",
-    fontFamily: "'Merriweather', serif",
-  },
-  {
-    number: "04",
-    title: "Intuitive Guidance",
-    description:
-      "Deep readings that tap into the unseen — past lives, karmic patterns, and soul contracts — to illuminate your path forward with clarity and purpose.",
-    fontFamily: "Georgia, serif",
+      "The best of both worlds — a full-scale experience that combines the impact of stage with the depth of close-up, designed to engage your audience at every level.",
+    fontFamily: "'Nunito', sans-serif",
   },
 ];
 
@@ -231,24 +224,29 @@ const Illusionist = () => {
                 <p
                   className="text-lg leading-relaxed max-w-lg font-light"
                   style={{
-                    fontFamily: "'Helica', sans-serif",
+                    fontFamily: "'Nunito', sans-serif",
                     color: "hsla(0, 0%, 0%, 0.85)",
                   }}
                 >
-                  Where intention meets energy. Rhishav works at the intersection
-                  of ancient wisdom and modern consciousness — guiding
-                  transformative experiences that transcend the ordinary and
-                  unlock what lies beyond the visible.
+                  For over 18 years, I’ve studied and performed the art of magic and mentalism—blending psychology, intuition, and illusion to create unforgettable experiences.
+                </p>
+                <p
+                  className="text-base leading-relaxed max-w-lg font-light"
+                  style={{
+                    fontFamily: "'Nunito', sans-serif",
+                    color: "hsla(0, 0%, 0%, 0.85)",
+                  }}
+                >
+                  With 8+ years as a professional, I’ve performed over 600 shows for close to 100 corporate organizations.
                 </p>
                 <p
                   className="text-sm leading-relaxed max-w-lg font-light"
                   style={{
-                    fontFamily: "'Helica', sans-serif",
+                    fontFamily: "'Nunito', sans-serif",
                     color: "hsla(0, 0%, 0%, 0.85)",
                   }}
                 >
-                  Every session is a journey inward — a sacred space where healing,
-                  clarity, and deep transformation unfold naturally.
+                  This isn’t just entertainment. It’s an experience that leaves you questioning what you just witnessed—and what your mind is truly capable of.
                 </p>
               </motion.div>
             </div>
@@ -268,7 +266,7 @@ const Illusionist = () => {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6 }}
               >
-                What I Offer
+                Experiences
               </motion.h2>
 
               <div className="flex flex-col gap-6 items-center">

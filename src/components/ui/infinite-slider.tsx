@@ -82,6 +82,24 @@ export function InfiniteSlider({
     scroller.style.animationDelay = `-${progress * duration}s`;
   }, [duration, reverse, duplicated]);
 
+  // Keep offsets inside (-halfWidth, 0] so the cloned content always tiles the viewport
+  const normalizeOffsets = useCallback(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    const halfWidth = scroller.scrollWidth / 2;
+    if (!halfWidth) return;
+    while (smoothX.current > 0) {
+      smoothX.current -= halfWidth;
+      targetX.current -= halfWidth;
+      currentOffset.current -= halfWidth;
+    }
+    while (smoothX.current < -halfWidth) {
+      smoothX.current += halfWidth;
+      targetX.current += halfWidth;
+      currentOffset.current += halfWidth;
+    }
+  }, []);
+
   // Smooth drag loop — lerps toward target position at 60fps
   const startDragLoop = useCallback(() => {
     const scroller = scrollerRef.current;
@@ -90,11 +108,12 @@ export function InfiniteSlider({
       if (!isDragging.current) return;
       // Lerp: smoothly interpolate toward the target
       smoothX.current += (targetX.current - smoothX.current) * 0.35;
+      normalizeOffsets();
       scroller.style.transform = `translateX(${smoothX.current}px)`;
       dragRaf.current = requestAnimationFrame(loop);
     };
     dragRaf.current = requestAnimationFrame(loop);
-  }, []);
+  }, [normalizeOffsets]);
 
   const stopDragLoop = useCallback(() => {
     if (dragRaf.current) {
@@ -119,11 +138,12 @@ export function InfiniteSlider({
       currentOffset.current += velocity.current;
       // Smooth lerp for momentum too
       smoothX.current += (currentOffset.current - smoothX.current) * 0.4;
+      normalizeOffsets();
       scroller.style.transform = `translateX(${smoothX.current}px)`;
       momentumRaf.current = requestAnimationFrame(animate);
     };
     momentumRaf.current = requestAnimationFrame(animate);
-  }, [resumeAnimation]);
+  }, [resumeAnimation, normalizeOffsets]);
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     isDragging.current = true;

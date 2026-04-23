@@ -10,22 +10,22 @@ const approaches = [
   {
     label: "Somatic Awareness",
     text: "Reconnecting mind and body through guided presence — feeling what words cannot reach, releasing what the body holds in silence.",
-    fontFamily: "'Rogue Black', 'Impact', sans-serif",
+    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
   },
   {
     label: "Shadow Integration",
     text: "Gently illuminating the hidden parts of self. Not to fix, but to understand — transforming shame into wholeness, fear into freedom.",
-    fontFamily: "'Nunito', sans-serif",
+    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
   },
   {
     label: "Breathwork & Regulation",
     text: "Using the breath as an anchor to calm the nervous system, dissolve anxiety, and return to a state of deep inner stillness.",
-    fontFamily: "'Playfair Display', serif",
+    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
   },
   {
     label: "Relational Healing",
     text: "Exploring the patterns we carry from past bonds — learning to trust, to set boundaries, and to love without losing ourselves.",
-    fontFamily: "'Neuton', serif",
+    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
   },
 ];
 
@@ -156,7 +156,7 @@ const InnerWork = () => {
                 <p
                   className="text-lg leading-relaxed max-w-lg font-light"
                   style={{
-                    fontFamily: "'Guavine', sans-serif",
+                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
                     color: "#000000",
                   }}
                 >
@@ -167,7 +167,7 @@ const InnerWork = () => {
                 <p
                   className="text-sm leading-relaxed max-w-lg font-light"
                   style={{
-                    fontFamily: "'Guavine', sans-serif",
+                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
                     color: "#000000",
                   }}
                 >
