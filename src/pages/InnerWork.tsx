@@ -68,7 +68,7 @@ const InnerWork = () => {
         </button>
 
         {/* Fixed Contact Us button */}
-        <GetInTouchButton className="fixed top-6 right-6 z-50" variant="blue" />
+        <GetInTouchButton className="fixed top-6 right-6 z-50" variant="transparent" />
 
         {/* Scrollable content */}
         <div className="relative z-[2]">

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 interface GetInTouchButtonProps {
   className?: string;
-  variant?: "frost" | "blue";
+  variant?: "frost" | "blue" | "transparent";
 }
 
 const styles = {
@@ -33,9 +33,23 @@ const styles = {
       boxShadow: "inset 5px 5px 12px rgba(255, 255, 255, 0.7), inset -5px -5px 12px rgba(255, 255, 255, 0.4), 0 20px 40px rgba(80, 140, 255, 0.6), 0 10px 20px rgba(80, 140, 255, 0.4)",
     },
   },
+  transparent: {
+    default: {
+      border: "1px solid rgba(255, 255, 255, 0.45)",
+      boxShadow: "none",
+      backdropFilter: "blur(10px) saturate(1)",
+      background: "transparent",
+    },
+    hover: {
+      scale: 1.02,
+      y: -2,
+      boxShadow: "none",
+      background: "transparent",
+    },
+  },
 };
 
-const textColor = { frost: "black", blue: "hsl(0, 0%, 0%)" };
+const textColor = { frost: "black", blue: "hsl(0, 0%, 0%)", transparent: "hsl(0, 0%, 0%)" };
 
 const GetInTouchButton = ({ className = "", variant = "frost" }: GetInTouchButtonProps) => {
   const navigate = useNavigate();

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const GlassPanel = ({ side, label, onClick }: { side: "left" | "right"; label: string; onClick?: () => void }) => {
   const [hovered, setHovered] = useState(false);
   const radius = "7vh";
-  const variantClass = side === "left" ? "glass-button-wrap--transparent" : "glass-button-wrap--3d";
+  const variantClass = "glass-button-wrap--transparent";
 
   return (
     <div
