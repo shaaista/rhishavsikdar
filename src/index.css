@@ -399,6 +399,36 @@
       rgba(20, 55, 150, 0.05));
 }
 
+/* Transparent variant (landing page Illusion button) */
+.glass-button-wrap--transparent .glass-border-ring {
+  display: none;
+}
+
+.glass-button-wrap--transparent .glass-button {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: blur(10px) saturate(1);
+  -webkit-backdrop-filter: blur(10px) saturate(1);
+}
+
+.glass-button-wrap--transparent .glass-button::before {
+  background: none;
+}
+
+.glass-button-wrap--transparent:hover .glass-button {
+  transform: translateY(-2px) scale(1.02);
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: none;
+}
+
+.glass-button-wrap--transparent .glass-button-shadow,
+.glass-button-wrap--transparent:hover .glass-button-shadow {
+  opacity: 0;
+  background: none;
+}
+
 /* Reusable spinning blue border for InnerWork page glass components */
 .therapy-spin-border {
   position: absolute;
