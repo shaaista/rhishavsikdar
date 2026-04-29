@@ -13,9 +13,9 @@ const inputStyle: React.CSSProperties = {
   borderRadius: "1rem",
   padding: "0.9rem 1.25rem",
   outline: "none",
-  fontFamily: "'Helica', sans-serif",
+  fontFamily: "'Libre Baskerville', 'Baskerville', serif",
   fontSize: "0.95rem",
-  color: "hsl(0,0%,0%)",
+  color: "hsla(0,0%,100%,0.9)",
   transition: "border-color 0.25s, box-shadow 0.25s",
 };
 
@@ -37,7 +37,7 @@ const Contact = () => {
       <div className="relative w-screen min-h-screen bg-black">
         {/* Background */}
         <div className="fixed inset-0 z-0">
-          <Iridescence color={[0.5, 0.9, 1]} mouseReact amplitude={0.1} speed={0.2} />
+          <Iridescence color={[0.5, 0.6, 0.8]} mouseReact amplitude={0.1} speed={0.2} />
         </div>
         <div
           className="fixed inset-0 z-[1] pointer-events-none"
@@ -52,8 +52,9 @@ const Contact = () => {
           onClick={() => navigate(-1)}
           className="fixed top-6 left-6 z-50 p-2 rounded-full backdrop-blur-md bg-black/5 text-black/60 hover:text-black hover:bg-black/10 transition-all duration-300 cursor-pointer"
           style={{
-            border: "1px solid rgba(20, 55, 150, 0.3)",
-            boxShadow: "0 0 5px rgba(10, 40, 130, 0.2), 0 0 10px rgba(10, 40, 130, 0.1)",
+            border: "1px solid rgba(20, 55, 150, 0.6)",
+            boxShadow:
+              "0 0 5px rgba(10, 40, 130, 0.4), 0 0 10px rgba(10, 40, 130, 0.2), 0 0 15px rgba(10, 40, 130, 0.1)",
           }}
           aria-label="Back"
         >
@@ -78,7 +79,7 @@ const Contact = () => {
             </h1>
             <p
               className="mt-4 text-sm md:text-base font-light max-w-sm mx-auto"
-              style={{ fontFamily: "'Helica', sans-serif", color: "hsla(0,0%,0%,0.6)" }}
+              style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.85)" }}
             >
               Share a little about yourself and what you're seeking.
             </p>
@@ -88,10 +89,10 @@ const Contact = () => {
           <motion.div
             className="w-full max-w-lg rounded-3xl p-8 flex flex-col gap-5"
             style={{
-              background: "linear-gradient(135deg, hsla(0,0%,100%,0.07) 0%, hsla(0,0%,100%,0.02) 100%)",
-              border: "1px solid rgba(20, 55, 150, 0.25)",
-              backdropFilter: "blur(28px)",
-              boxShadow: "0 0 20px rgba(10, 40, 130, 0.08), 0 20px 60px rgba(0,0,0,0.06)",
+              background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
+              border: "1px solid rgba(20, 55, 150, 0.6)",
+              backdropFilter: "blur(20px)",
+              boxShadow: "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
             }}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -100,8 +101,8 @@ const Contact = () => {
             {/* Name */}
             <div className="flex flex-col gap-1.5">
               <label
-                className="text-[0.7rem] uppercase tracking-[0.3em] font-light"
-                style={{ fontFamily: "'Nestborn', sans-serif", color: "hsla(0,0%,0%,0.45)" }}
+                className="text-base leading-relaxed font-light"
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.85)" }}
               >
                 Your Name
               </label>
@@ -119,8 +120,8 @@ const Contact = () => {
             {/* Email */}
             <div className="flex flex-col gap-1.5">
               <label
-                className="text-[0.7rem] uppercase tracking-[0.3em] font-light"
-                style={{ fontFamily: "'Nestborn', sans-serif", color: "hsla(0,0%,0%,0.45)" }}
+                className="text-base leading-relaxed font-light"
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.85)" }}
               >
                 Email Address
               </label>
@@ -138,8 +139,8 @@ const Contact = () => {
             {/* Message */}
             <div className="flex flex-col gap-1.5">
               <label
-                className="text-[0.7rem] uppercase tracking-[0.3em] font-light"
-                style={{ fontFamily: "'Nestborn', sans-serif", color: "hsla(0,0%,0%,0.45)" }}
+                className="text-base leading-relaxed font-light"
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.85)" }}
               >
                 Your Message
               </label>
@@ -199,7 +200,7 @@ const Contact = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[0.72rem] tracking-wide no-underline transition-opacity duration-200 hover:opacity-70"
-                style={{ fontFamily: "'Helica', sans-serif", color: "hsla(0,0%,0%,0.4)" }}
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.85)" }}
               >
                 {item.label}
               </a>
