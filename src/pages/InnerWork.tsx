@@ -118,7 +118,7 @@ const InnerWork = () => {
 
               {/* Text content */}
               <motion.div
-                className="w-full md:w-[55%] flex flex-col gap-6"
+                className="w-full md:w-[55%] flex flex-col gap-6 items-center text-center"
                 initial={{ opacity: 0, x: 60 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
@@ -144,7 +144,7 @@ const InnerWork = () => {
                   }}
                 />
                 <div
-                  className="relative w-full p-6 md:p-8 rounded-2xl flex flex-col gap-4"
+                  className="relative w-full p-6 md:p-8 rounded-2xl flex flex-col gap-4 items-center text-center"
                   style={{
                     background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
                     border: "1px solid rgba(20, 55, 150, 0.6)",
@@ -153,7 +153,7 @@ const InnerWork = () => {
                   }}
                 >
                   <p
-                    className="text-lg leading-relaxed max-w-lg font-light"
+                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
                     style={{
                       fontFamily: "'Libre Baskerville', 'Baskerville', serif",
                       color: "#000000",
@@ -162,7 +162,7 @@ const InnerWork = () => {
                     Beyond the stage, my work goes inward.
                   </p>
                   <p
-                    className="text-lg leading-relaxed max-w-lg font-light"
+                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
                     style={{
                       fontFamily: "'Libre Baskerville', 'Baskerville', serif",
                       color: "#000000",
@@ -171,7 +171,7 @@ const InnerWork = () => {
                     I’m a certified professional hypnotherapist trained with the Jacquin Hypnosis Academy, a Level-3 Reiki Master Healer, and a certified EFT (Emotional Freedom Technique) therapist, with over 16 years of experience in healing and therapeutic work.
                   </p>
                   <p
-                    className="text-lg leading-relaxed max-w-lg font-light"
+                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
                     style={{
                       fontFamily: "'Libre Baskerville', 'Baskerville', serif",
                       color: "#000000",
@@ -180,7 +180,7 @@ const InnerWork = () => {
                     My approach is direct, intuitive, and results-driven – working at the level of the subconscious mind to create real, lasting change.
                   </p>
                   <p
-                    className="text-lg leading-relaxed max-w-lg font-light"
+                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
                     style={{
                       fontFamily: "'Libre Baskerville', 'Baskerville', serif",
                       color: "#000000",

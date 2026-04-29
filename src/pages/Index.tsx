@@ -42,16 +42,14 @@ const Index = () => {
 
           {/* Photo Section */}
           <div className="relative flex-1 w-full flex justify-center items-end z-[3] pb-0 mt-[8vh] md:mt-0 pt-0 md:pt-0">
-            <div className="landing-clear-glass-frame relative z-[2] translate-x-0 -translate-y-[1%] md:-translate-y-[5%]">
-              <img
-                src={portraitImg}
-                alt="Rhishav Sikdar"
-                className="w-full h-full object-contain object-center drop-shadow-2xl origin-center scale-[1.42] md:scale-[1.3]"
-                style={{
-                  filter: "brightness(1) contrast(1.15) saturate(1.1)",
-                }}
-              />
-            </div>
+            <img
+              src={portraitImg}
+              alt="Rhishav Sikdar"
+              className="relative z-[2] w-auto h-full max-h-[48vh] md:max-h-[75vh] object-contain object-bottom drop-shadow-2xl origin-bottom scale-[1.2] md:scale-[1.15] -translate-x-[2%] md:translate-x-0 translate-y-[10%] md:translate-y-[10%]"
+              style={{
+                filter: "brightness(1) contrast(1.15) saturate(1.1)",
+              }}
+            />
           </div>
 
         </div>

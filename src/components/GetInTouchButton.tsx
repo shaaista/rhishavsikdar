@@ -35,7 +35,7 @@ const styles = {
   },
   transparent: {
     default: {
-      border: "1px solid rgba(255, 255, 255, 0.45)",
+      border: "1px solid rgba(20, 55, 150, 0.72)",
       boxShadow: "none",
       backdropFilter: "blur(10px) saturate(1)",
       background: "transparent",
@@ -43,6 +43,7 @@ const styles = {
     hover: {
       scale: 1.02,
       y: -2,
+      border: "1px solid rgba(20, 55, 150, 0.9)",
       boxShadow: "none",
       background: "transparent",
     },

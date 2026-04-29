@@ -196,7 +196,7 @@ const Illusionist = () => {
 
               {/* Text content */}
               <motion.div
-                className="w-full md:w-[55%] flex flex-col gap-6"
+                className="w-full md:w-[55%] flex flex-col gap-6 items-center text-center"
                 initial={{ opacity: 0, x: 60 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
@@ -222,7 +222,7 @@ const Illusionist = () => {
                   }}
                 />
                 <div
-                  className="relative w-full p-6 md:p-8 rounded-2xl flex flex-col gap-4"
+                  className="relative w-full p-6 md:p-8 rounded-2xl flex flex-col gap-4 items-center text-center"
                   style={{
                     background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
                     border: "1px solid rgba(20, 55, 150, 0.6)",
@@ -231,7 +231,7 @@ const Illusionist = () => {
                   }}
                 >
                   <p
-                    className="text-lg leading-relaxed max-w-lg font-light"
+                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
                     style={{
                       fontFamily: "'Libre Baskerville', 'Baskerville', serif",
                       color: "hsla(0, 0%, 0%, 0.85)",
@@ -240,7 +240,7 @@ const Illusionist = () => {
                     For over 18 years, I’ve studied and performed the art of magic and mentalism – blending psychology, intuition, and illusion to create extraordinary experiences.
                   </p>
                   <p
-                    className="text-lg leading-relaxed max-w-lg font-light"
+                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
                     style={{
                       fontFamily: "'Libre Baskerville', 'Baskerville', serif",
                       color: "hsla(0, 0%, 0%, 0.85)",
@@ -249,7 +249,7 @@ const Illusionist = () => {
                     With 8+ years as a professional, I’ve performed over 600 shows for 100+ corporate organizations.
                   </p>
                   <p
-                    className="text-lg leading-relaxed max-w-lg font-light"
+                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
                     style={{
                       fontFamily: "'Libre Baskerville', 'Baskerville', serif",
                       color: "hsla(0, 0%, 0%, 0.85)",
