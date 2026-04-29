@@ -8,7 +8,7 @@ const GlassPanel = ({ side, label, onClick }: { side: "left" | "right"; label: s
 
   return (
     <div
-      className={`glass-button-wrap ${variantClass} w-[41%] md:w-[22%] h-full pointer-events-auto cursor-pointer`}
+      className={`glass-button-wrap ${variantClass} w-[43%] md:w-[24%] h-full pointer-events-auto cursor-pointer`}
       style={{ borderRadius: radius }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
