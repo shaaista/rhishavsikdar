@@ -87,22 +87,22 @@ const services = [
     number: "01",
     title: "Stage",
     description:
-      "A highly interactive stage performance featuring raw, unfiltered mentalism — where thoughts are revealed, predictions unfold, and entire rooms share moments they’ll never forget.",
-    fontFamily: "'Nunito', sans-serif",
+      "A highly interactive stage performance that delves into the workings of the human mind, featuring raw, unfiltered mentalism. Thoughts are revealed, predictions unfold, and the entire audience is brought together in a shared experience of wonder.",
+    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
   },
   {
     number: "02",
     title: "Close-up",
     description:
-      "An intimate, walk-around experience designed for smaller groups within a larger setting — where the magic happens inches away, and reality bends in the most direct and astonishing way.",
-    fontFamily: "'Nunito', sans-serif",
+      "An intimate, walk-around experience tailored for individuals and smaller groups within a larger setting. Using only borrowed items from the audience, the magic happens up close – bending reality in the most direct and astonishing way.",
+    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
   },
   {
     number: "03",
     title: "Complete",
     description:
-      "The best of both worlds — a full-scale experience that combines the impact of stage with the depth of close-up, designed to engage your audience at every level.",
-    fontFamily: "'Nunito', sans-serif",
+      "The best of both worlds – a full-scale experience that combines the impact of stage with the depth of close-up. It begins with an immersive stage performance and seamlessly flows into close-up, engaging the audience at every level and creating memories for a lifetime.",
+    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
   },
 ];
 
@@ -224,29 +224,29 @@ const Illusionist = () => {
                 <p
                   className="text-lg leading-relaxed max-w-lg font-light"
                   style={{
-                    fontFamily: "'Nunito', sans-serif",
+                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
                     color: "hsla(0, 0%, 0%, 0.85)",
                   }}
                 >
-                  For over 18 years, I’ve studied and performed the art of magic and mentalism—blending psychology, intuition, and illusion to create unforgettable experiences.
+                  For over 18 years, I’ve studied and performed the art of magic and mentalism – blending psychology, intuition, and illusion to create extraordinary experiences.
                 </p>
                 <p
                   className="text-base leading-relaxed max-w-lg font-light"
                   style={{
-                    fontFamily: "'Nunito', sans-serif",
+                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
                     color: "hsla(0, 0%, 0%, 0.85)",
                   }}
                 >
-                  With 8+ years as a professional, I’ve performed over 600 shows for close to 100 corporate organizations.
+                  With 8+ years as a professional, I’ve performed over 600 shows for 100+ corporate organizations.
                 </p>
                 <p
                   className="text-sm leading-relaxed max-w-lg font-light"
                   style={{
-                    fontFamily: "'Nunito', sans-serif",
+                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
                     color: "hsla(0, 0%, 0%, 0.85)",
                   }}
                 >
-                  This isn’t just entertainment. It’s an experience that leaves you questioning what you just witnessed—and what your mind is truly capable of.
+                  This isn’t just a show – it’s an experience that brings you in touch with what your mind is truly capable of.
                 </p>
               </motion.div>
             </div>

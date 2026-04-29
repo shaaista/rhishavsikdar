@@ -3,28 +3,18 @@ import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
-import portraitImg from "@/assets/innerwork.png";
+import portraitImg from "@/assets/innerworkwithbg.png";
 import GetInTouchButton from "@/components/GetInTouchButton";
 
 const approaches = [
   {
-    label: "Somatic Awareness",
-    text: "Reconnecting mind and body through guided presence — feeling what words cannot reach, releasing what the body holds in silence.",
+    label: "Corporate Reset",
+    text: "For organisations that care about their people and want them to function at their best, this is a 60-minute guided hypnotherapy session to release stress, reset the mind, and enhance focus – creating a calmer, more resilient workforce.\n\nEach session is tailored to the specific needs of the organisation.\n\nAvailable online or in person.\nIdeal for groups of 50–100.",
     fontFamily: "'Libre Baskerville', 'Baskerville', serif",
   },
   {
-    label: "Shadow Integration",
-    text: "Gently illuminating the hidden parts of self. Not to fix, but to understand — transforming shame into wholeness, fear into freedom.",
-    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-  },
-  {
-    label: "Breathwork & Regulation",
-    text: "Using the breath as an anchor to calm the nervous system, dissolve anxiety, and return to a state of deep inner stillness.",
-    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-  },
-  {
-    label: "Relational Healing",
-    text: "Exploring the patterns we carry from past bonds — learning to trust, to set boundaries, and to love without losing ourselves.",
+    label: "Personal Reset",
+    text: "Deep, one-on-one work focused on resolving challenges at the root.\n\nFrom addictions and habits to stress, anxiety, trauma, panic attacks, physical pain, phobias, emotional patterns, and chronic issues linked to the mind – this work focuses on shifting the underlying patterns of the subconscious mind, leading to changes that feel natural, effortless, and lasting.",
     fontFamily: "'Libre Baskerville', 'Baskerville', serif",
   },
 ];
@@ -103,7 +93,7 @@ const InnerWork = () => {
                   <img
                     src={portraitImg}
                     alt="Rhishav Sikdar"
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-full object-cover"
                     style={{
                       filter: "brightness(0.95) contrast(1.05) saturate(0.9)",
                     }}
@@ -160,9 +150,7 @@ const InnerWork = () => {
                     color: "#000000",
                   }}
                 >
-                  A safe, sacred space to unravel, to feel, to become. InnerWork is
-                  not about fixing — it's about returning to the truth of who you
-                  already are.
+                  Beyond the stage, my work goes inward.
                 </p>
                 <p
                   className="text-sm leading-relaxed max-w-lg font-light"
@@ -171,8 +159,25 @@ const InnerWork = () => {
                     color: "#000000",
                   }}
                 >
-                  Every session is a journey inward — a sacred space where healing,
-                  clarity, and deep transformation unfold naturally.
+                  I’m a certified professional hypnotherapist trained with the Jacquin Hypnosis Academy, a Level-3 Reiki Master Healer, and a certified EFT (Emotional Freedom Technique) therapist, with over 16 years of experience in healing and therapeutic work.
+                </p>
+                <p
+                  className="text-sm leading-relaxed max-w-lg font-light"
+                  style={{
+                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+                    color: "#000000",
+                  }}
+                >
+                  My approach is direct, intuitive, and results-driven – working at the level of the subconscious mind to create real, lasting change.
+                </p>
+                <p
+                  className="text-sm leading-relaxed max-w-lg font-light"
+                  style={{
+                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+                    color: "#000000",
+                  }}
+                >
+                  With a background in IT, specialising in project management and employee welfare, I bring a practical understanding of workplace challenges into this work.
                 </p>
               </motion.div>
             </div>
@@ -192,7 +197,7 @@ const InnerWork = () => {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6 }}
               >
-                The Approach
+                My Offerings
               </motion.h2>
 
               <div className="flex flex-col gap-6 items-center">
@@ -224,7 +229,7 @@ const InnerWork = () => {
                       {item.label}
                     </h3>
                     <p
-                      className="text-base leading-relaxed font-light"
+                      className="text-base leading-relaxed font-light whitespace-pre-line"
                       style={{
                         fontFamily: item.fontFamily,
                         color: "#000000",

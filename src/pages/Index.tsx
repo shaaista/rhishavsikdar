@@ -1,9 +1,8 @@
-import portraitImg from "@/assets/mainphoto2.png";
+import portraitImg from "@/assets/landingpage.png";
 import WebGLCanvas from "@/components/WebGLCanvas";
 import SplitName from "@/components/SplitName";
 import GlassBlobs from "@/components/GlassBlobs";
 import PageTransition from "@/components/PageTransition";
-import GetInTouchButton from "@/components/GetInTouchButton";
 
 const blocks = [
   { title: "About", description: "Designer & developer crafting digital experiences with precision and soul." },
@@ -46,7 +45,7 @@ const Index = () => {
             <img
               src={portraitImg}
               alt="Rhishav Sikdar"
-              className="w-auto h-full max-h-[48vh] md:max-h-[75vh] object-contain object-bottom drop-shadow-2xl origin-bottom"
+              className="w-auto h-full max-h-[48vh] md:max-h-[75vh] object-contain object-bottom drop-shadow-2xl origin-bottom md:scale-[1.15]"
               style={{
                 filter: "brightness(1) contrast(1.15) saturate(1.1)",
               }}
@@ -57,12 +56,6 @@ const Index = () => {
 
         {/* Glass blobs */}
         <GlassBlobs />
-
-        {/* Get in Touch — mobile only, centered below Illusion/InnerWork buttons */}
-        <GetInTouchButton
-          className="md:hidden fixed top-[42vh] left-1/2 -translate-x-1/2 z-[10] pointer-events-auto"
-          variant="blue"
-        />
 
       </div>
     </PageTransition>
