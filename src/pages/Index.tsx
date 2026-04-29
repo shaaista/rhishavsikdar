@@ -1,4 +1,4 @@
-import portraitImg from "@/assets/landingpage.png";
+import portraitImg from "@/assets/landingpageformal.png";
 import WebGLCanvas from "@/components/WebGLCanvas";
 import SplitName from "@/components/SplitName";
 import GlassBlobs from "@/components/GlassBlobs";
