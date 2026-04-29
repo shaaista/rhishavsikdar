@@ -143,42 +143,52 @@ const InnerWork = () => {
                       "linear-gradient(to right, hsla(0, 0%, 0%, 0.6), transparent)",
                   }}
                 />
-                <p
-                  className="text-lg leading-relaxed max-w-lg font-light"
+                <div
+                  className="relative w-full p-6 md:p-8 rounded-2xl flex flex-col gap-4"
                   style={{
-                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                    color: "#000000",
+                    background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
+                    border: "1px solid rgba(20, 55, 150, 0.6)",
+                    backdropFilter: "blur(20px)",
+                    boxShadow: "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
                   }}
                 >
-                  Beyond the stage, my work goes inward.
-                </p>
-                <p
-                  className="text-sm leading-relaxed max-w-lg font-light"
-                  style={{
-                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                    color: "#000000",
-                  }}
-                >
-                  I’m a certified professional hypnotherapist trained with the Jacquin Hypnosis Academy, a Level-3 Reiki Master Healer, and a certified EFT (Emotional Freedom Technique) therapist, with over 16 years of experience in healing and therapeutic work.
-                </p>
-                <p
-                  className="text-sm leading-relaxed max-w-lg font-light"
-                  style={{
-                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                    color: "#000000",
-                  }}
-                >
-                  My approach is direct, intuitive, and results-driven – working at the level of the subconscious mind to create real, lasting change.
-                </p>
-                <p
-                  className="text-sm leading-relaxed max-w-lg font-light"
-                  style={{
-                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                    color: "#000000",
-                  }}
-                >
-                  With a background in IT, specialising in project management and employee welfare, I bring a practical understanding of workplace challenges into this work.
-                </p>
+                  <p
+                    className="text-lg leading-relaxed max-w-lg font-light"
+                    style={{
+                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+                      color: "#000000",
+                    }}
+                  >
+                    Beyond the stage, my work goes inward.
+                  </p>
+                  <p
+                    className="text-lg leading-relaxed max-w-lg font-light"
+                    style={{
+                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+                      color: "#000000",
+                    }}
+                  >
+                    I’m a certified professional hypnotherapist trained with the Jacquin Hypnosis Academy, a Level-3 Reiki Master Healer, and a certified EFT (Emotional Freedom Technique) therapist, with over 16 years of experience in healing and therapeutic work.
+                  </p>
+                  <p
+                    className="text-lg leading-relaxed max-w-lg font-light"
+                    style={{
+                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+                      color: "#000000",
+                    }}
+                  >
+                    My approach is direct, intuitive, and results-driven – working at the level of the subconscious mind to create real, lasting change.
+                  </p>
+                  <p
+                    className="text-lg leading-relaxed max-w-lg font-light"
+                    style={{
+                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+                      color: "#000000",
+                    }}
+                  >
+                    With a background in IT, specialising in project management and employee welfare, I bring a practical understanding of workplace challenges into this work.
+                  </p>
+                </div>
               </motion.div>
             </div>
           </section>
@@ -243,35 +253,7 @@ const InnerWork = () => {
             </div>
           </section>
 
-          {/* Quote section */}
-          <section className="px-6 md:px-16 lg:px-24 py-24">
-            <motion.div
-              className="max-w-3xl mx-auto text-center"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.8 }}
-            >
-              <div
-                className="text-[6vw] md:text-[2.5vw] leading-[1.3] italic"
-                style={{
-                  fontFamily: "'Nestborn', sans-serif",
-                  color: "hsl(0, 0%, 0%)",
-                }}
-              >
-                "Healing doesn't ask you to be strong.
-                <br />
-                It asks you to be honest."
-              </div>
-              <div
-                className="mt-8 w-8 h-[1px] mx-auto"
-                style={{
-                  background:
-                    "linear-gradient(to right, transparent, hsla(0, 0%, 0%, 0.4), transparent)",
-                }}
-              />
-            </motion.div>
-          </section>
+
         </div>
       </div>
     </PageTransition>

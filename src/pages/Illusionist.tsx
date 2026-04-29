@@ -221,33 +221,43 @@ const Illusionist = () => {
                       "linear-gradient(to right, hsla(0, 0%, 0%, 0.6), transparent)",
                   }}
                 />
-                <p
-                  className="text-lg leading-relaxed max-w-lg font-light"
+                <div
+                  className="relative w-full p-6 md:p-8 rounded-2xl flex flex-col gap-4"
                   style={{
-                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                    color: "hsla(0, 0%, 0%, 0.85)",
+                    background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
+                    border: "1px solid rgba(20, 55, 150, 0.6)",
+                    backdropFilter: "blur(20px)",
+                    boxShadow: "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
                   }}
                 >
-                  For over 18 years, I’ve studied and performed the art of magic and mentalism – blending psychology, intuition, and illusion to create extraordinary experiences.
-                </p>
-                <p
-                  className="text-base leading-relaxed max-w-lg font-light"
-                  style={{
-                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                    color: "hsla(0, 0%, 0%, 0.85)",
-                  }}
-                >
-                  With 8+ years as a professional, I’ve performed over 600 shows for 100+ corporate organizations.
-                </p>
-                <p
-                  className="text-sm leading-relaxed max-w-lg font-light"
-                  style={{
-                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                    color: "hsla(0, 0%, 0%, 0.85)",
-                  }}
-                >
-                  This isn’t just a show – it’s an experience that brings you in touch with what your mind is truly capable of.
-                </p>
+                  <p
+                    className="text-lg leading-relaxed max-w-lg font-light"
+                    style={{
+                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+                      color: "hsla(0, 0%, 0%, 0.85)",
+                    }}
+                  >
+                    For over 18 years, I’ve studied and performed the art of magic and mentalism – blending psychology, intuition, and illusion to create extraordinary experiences.
+                  </p>
+                  <p
+                    className="text-lg leading-relaxed max-w-lg font-light"
+                    style={{
+                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+                      color: "hsla(0, 0%, 0%, 0.85)",
+                    }}
+                  >
+                    With 8+ years as a professional, I’ve performed over 600 shows for 100+ corporate organizations.
+                  </p>
+                  <p
+                    className="text-lg leading-relaxed max-w-lg font-light"
+                    style={{
+                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+                      color: "hsla(0, 0%, 0%, 0.85)",
+                    }}
+                  >
+                    This isn’t just a show – it’s an experience that brings you in touch with what your mind is truly capable of.
+                  </p>
+                </div>
               </motion.div>
             </div>
           </section>
