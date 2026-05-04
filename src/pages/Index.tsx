@@ -59,9 +59,9 @@ const Index = () => {
         <GlassBlobs />
 
         {/* Social Icons Bottom Right */}
-        <div className="fixed bottom-6 right-6 z-[10] flex gap-4 pointer-events-auto">
+        <div className="fixed bottom-6 right-6 z-[10] hidden md:flex gap-4 pointer-events-auto">
           {/* Fill these hrefs with your profile links */}
-          <a href="#" className="text-black/60 hover:text-black transition-colors" aria-label="Instagram">
+          <a href="https://www.instagram.com/rhishavsikdar?igsh=MWVqbGl3c2NjYzczag==" target="_blank" rel="noopener noreferrer" className="text-black/60 hover:text-black transition-colors" aria-label="Instagram">
             <Instagram className="w-6 h-6" />
           </a>
           {/* Fill these hrefs with your profile links */}

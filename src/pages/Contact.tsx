@@ -191,7 +191,7 @@ const Contact = () => {
           >
             {/* Fill these hrefs with your profile links */}
             <a
-              href="#"
+              href="https://www.instagram.com/rhishavsikdar?igsh=MWVqbGl3c2NjYzczag=="
               target="_blank"
               rel="noopener noreferrer"
               className="text-black/70 hover:text-black transition-colors duration-200"
