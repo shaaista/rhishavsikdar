@@ -65,11 +65,11 @@ const Index = () => {
             <Instagram className="w-6 h-6" />
           </a>
           {/* Fill these hrefs with your profile links */}
-          <a href="#" className="text-black/60 hover:text-black transition-colors" aria-label="YouTube">
+          <a href="https://youtube.com/@rhishavsikdar?si=iRdfGgLjCsur0Fvy" target="_blank" rel="noopener noreferrer" className="text-black/60 hover:text-black transition-colors" aria-label="YouTube">
             <Youtube className="w-6 h-6" />
           </a>
           {/* Fill these hrefs with your profile links */}
-          <a href="#" className="text-black/60 hover:text-black transition-colors" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/in/rhishavsikdar?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" className="text-black/60 hover:text-black transition-colors" aria-label="LinkedIn">
             <Linkedin className="w-6 h-6" />
           </a>
         </div>

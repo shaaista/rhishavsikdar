@@ -200,7 +200,7 @@ const Contact = () => {
               <Instagram className="w-7 h-7" />
             </a>
             <a
-              href="#"
+              href="https://youtube.com/@rhishavsikdar?si=iRdfGgLjCsur0Fvy"
               target="_blank"
               rel="noopener noreferrer"
               className="text-black/70 hover:text-black transition-colors duration-200"
@@ -209,7 +209,7 @@ const Contact = () => {
               <Youtube className="w-7 h-7" />
             </a>
             <a
-              href="#"
+              href="https://www.linkedin.com/in/rhishavsikdar?utm_source=share_via&utm_content=profile&utm_medium=member_android"
               target="_blank"
               rel="noopener noreferrer"
               className="text-black/70 hover:text-black transition-colors duration-200"
