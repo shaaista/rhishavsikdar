@@ -99,7 +99,7 @@ const InnerWork = () => {
         {/* Scrollable content */}
         <div className="relative z-[2]">
           {/* Hero section — image left, text right */}
-          <section className="min-h-screen flex items-center px-6 md:px-16 lg:px-24 py-24">
+          <section className="pt-32 pb-12 md:pt-40 md:pb-16 flex items-center px-6 md:px-16 lg:px-24">
             <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16 w-full max-w-6xl mx-auto">
               {/* Portrait */}
               <motion.div
@@ -216,10 +216,10 @@ const InnerWork = () => {
           </section>
 
           {/* Approaches section */}
-          <section className="px-6 md:px-16 lg:px-24 pb-32">
+          <section className="px-6 md:px-16 lg:px-24 pb-10">
             <div className="max-w-5xl mx-auto">
               <motion.h2
-                className="text-[8vw] md:text-[3vw] uppercase tracking-[0.2em] mb-16 text-center"
+                className="text-[8vw] md:text-[3vw] uppercase tracking-[0.2em] mb-6 text-center"
                 style={{
                   fontFamily: "'Nestborn', sans-serif",
                   color: "hsl(0, 0%, 0%)",
