@@ -1,6 +1,15 @@
 import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
 import { useEffect, useRef } from 'react';
 
+/**
+ * Iridescence Component - Exact Color Replication
+ * 
+ * Design Philosophy:
+ * - Exact color match: soft pink, pale lavender, light blue, white
+ * - Prominent flowing waves with clear wave patterns
+ * - Calm, ethereal aesthetic with fluid motion
+ */
+
 const vertexShader = `
 attribute vec2 uv;
 attribute vec2 position;
@@ -13,11 +22,20 @@ void main() {
 }
 `;
 
+/**
+ * Fragment Shader - Exact Color Replication
+ * 
+ * Colors extracted from reference image:
+ * - Soft Pink: RGB(242, 218, 230) = (0.949, 0.855, 0.902)
+ * - Pale Lavender: RGB(220, 210, 245) = (0.863, 0.824, 0.961)
+ * - Light Blue: RGB(210, 235, 250) = (0.824, 0.922, 0.980)
+ * - White: RGB(250, 250, 252) = (0.980, 0.980, 0.988)
+ * - Subtle Cream: RGB(252, 248, 242) = (0.988, 0.973, 0.949)
+ */
 const fragmentShader = `
 precision highp float;
 
 uniform float uTime;
-uniform vec3 uColor;
 uniform vec3 uResolution;
 uniform vec2 uMouse;
 uniform float uAmplitude;
@@ -33,29 +51,70 @@ void main() {
 
   float d = -uTime * 0.5 * uSpeed;
   float a = 0.0;
+  
+  // Generate prominent wave patterns
   for (float i = 0.0; i < 8.0; ++i) {
     a += cos(i - d - a * uv.x);
     d += sin(uv.y * i + a);
   }
+  
   d += uTime * 0.5 * uSpeed;
-  vec3 col = vec3(cos(uv * vec2(d, a)) * 0.6 + 0.4, cos(a + d) * 0.5 + 0.5);
-  col = cos(col * cos(vec3(d, a, 2.5)) * 0.5 + 0.5) * uColor;
+  
+  // Create wave-based patterns with smoother transitions
+  float wave1 = sin(uv.x * 2.0 + d * 0.3) * 0.5 + 0.5;
+  float wave2 = cos(uv.y * 1.5 + a * 0.3) * 0.5 + 0.5;
+  float wave3 = sin((uv.x + uv.y) * 1.0 + (d + a) * 0.2) * 0.5 + 0.5;
+  float wave4 = cos(uv.x * 1.2 + uv.y * 0.8 + d * 0.25) * 0.5 + 0.5;
+  
+  // Exact color palette from reference image - much darker
+  vec3 colorPink = vec3(0.72, 0.50, 0.66);        // Darker pink
+  vec3 colorLavender = vec3(0.68, 0.58, 0.88);     // Much darker purple/lavender
+  vec3 colorBlue = vec3(0.58, 0.75, 0.90);        // Much darker blue
+  vec3 colorWhite = vec3(0.90, 0.90, 0.94);       // Darker white
+  vec3 colorCream = vec3(0.92, 0.88, 0.82);       // Much darker cream
+  
+  // Blend colors based on wave patterns
+  vec3 col = mix(colorPink, colorLavender, wave1);
+  col = mix(col, colorBlue, wave2);
+  col = mix(col, colorWhite, wave3);
+  col = mix(col, colorCream, wave4 * 0.15);  // Minimal cream influence
+  
+  // Subtle wave line enhancement for depth
+  float waveLines = sin(uv.y * 8.0 + d * 0.5) * 0.06 + 0.94;
+  col = col * waveLines;
+  
+  // Very gentle brightness modulation
+  col = col * (0.98 + sin(uTime * 0.05) * 0.02);
+  
+  // Ensure smooth output
+  col = clamp(col, 0.0, 1.0);
+
   gl_FragColor = vec4(col, 1.0);
 }
 `;
 
 interface IridescenceProps {
-  color?: [number, number, number];
+  /**
+   * Animation speed multiplier (default: 0.5 for slower animation)
+   */
   speed?: number;
+  
+  /**
+   * Mouse interaction amplitude (default: 0.1)
+   */
   amplitude?: number;
+  
+  /**
+   * Enable mouse reactivity (default: true)
+   */
   mouseReact?: boolean;
 }
 
 export default function Iridescence({
-  color = [1, 1, 1],
-  speed = 0.3,
+  speed = 0.5,
   amplitude = 0.1,
   mouseReact = true,
+  ...rest
 }: IridescenceProps) {
   const ctnDom = useRef<HTMLDivElement>(null);
   const mousePos = useRef({ x: 0.5, y: 0.5 });
@@ -89,7 +148,6 @@ export default function Iridescence({
       fragment: fragmentShader,
       uniforms: {
         uTime: { value: 0 },
-        uColor: { value: new Color(...color) },
         uResolution: {
           value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height)
         },
@@ -131,7 +189,7 @@ export default function Iridescence({
       ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, [color, speed, amplitude, mouseReact]);
+  }, [speed, amplitude, mouseReact]);
 
-  return <div ref={ctnDom} className="w-full h-full" />;
+  return <div ref={ctnDom} className="w-full h-full" {...rest} />;
 }

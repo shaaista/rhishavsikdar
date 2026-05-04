@@ -1,5 +1,5 @@
 import portraitImg from "@/assets/landingpageformal.png";
-import InnerWorkIridescence from "@/components/InnerWorkIridescence";
+import Iridescence from "@/components/Iridescence";
 import SplitName from "@/components/SplitName";
 import GlassBlobs from "@/components/GlassBlobs";
 import PageTransition from "@/components/PageTransition";
@@ -18,7 +18,7 @@ const Index = () => {
       <div className="relative h-screen overflow-hidden flex flex-col bg-black">
         {/* Fixed iridescent background */}
         <div className="fixed inset-0 z-0">
-          <InnerWorkIridescence
+          <Iridescence
             mouseReact
             amplitude={0.1}
             speed={1}

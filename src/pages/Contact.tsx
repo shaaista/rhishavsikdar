@@ -37,7 +37,7 @@ const Contact = () => {
       <div className="relative w-screen min-h-screen bg-black">
         {/* Background */}
         <div className="fixed inset-0 z-0">
-          <Iridescence color={[0.5, 0.6, 0.8]} mouseReact amplitude={0.1} speed={0.2} />
+          <Iridescence mouseReact amplitude={0.1} speed={1} />
         </div>
         <div
           className="fixed inset-0 z-[1] pointer-events-none"

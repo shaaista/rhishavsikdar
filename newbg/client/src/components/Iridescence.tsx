@@ -66,12 +66,12 @@ void main() {
   float wave3 = sin((uv.x + uv.y) * 1.0 + (d + a) * 0.2) * 0.5 + 0.5;
   float wave4 = cos(uv.x * 1.2 + uv.y * 0.8 + d * 0.25) * 0.5 + 0.5;
   
-  // Exact color palette from reference image - darkened
-  vec3 colorPink = vec3(0.88, 0.72, 0.82);        // Darker pink
-  vec3 colorLavender = vec3(0.78, 0.70, 0.92);     // Darker lavender
-  vec3 colorBlue = vec3(0.70, 0.85, 0.95);        // Darker blue
-  vec3 colorWhite = vec3(0.95, 0.95, 0.97);       // Slightly darker white
-  vec3 colorCream = vec3(0.96, 0.94, 0.90);       // Darker cream
+  // Exact color palette from reference image - much darker
+  vec3 colorPink = vec3(0.72, 0.50, 0.66);        // Darker pink
+  vec3 colorLavender = vec3(0.68, 0.58, 0.88);     // Much darker purple/lavender
+  vec3 colorBlue = vec3(0.58, 0.75, 0.90);        // Much darker blue
+  vec3 colorWhite = vec3(0.90, 0.90, 0.94);       // Darker white
+  vec3 colorCream = vec3(0.92, 0.88, 0.82);       // Much darker cream
   
   // Blend colors based on wave patterns
   vec3 col = mix(colorPink, colorLavender, wave1);

@@ -2,9 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
-import InnerWorkIridescence from "@/components/InnerWorkIridescence";
+import Iridescence from "@/components/Iridescence";
 import portraitImg from "@/assets/innerworkwithbg.png";
-import GetInTouchButton from "@/components/GetInTouchButton";
 import { useState } from "react";
 
 const GlassCallButton = ({ label, onClick }: { label: string; onClick?: () => void }) => {
@@ -67,7 +66,7 @@ const InnerWork = () => {
       <div className="relative w-screen min-h-screen bg-black">
         {/* Fixed iridescent background */}
         <div className="fixed inset-0 z-0">
-          <InnerWorkIridescence
+          <Iridescence
             mouseReact
             amplitude={0.1}
             speed={1}
@@ -97,21 +96,29 @@ const InnerWork = () => {
           <ArrowLeft className="w-4 h-4" />
         </button>
 
-        {/* Fixed Contact Us button */}
-        <GetInTouchButton className="fixed top-6 right-6 z-50" variant="transparent" />
-
         {/* Scrollable content */}
         <div className="relative z-[2]">
           {/* Hero section — image left, text right */}
           <section className="min-h-screen flex items-center px-6 md:px-16 lg:px-24 py-24">
-            <div className="flex flex-col md:flex-row md:items-start items-center gap-10 md:gap-16 w-full max-w-6xl mx-auto">
+            <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16 w-full max-w-6xl mx-auto">
               {/* Portrait */}
               <motion.div
-                className="w-full md:w-[45%] flex-shrink-0"
+                className="w-full md:w-[45%] flex-shrink-0 flex flex-col gap-6"
                 initial={{ opacity: 0, x: -60 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
+                {/* Invisible spacer to perfectly align the photo with the right-side glass component on desktop */}
+                <div className="hidden md:flex flex-col gap-6 items-center invisible pointer-events-none" aria-hidden="true">
+                  <h1
+                    className="text-[12vw] md:text-[6vw] uppercase leading-[0.9] tracking-[0.15em]"
+                    style={{ fontFamily: "'Nestborn', sans-serif" }}
+                  >
+                    InnerWork
+                  </h1>
+                  <div className="w-16 h-[2px]" />
+                </div>
+
                 <div
                   className="relative rounded-[2rem] overflow-hidden aspect-square flex items-center justify-center"
                   style={{
