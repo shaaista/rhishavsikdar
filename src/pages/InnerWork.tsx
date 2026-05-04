@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
-import Iridescence from "@/components/Iridescence";
+import InnerWorkIridescence from "@/components/InnerWorkIridescence";
 import portraitImg from "@/assets/innerworkwithbg.png";
 import GetInTouchButton from "@/components/GetInTouchButton";
 import { useState } from "react";
@@ -67,11 +67,10 @@ const InnerWork = () => {
       <div className="relative w-screen min-h-screen bg-black">
         {/* Fixed iridescent background */}
         <div className="fixed inset-0 z-0">
-          <Iridescence
-            color={[0.5, 0.6, 0.8]}
+          <InnerWorkIridescence
             mouseReact
             amplitude={0.1}
-            speed={0.2}
+            speed={1}
           />
         </div>
 

@@ -1,5 +1,5 @@
 import portraitImg from "@/assets/landingpageformal.png";
-import WebGLCanvas from "@/components/WebGLCanvas";
+import InnerWorkIridescence from "@/components/InnerWorkIridescence";
 import SplitName from "@/components/SplitName";
 import GlassBlobs from "@/components/GlassBlobs";
 import PageTransition from "@/components/PageTransition";
@@ -28,8 +28,14 @@ const Index = () => {
           </defs>
         </svg>
 
-        {/* WebGL fluid background */}
-        <WebGLCanvas />
+        {/* Iridescent background */}
+        <div className="fixed inset-0 z-0">
+          <InnerWorkIridescence
+            mouseReact
+            amplitude={0.1}
+            speed={1}
+          />
+        </div>
 
         {/* Shadow overlay removed per request to reveal background color */}
 
