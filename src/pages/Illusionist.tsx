@@ -101,7 +101,7 @@ const services = [
     number: "03",
     title: "Complete",
     description:
-      "The best of both worlds – a full-scale experience that combines the impact of stage with the depth of close-up. It begins with an immersive stage performance and seamlessly flows into close-up, engaging the audience at every level and creating memories for a lifetime.",
+      "The best of both worlds – a full-scale experience that combines the impact of stage with the depth of close-up. It begins with an immersive stage performance and seamlessly flows into close-up, engaging the audience at every level and leaving them with memories for a lifetime.",
     fontFamily: "'Libre Baskerville', 'Baskerville', serif",
   },
 ];
@@ -346,7 +346,7 @@ const Illusionist = () => {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6 }}
               >
-                Moments of Magic
+                Gallery
               </motion.h2>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -403,7 +403,7 @@ const Illusionist = () => {
                   color: "hsla(0, 0%, 0%, 0.95)",
                 }}
               >
-                Featured In & Trusted By
+                Trusted By
               </p>
               <div className="mt-12 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
                 <InfiniteSlider gap={40} speed={180}>

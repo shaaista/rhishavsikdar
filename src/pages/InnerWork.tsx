@@ -5,6 +5,37 @@ import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
 import portraitImg from "@/assets/innerworkwithbg.png";
 import GetInTouchButton from "@/components/GetInTouchButton";
+import { useState } from "react";
+
+const GlassCallButton = ({ label, onClick }: { label: string; onClick?: () => void }) => {
+  const [hovered, setHovered] = useState(false);
+  const radius = "7vh";
+  const variantClass = "glass-button-wrap--transparent";
+
+  return (
+    <div
+      className={`glass-button-wrap ${variantClass} w-full max-w-[320px] h-[60px] md:h-[70px] pointer-events-auto cursor-pointer mx-auto mt-12`}
+      style={{ borderRadius: radius }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={onClick}
+    >
+      <div className="glass-border-ring" style={{ borderRadius: "inherit" }} />
+      <div
+        className="glass-button relative isolate w-full h-full flex items-center justify-center"
+        style={{ borderRadius: "inherit" }}
+      >
+        <span
+          className="glass-button-text relative z-10 block select-none tracking-[0.1em] md:tracking-[0.15em] font-bold px-1 md:px-2 text-center text-[1rem] md:text-[1.2rem]"
+          style={{ color: "black", fontFamily: "'Nestborn', sans-serif" }}
+        >
+          {label}
+        </span>
+      </div>
+      <div className="glass-button-shadow" style={{ borderRadius: "inherit" }} />
+    </div>
+  );
+};
 
 const approaches = [
   {
@@ -74,7 +105,7 @@ const InnerWork = () => {
         <div className="relative z-[2]">
           {/* Hero section — image left, text right */}
           <section className="min-h-screen flex items-center px-6 md:px-16 lg:px-24 py-24">
-            <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16 w-full max-w-6xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-start items-center gap-10 md:gap-16 w-full max-w-6xl mx-auto">
               {/* Portrait */}
               <motion.div
                 className="w-full md:w-[45%] flex-shrink-0"
@@ -96,21 +127,6 @@ const InnerWork = () => {
                     className="w-full h-full object-cover"
                     style={{
                       filter: "brightness(0.95) contrast(1.05) saturate(0.9)",
-                    }}
-                  />
-                  {/* Edge blend overlays */}
-                  <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background:
-                        "radial-gradient(ellipse at center, transparent 50%, hsla(0,0%,0%,0.3) 100%)",
-                    }}
-                  />
-                  <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background:
-                        "linear-gradient(to top, hsla(0,0%,0%,0.35) 0%, transparent 30%), linear-gradient(to bottom, hsla(0,0%,0%,0.15) 0%, transparent 20%)",
                     }}
                   />
                 </div>
@@ -207,7 +223,7 @@ const InnerWork = () => {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6 }}
               >
-                My Offerings
+                Offerings
               </motion.h2>
 
               <div className="flex flex-col gap-6 items-center">
@@ -250,6 +266,17 @@ const InnerWork = () => {
                   </motion.div>
                 ))}
               </div>
+
+              {/* Book a discovery call button */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="flex justify-center w-full"
+              >
+                <GlassCallButton label="Book a discovery call" onClick={() => navigate("/contact")} />
+              </motion.div>
             </div>
           </section>
 

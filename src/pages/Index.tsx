@@ -3,6 +3,7 @@ import WebGLCanvas from "@/components/WebGLCanvas";
 import SplitName from "@/components/SplitName";
 import GlassBlobs from "@/components/GlassBlobs";
 import PageTransition from "@/components/PageTransition";
+import { Instagram, Youtube, Linkedin } from "lucide-react";
 
 const blocks = [
   { title: "About", description: "Designer & developer crafting digital experiences with precision and soul." },
@@ -56,6 +57,22 @@ const Index = () => {
 
         {/* Glass blobs */}
         <GlassBlobs />
+
+        {/* Social Icons Bottom Right */}
+        <div className="fixed bottom-6 right-6 z-[10] flex gap-4 pointer-events-auto">
+          {/* Fill these hrefs with your profile links */}
+          <a href="#" className="text-black/60 hover:text-black transition-colors" aria-label="Instagram">
+            <Instagram className="w-6 h-6" />
+          </a>
+          {/* Fill these hrefs with your profile links */}
+          <a href="#" className="text-black/60 hover:text-black transition-colors" aria-label="YouTube">
+            <Youtube className="w-6 h-6" />
+          </a>
+          {/* Fill these hrefs with your profile links */}
+          <a href="#" className="text-black/60 hover:text-black transition-colors" aria-label="LinkedIn">
+            <Linkedin className="w-6 h-6" />
+          </a>
+        </div>
 
       </div>
     </PageTransition>

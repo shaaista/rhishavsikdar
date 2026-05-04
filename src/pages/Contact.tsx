@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft, Send, Instagram, Youtube, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
@@ -27,9 +27,9 @@ const Contact = () => {
   const focusStyle = (field: string): React.CSSProperties =>
     focused === field
       ? {
-          borderColor: "rgba(20, 55, 150, 0.6)",
-          boxShadow: "0 0 6px rgba(10, 40, 130, 0.2), 0 0 12px rgba(10, 40, 130, 0.08)",
-        }
+        borderColor: "rgba(20, 55, 150, 0.6)",
+        boxShadow: "0 0 6px rgba(10, 40, 130, 0.2), 0 0 12px rgba(10, 40, 130, 0.08)",
+      }
       : {};
 
   return (
@@ -75,13 +75,13 @@ const Contact = () => {
               className="text-[13vw] md:text-[6vw] uppercase leading-[0.9] tracking-[0.12em]"
               style={{ fontFamily: "'Nestborn', sans-serif", color: "hsl(0,0%,0%)" }}
             >
-              Let's Connect
+              start a conversation
             </h1>
             <p
               className="mt-4 text-sm md:text-base font-light max-w-sm mx-auto"
               style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.85)" }}
             >
-              Share a little about yourself and what you're seeking.
+              Tell me a little about what you're looking for
             </p>
           </motion.div>
 
@@ -104,11 +104,11 @@ const Contact = () => {
                 className="text-base leading-relaxed font-light"
                 style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.85)" }}
               >
-                Your Name
+                Name
               </label>
               <input
                 type="text"
-                placeholder="Rhishav Sikdar"
+                placeholder=""
                 value={form.name}
                 onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                 onFocus={() => setFocused("name")}
@@ -123,11 +123,11 @@ const Contact = () => {
                 className="text-base leading-relaxed font-light"
                 style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.85)" }}
               >
-                Email Address
+                Email
               </label>
               <input
                 type="email"
-                placeholder="you@email.com"
+                placeholder=""
                 value={form.email}
                 onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                 onFocus={() => setFocused("email")}
@@ -142,11 +142,11 @@ const Contact = () => {
                 className="text-base leading-relaxed font-light"
                 style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.85)" }}
               >
-                Your Message
+                Message
               </label>
               <textarea
                 rows={4}
-                placeholder="Tell me what you're looking for..."
+                placeholder=""
                 value={form.message}
                 onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                 onFocus={() => setFocused("message")}
@@ -178,33 +178,45 @@ const Contact = () => {
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <Send className="w-3.5 h-3.5" />
-              Send Message
+              Start conversation
             </motion.button>
           </motion.div>
 
-          {/* Contact info — small, below */}
+          {/* Contact info — social logos below */}
           <motion.div
-            className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-1"
+            className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
           >
-            {[
-              { label: "+91 XXXXX XXXXX", href: "tel:+91XXXXXXXXXX" },
-              { label: "@rhishav", href: "https://instagram.com/rhishav" },
-              { label: "rhishav@email.com", href: "mailto:rhishav@email.com" },
-            ].map((item, i) => (
-              <a
-                key={i}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[0.72rem] tracking-wide no-underline transition-opacity duration-200 hover:opacity-70"
-                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.85)" }}
-              >
-                {item.label}
-              </a>
-            ))}
+            {/* Fill these hrefs with your profile links */}
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-black/70 hover:text-black transition-colors duration-200"
+              aria-label="Instagram"
+            >
+              <Instagram className="w-7 h-7" />
+            </a>
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-black/70 hover:text-black transition-colors duration-200"
+              aria-label="YouTube"
+            >
+              <Youtube className="w-7 h-7" />
+            </a>
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-black/70 hover:text-black transition-colors duration-200"
+              aria-label="LinkedIn"
+            >
+              <Linkedin className="w-7 h-7" />
+            </a>
           </motion.div>
 
         </div>
