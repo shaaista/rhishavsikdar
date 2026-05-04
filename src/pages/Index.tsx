@@ -15,7 +15,25 @@ const blocks = [
 const Index = () => {
   return (
     <PageTransition>
-      <div className="relative h-screen overflow-hidden flex flex-col">
+      <div className="relative h-screen overflow-hidden flex flex-col bg-black">
+        {/* Fixed iridescent background */}
+        <div className="fixed inset-0 z-0">
+          <InnerWorkIridescence
+            mouseReact
+            amplitude={0.1}
+            speed={1}
+          />
+        </div>
+
+        {/* Light overlay for readability */}
+        <div
+          className="fixed inset-0 z-[1] pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to bottom, hsla(0,0%,100%,0.1) 0%, hsla(0,0%,100%,0.15) 40%, hsla(0,0%,100%,0.25) 100%)",
+          }}
+        />
+
         {/* SVG Filter */}
         <svg style={{ position: "absolute", width: 0, height: 0 }} aria-hidden="true">
           <defs>
@@ -27,15 +45,6 @@ const Index = () => {
             </filter>
           </defs>
         </svg>
-
-        {/* Iridescent background */}
-        <div className="fixed inset-0 z-0">
-          <InnerWorkIridescence
-            mouseReact
-            amplitude={0.1}
-            speed={1}
-          />
-        </div>
 
         {/* Shadow overlay removed per request to reveal background color */}
 

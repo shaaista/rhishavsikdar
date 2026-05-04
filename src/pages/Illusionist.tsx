@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import GetInTouchButton from "@/components/GetInTouchButton";
 import PageTransition from "@/components/PageTransition";
-import Iridescence from "@/components/Iridescence";
+import InnerWorkIridescence from "@/components/InnerWorkIridescence";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
 import portraitImg from "@/assets/diceimg.png";
 import googleLogo from "@/assets/logos/google.png";
@@ -114,11 +114,10 @@ const Illusionist = () => {
       <div className="relative w-screen min-h-screen bg-black">
         {/* Fixed iridescent background */}
         <div className="fixed inset-0 z-0">
-          <Iridescence
-            color={[0.5, 0.6, 0.8]}
+          <InnerWorkIridescence
             mouseReact
             amplitude={0.1}
-            speed={0.2}
+            speed={1}
           />
         </div>
 
