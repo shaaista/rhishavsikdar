@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowLeft, ArrowUpRight, Clock, User, Users, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
 import portraitImg from "@/assets/innerworkwithbg.png";
@@ -36,16 +36,85 @@ const GlassCallButton = ({ label, onClick }: { label: string; onClick?: () => vo
   );
 };
 
-const approaches = [
+const credentials = [
+  { label: "Certified", value: "Jacquin Hypnosis Academy" },
+  { label: "Reiki Master", value: "Level 3 Healer" },
+  { label: "EFT", value: "Emotional Freedom Technique" },
+  { label: "Experience", value: "16+ years in practice" },
+];
+
+const stats = [
+  { value: "16+", label: "Years of Practice" },
+  { value: "3", label: "Certifications" },
+  { value: "1000+", label: "Sessions Held" },
+];
+
+type Offering = {
+  eyebrow: string;
+  label: string;
+  description: string;
+  bullets: string[];
+  duration: string;
+  format: string;
+  formatIcon: "user" | "users";
+  cta: string;
+};
+
+const offerings: Offering[] = [
   {
-    label: "Corporate Reset",
-    text: "For organisations that care about their people and want them to function at their best, this is a 60-minute guided hypnotherapy session to release stress, reset the mind, and enhance focus – creating a calmer, more resilient workforce.\n\nEach session is tailored to the specific needs of the organisation.\n\nAvailable online or in person.\nIdeal for groups of 50–100.",
-    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+    eyebrow: "For Individuals",
+    label: "Personal Reset",
+    description:
+      "Deep, one-on-one work focused on resolving challenges at the root — shifting the underlying patterns of the subconscious for change that feels natural and lasting.",
+    bullets: [
+      "Addictions, habits & compulsions",
+      "Stress, anxiety & panic attacks",
+      "Trauma & emotional patterns",
+      "Phobias, physical pain & mind-linked chronic issues",
+    ],
+    duration: "90 minutes",
+    format: "One-on-one · Online or In person",
+    formatIcon: "user",
+    cta: "Enquire about Personal Reset",
   },
   {
-    label: "Personal Reset",
-    text: "Deep, one-on-one work focused on resolving challenges at the root.\n\nFrom addictions and habits to stress, anxiety, trauma, panic attacks, physical pain, phobias, emotional patterns, and chronic issues linked to the mind – this work focuses on shifting the underlying patterns of the subconscious mind, leading to changes that feel natural, effortless, and lasting.",
-    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+    eyebrow: "For Organisations",
+    label: "Corporate Reset",
+    description:
+      "A 60-minute guided hypnotherapy session to release stress, reset the mind, and enhance focus — creating a calmer, more resilient workforce.",
+    bullets: [
+      "Tailored to the specific needs of the organisation",
+      "Ideal for groups of 50 – 100 people",
+      "Available online or in person",
+      "Measurable shift in team clarity and calm",
+    ],
+    duration: "60 minutes",
+    format: "Online · In person",
+    formatIcon: "users",
+    cta: "Enquire about Corporate Reset",
+  },
+];
+
+const faqs = [
+  {
+    question: "Do I need to believe in hypnosis for it to work?",
+    answer:
+      "No. Hypnosis is a natural, focused state you already enter several times a day. Belief is not required — willingness is enough.",
+  },
+  {
+    question: "How many sessions will I need?",
+    answer:
+      "Most personal issues resolve within 1 to 4 sessions. After the first session you will have a clear sense of the arc of the work.",
+  },
+  {
+    question: "Is this suitable for my organisation?",
+    answer:
+      "If your people are carrying chronic stress, attention fatigue, or low-grade burnout — yes. Corporate Reset is tailored to your team's context.",
+  },
+  {
+    question: "Do you offer online sessions?",
+    answer:
+      "Yes. Both Personal and Corporate Reset are available online, globally, in addition to in-person sessions.",
   },
 ];
 
@@ -58,8 +127,18 @@ const fadeUp = {
   }),
 };
 
+const glassCardStyle = {
+  background:
+    "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
+  border: "1px solid rgba(20, 55, 150, 0.6)",
+  backdropFilter: "blur(20px)",
+  boxShadow:
+    "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
+} as const;
+
 const InnerWork = () => {
   const navigate = useNavigate();
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
     <PageTransition>
@@ -98,27 +177,16 @@ const InnerWork = () => {
 
         {/* Scrollable content */}
         <div className="relative z-[2]">
-          {/* Hero section — image left, text right */}
+          {/* Hero section — portrait left, text right */}
           <section className="pt-32 pb-12 md:pt-40 md:pb-16 flex items-center px-6 md:px-16 lg:px-24">
             <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16 w-full max-w-6xl mx-auto">
               {/* Portrait */}
               <motion.div
-                className="w-full md:w-[45%] flex-shrink-0 flex flex-col gap-6"
+                className="w-full md:w-[45%] flex-shrink-0"
                 initial={{ opacity: 0, x: -60 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
-                {/* Invisible spacer to perfectly align the photo with the right-side glass component on desktop */}
-                <div className="hidden md:flex flex-col gap-6 items-center invisible pointer-events-none" aria-hidden="true">
-                  <h1
-                    className="text-[12vw] md:text-[6vw] uppercase leading-[0.9] tracking-[0.15em]"
-                    style={{ fontFamily: "'Nestborn', sans-serif" }}
-                  >
-                    InnerWork
-                  </h1>
-                  <div className="w-16 h-[2px]" />
-                </div>
-
                 <div
                   className="relative rounded-[2rem] overflow-hidden aspect-square flex items-center justify-center"
                   style={{
@@ -140,7 +208,7 @@ const InnerWork = () => {
 
               {/* Text content */}
               <motion.div
-                className="w-full md:w-[55%] flex flex-col gap-6 items-center text-center"
+                className="w-full md:w-[55%] flex flex-col gap-6 items-center md:items-start text-center md:text-left"
                 initial={{ opacity: 0, x: 60 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
@@ -149,143 +217,405 @@ const InnerWork = () => {
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
               >
-                <h1
-                  className="text-[12vw] md:text-[6vw] uppercase leading-[0.9] tracking-[0.15em]"
-                  style={{
-                    fontFamily: "'Nestborn', sans-serif",
-                    color: "hsl(0, 0%, 0%)",
-                  }}
-                >
-                  InnerWork
-                </h1>
-                <div
-                  className="w-16 h-[2px]"
-                  style={{
-                    background:
-                      "linear-gradient(to right, hsla(0, 0%, 0%, 0.6), transparent)",
-                  }}
-                />
-                <div
-                  className="relative w-full p-6 md:p-8 rounded-2xl flex flex-col gap-4 items-center text-center"
-                  style={{
-                    background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
-                    border: "1px solid rgba(20, 55, 150, 0.6)",
-                    backdropFilter: "blur(20px)",
-                    boxShadow: "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
-                  }}
-                >
-                  <p
-                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
-                    style={{
-                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                      color: "#000000",
-                    }}
-                  >
-                    Beyond the stage, my work goes inward.
-                  </p>
-                  <p
-                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
-                    style={{
-                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                      color: "#000000",
-                    }}
-                  >
-                    I’m a certified professional hypnotherapist trained with the Jacquin Hypnosis Academy, a Level-3 Reiki Master Healer, and a certified EFT (Emotional Freedom Technique) therapist, with over 16 years of experience in healing and therapeutic work.
-                  </p>
-                  <p
-                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
-                    style={{
-                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                      color: "#000000",
-                    }}
-                  >
-                    My approach is direct, intuitive, and results-driven – working at the level of the subconscious mind to create real, lasting change.
-                  </p>
-                  <p
-                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
-                    style={{
-                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                      color: "#000000",
-                    }}
-                  >
-                    With a background in IT, specialising in project management and employee welfare, I bring a practical understanding of workplace challenges into this work.
-                  </p>
+                {/* Eyebrow tags */}
+                <div className="flex items-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/70">
+                  <span
+                    className="hidden md:inline-block w-10 h-[1px]"
+                    style={{ background: "rgba(0,0,0,0.5)" }}
+                    aria-hidden="true"
+                  />
+                  <span style={{ fontFamily: "'Nestborn', sans-serif" }}>
+                    Hypnotherapy · Reiki · EFT
+                  </span>
                 </div>
+
+                {/* Heading */}
+                <h1
+                  className="text-[10vw] md:text-[4.2vw] leading-[1.05] tracking-[-0.01em] text-black"
+                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                >
+                  Beyond the stage,{" "}
+                  <span
+                    className="italic"
+                    style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                  >
+                    my work
+                  </span>
+                  <br className="hidden md:block" /> goes inward.
+                </h1>
+
+                {/* Paragraph */}
+                <p
+                  className="text-base md:text-lg leading-relaxed font-light max-w-xl"
+                  style={{
+                    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+                    color: "#000000",
+                  }}
+                >
+                  A certified professional hypnotherapist, Reiki Master Healer
+                  and EFT therapist — I guide people back to clarity, calm, and
+                  lasting change through the language of the subconscious mind.
+                </p>
               </motion.div>
             </div>
           </section>
 
-          {/* Approaches section */}
-          <section className="px-6 md:px-16 lg:px-24 pb-10">
-            <div className="max-w-5xl mx-auto">
+          {/* Credentials grid */}
+          <section className="px-6 md:px-16 lg:px-24 pb-12 md:pb-16">
+            <motion.div
+              className="max-w-6xl mx-auto p-6 md:p-10 rounded-2xl"
+              style={glassCardStyle}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.6 }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
+            >
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-8 md:gap-x-10">
+                {credentials.map((c) => (
+                  <div key={c.label} className="flex flex-col gap-2">
+                    <span
+                      className="text-[0.7rem] md:text-[0.75rem] tracking-[0.2em] uppercase text-black/70"
+                      style={{ fontFamily: "'Nestborn', sans-serif" }}
+                    >
+                      {c.label}
+                    </span>
+                    <span
+                      className="text-base md:text-lg leading-snug text-black"
+                      style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                    >
+                      {c.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </section>
+
+          {/* Work that moves beneath the surface */}
+          <section className="px-6 md:px-16 lg:px-24 pb-12 md:pb-16">
+            <div className="max-w-5xl mx-auto flex flex-col gap-8">
               <motion.h2
-                className="text-[8vw] md:text-[3vw] uppercase tracking-[0.2em] mb-6 text-center"
-                style={{
-                  fontFamily: "'Nestborn', sans-serif",
-                  color: "hsl(0, 0%, 0%)",
-                }}
+                className="text-[8vw] md:text-[3.4vw] leading-[1.05] text-center md:text-left text-black"
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6 }}
               >
-                Offerings
+                Work that moves beneath the surface.
               </motion.h2>
 
-              <div className="flex flex-col gap-6 items-center">
-                {approaches.map((item, i) => (
-                  <motion.div
-                    key={item.label}
-                    className="relative w-full max-w-4xl px-6 md:px-16 py-6 md:py-8 rounded-2xl text-center overflow-hidden"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
-                      border: "1px solid rgba(20, 55, 150, 0.6)",
-                      backdropFilter: "blur(20px)",
-                      boxShadow:
-                        "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
-                    }}
-                    custom={i}
-                    variants={fadeUp}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-80px" }}
-                  >
-                    <h3
-                      className="text-2xl md:text-3xl uppercase tracking-[0.1em] mb-3"
-                      style={{
-                        fontFamily: "'Nestborn', sans-serif",
-                        color: "hsl(0, 0%, 0%)",
-                      }}
-                    >
-                      {item.label}
-                    </h3>
-                    <p
-                      className="text-base leading-relaxed font-light whitespace-pre-line"
-                      style={{
-                        fontFamily: item.fontFamily,
-                        color: "#000000",
-                      }}
-                    >
-                      {item.text}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Book a discovery call button */}
               <motion.div
+                className="rounded-2xl p-6 md:p-10 flex flex-col gap-5"
+                style={glassCardStyle}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="flex justify-center w-full"
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                whileHover={{ scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
               >
-                <GlassCallButton label="Book a discovery call" onClick={() => navigate("/contact")} />
+                <p
+                  className="text-base md:text-lg leading-relaxed font-light text-black"
+                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                >
+                  My approach is direct, intuitive, and results-driven — working
+                  at the level of the subconscious mind to create real, lasting
+                  change.
+                </p>
+                <p
+                  className="text-base md:text-lg leading-relaxed font-light text-black"
+                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                >
+                  With a background in IT, specialising in project management
+                  and employee welfare, I bring a grounded, practical
+                  understanding of workplace challenges into this work.
+                </p>
+              </motion.div>
+
+              {/* Stats row */}
+              <motion.div
+                className="rounded-2xl p-6 md:p-10"
+                style={glassCardStyle}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+                whileHover={{ scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
+              >
+                <div className="grid grid-cols-3 gap-4 md:gap-8">
+                  {stats.map((s) => (
+                    <div key={s.label} className="flex flex-col gap-2 items-center text-center">
+                      <span
+                        className="text-3xl md:text-5xl text-black leading-none"
+                        style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                      >
+                        {s.value}
+                      </span>
+                      <span
+                        className="text-[0.65rem] md:text-[0.75rem] tracking-[0.18em] uppercase text-black/70 leading-tight"
+                        style={{ fontFamily: "'Nestborn', sans-serif" }}
+                      >
+                        {s.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </motion.div>
             </div>
           </section>
 
+          {/* Offerings section */}
+          <section className="px-6 md:px-16 lg:px-24 pb-10">
+            <div className="max-w-5xl mx-auto">
+              <motion.div
+                className="flex items-center justify-center gap-3 text-[0.75rem] md:text-[0.85rem] tracking-[0.3em] uppercase text-black/70 mb-3"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <span
+                  className="inline-block w-10 h-[1px]"
+                  style={{ background: "rgba(0,0,0,0.5)" }}
+                  aria-hidden="true"
+                />
+                <span style={{ fontFamily: "'Nestborn', sans-serif" }}>The Offerings</span>
+                <span
+                  className="inline-block w-10 h-[1px]"
+                  style={{ background: "rgba(0,0,0,0.5)" }}
+                  aria-hidden="true"
+                />
+              </motion.div>
+
+              <motion.h2
+                className="text-[9vw] md:text-[3.8vw] leading-[1.05] mb-8 md:mb-10 text-center text-black"
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                Two paths.{" "}
+                <span
+                  className="italic"
+                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                >
+                  One intention
+                </span>{" "}
+                — real, lasting change.
+              </motion.h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {offerings.map((item, i) => {
+                  const FormatIcon = item.formatIcon === "user" ? User : Users;
+                  return (
+                    <motion.div
+                      key={item.label}
+                      className="relative w-full rounded-2xl p-6 md:p-8 flex flex-col gap-5 overflow-hidden"
+                      style={glassCardStyle}
+                      custom={i}
+                      variants={fadeUp}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, margin: "-80px" }}
+                      whileHover={{ scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
+                    >
+                      <div className="flex flex-col gap-2">
+                        <span
+                          className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/70"
+                          style={{ fontFamily: "'Nestborn', sans-serif" }}
+                        >
+                          {item.eyebrow}
+                        </span>
+                        <h3
+                          className="text-3xl md:text-4xl leading-tight text-black"
+                          style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                        >
+                          {item.label}
+                        </h3>
+                      </div>
+
+                      <p
+                        className="text-base leading-relaxed font-light text-black"
+                        style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                      >
+                        {item.description}
+                      </p>
+
+                      <div
+                        className="h-[1px] w-full"
+                        style={{ background: "rgba(20, 55, 150, 0.3)" }}
+                      />
+
+                      <ul className="flex flex-col gap-3">
+                        {item.bullets.map((b) => (
+                          <li
+                            key={b}
+                            className="flex items-start gap-3 text-base leading-snug font-light text-black"
+                            style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                          >
+                            <span
+                              className="inline-block mt-[0.6rem] w-3 h-[1.5px] flex-shrink-0"
+                              style={{ background: "rgba(20, 55, 150, 0.7)" }}
+                              aria-hidden="true"
+                            />
+                            <span>{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div
+                        className="h-[1px] w-full"
+                        style={{ background: "rgba(20, 55, 150, 0.3)" }}
+                      />
+
+                      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-black/80"
+                        style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                      >
+                        <span className="flex items-center gap-2">
+                          <Clock className="w-4 h-4" aria-hidden="true" />
+                          {item.duration}
+                        </span>
+                        <span className="flex items-center gap-2">
+                          <FormatIcon className="w-4 h-4" aria-hidden="true" />
+                          {item.format}
+                        </span>
+                      </div>
+
+                      <button
+                        onClick={() => navigate("/contact")}
+                        className="mt-auto self-start flex items-center gap-2 text-base text-black border-b border-black/40 pb-1 hover:border-black transition-colors"
+                        style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                      >
+                        {item.cta}
+                        <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                      </button>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ section */}
+          <section className="px-6 md:px-16 lg:px-24 pb-12 md:pb-16">
+            <div className="max-w-4xl mx-auto flex flex-col gap-8">
+              <motion.h2
+                className="text-[9vw] md:text-[3.4vw] leading-[1.05] text-center md:text-left text-black"
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6 }}
+              >
+                Before we begin.
+              </motion.h2>
+
+              <motion.div
+                className="rounded-2xl overflow-hidden"
+                style={glassCardStyle}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                {faqs.map((faq, i) => {
+                  const isOpen = openFaq === i;
+                  return (
+                    <div
+                      key={faq.question}
+                      className={i !== 0 ? "border-t border-black/10" : ""}
+                    >
+                      <button
+                        onClick={() => setOpenFaq(isOpen ? null : i)}
+                        className="w-full flex items-center justify-between gap-4 px-5 md:px-8 py-5 md:py-6 text-left hover:bg-white/5 transition-colors"
+                        aria-expanded={isOpen}
+                      >
+                        <span
+                          className="text-base md:text-xl text-black leading-snug"
+                          style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                        >
+                          {faq.question}
+                        </span>
+                        <ChevronDown
+                          className={`w-5 h-5 flex-shrink-0 text-black/70 transition-transform duration-300 ${
+                            isOpen ? "rotate-180" : ""
+                          }`}
+                          aria-hidden="true"
+                        />
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            key="content"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                            className="overflow-hidden"
+                          >
+                            <p
+                              className="px-5 md:px-8 pb-5 md:pb-6 text-base leading-relaxed font-light text-black/80"
+                              style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                            >
+                              {faq.answer}
+                            </p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
+              </motion.div>
+            </div>
+          </section>
+
+          {/* Connect CTA section */}
+          <section className="px-6 md:px-16 lg:px-24 pb-20 md:pb-28">
+            <motion.div
+              className="max-w-4xl mx-auto rounded-2xl p-8 md:p-14 flex flex-col gap-6 items-center md:items-start text-center md:text-left"
+              style={glassCardStyle}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.6 }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
+            >
+              <div className="flex items-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.3em] uppercase text-black/70">
+                <span
+                  className="inline-block w-10 h-[1px]"
+                  style={{ background: "rgba(0,0,0,0.5)" }}
+                  aria-hidden="true"
+                />
+                <span style={{ fontFamily: "'Nestborn', sans-serif" }}>Connect</span>
+              </div>
+
+              <h2
+                className="text-[10vw] md:text-[4vw] leading-[1.05] text-black"
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+              >
+                Begin with{" "}
+                <span
+                  className="italic"
+                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                >
+                  a quiet note.
+                </span>
+              </h2>
+
+              <p
+                className="text-base md:text-lg leading-relaxed font-light text-black max-w-xl"
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+              >
+                Whether for yourself or your organisation — share a little about
+                what you're carrying, and Rhishav will respond personally within
+                48 hours.
+              </p>
+
+              <GlassCallButton label="Connect" onClick={() => navigate("/contact")} />
+            </motion.div>
+          </section>
 
         </div>
       </div>

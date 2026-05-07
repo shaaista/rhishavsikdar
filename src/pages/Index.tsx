@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import portraitImg from "@/assets/landingpageformal.png";
 import Iridescence from "@/components/Iridescence";
 import SplitName from "@/components/SplitName";
@@ -5,24 +7,23 @@ import GlassBlobs from "@/components/GlassBlobs";
 import PageTransition from "@/components/PageTransition";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
 
-const blocks = [
-  { title: "About", description: "Designer & developer crafting digital experiences with precision and soul." },
-  { title: "Work", description: "Selected projects spanning brand identity, web design, and creative development." },
-  { title: "Skills", description: "Full-stack development, UI/UX design, motion graphics, and creative coding." },
-  { title: "Contact", description: "Let's collaborate on something extraordinary. Always open to new ideas." },
-];
+// Name uses ~13 chars × 0.07s stagger + 0.55s tail ≈ 1.46s, then trigger reveal.
+const NAME_TOTAL_DURATION_MS = 1500;
 
 const Index = () => {
+  const [revealed, setRevealed] = useState(false);
+
+  useEffect(() => {
+    const t = window.setTimeout(() => setRevealed(true), NAME_TOTAL_DURATION_MS);
+    return () => window.clearTimeout(t);
+  }, []);
+
   return (
     <PageTransition>
       <div className="relative h-screen overflow-hidden flex flex-col bg-black">
         {/* Fixed iridescent background */}
         <div className="fixed inset-0 z-0">
-          <Iridescence
-            mouseReact
-            amplitude={0.1}
-            speed={1}
-          />
+          <Iridescence mouseReact amplitude={0.1} speed={1} />
         </div>
 
         {/* Light overlay for readability */}
@@ -46,48 +47,82 @@ const Index = () => {
           </defs>
         </svg>
 
-        {/* Shadow overlay removed per request to reveal background color */}
-
         {/* Content Layout (Name top, Photo below) */}
         <div className="fixed inset-0 z-[3] flex flex-col items-center pointer-events-none">
 
-          {/* Name Section */}
+          {/* Name — letter-by-letter pop-in */}
           <div className="relative pt-[12vh] md:pt-[4vh] flex justify-center w-full shrink-0 z-[4]">
-            <SplitName />
+            <SplitName startDelay={0.15} />
           </div>
 
-          {/* Photo Section */}
-          <div className="relative flex-1 w-full flex justify-center items-end z-[3] pb-0 mt-[8vh] md:mt-0 pt-0 md:pt-0">
-            <img
+          {/* Photo — pops up from middle, scales to final bottom-anchored size */}
+          <div className="relative flex-1 w-full flex justify-center items-end z-[3] pb-0 mt-[8vh] md:mt-0">
+            <motion.img
               src={portraitImg}
               alt="Rhishav Sikdar"
-              className="relative z-[2] w-auto h-full max-h-[48vh] md:max-h-[75vh] object-contain object-bottom drop-shadow-2xl origin-bottom scale-[1.2] md:scale-[1.15] -translate-x-[2%] md:translate-x-0 translate-y-[10%] md:translate-y-[10%]"
+              className="relative z-[2] w-auto h-full max-h-[60vh] md:max-h-[80vh] object-contain object-bottom drop-shadow-2xl"
               style={{
                 filter: "brightness(1) contrast(1.15) saturate(1.1)",
+                transformOrigin: "center",
               }}
+              initial={{ opacity: 0, scale: 0, y: "-12vh" }}
+              animate={
+                revealed
+                  ? { opacity: 1, scale: 1.2, y: "8vh" }
+                  : { opacity: 0, scale: 0, y: "-12vh" }
+              }
+              transition={
+                revealed
+                  ? {
+                      scale: { type: "spring", stiffness: 38, damping: 18, mass: 1.4, delay: 0.15 },
+                      y: { type: "spring", stiffness: 38, damping: 18, mass: 1.4, delay: 0.15 },
+                      opacity: { duration: 0.8, delay: 0.15 },
+                    }
+                  : { duration: 0.3 }
+              }
             />
           </div>
 
         </div>
 
-        {/* Glass blobs */}
-        <GlassBlobs />
+        {/* Glass blobs (Illusion + InnerWork) — pop from middle, slight delay after image starts */}
+        <GlassBlobs revealed={revealed} delay={0.15} />
 
-        {/* Social Icons Bottom Right */}
-        <div className="fixed bottom-6 right-6 z-[10] hidden md:flex gap-4 pointer-events-auto">
-          {/* Fill these hrefs with your profile links */}
-          <a href="https://www.instagram.com/rhishavsikdar?igsh=MWVqbGl3c2NjYzczag==" target="_blank" rel="noopener noreferrer" className="text-black/60 hover:text-black transition-colors" aria-label="Instagram">
+        {/* Social Icons Bottom Right — fade in last */}
+        <motion.div
+          className="fixed bottom-6 right-6 z-[10] hidden md:flex gap-4 pointer-events-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={revealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.8, delay: revealed ? 0.9 : 0 }}
+        >
+          <a
+            href="https://www.instagram.com/rhishavsikdar?igsh=MWVqbGl3c2NjYzczag=="
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-black/60 hover:text-black transition-colors"
+            aria-label="Instagram"
+          >
             <Instagram className="w-6 h-6" />
           </a>
-          {/* Fill these hrefs with your profile links */}
-          <a href="https://youtube.com/@rhishavsikdar?si=iRdfGgLjCsur0Fvy" target="_blank" rel="noopener noreferrer" className="text-black/60 hover:text-black transition-colors" aria-label="YouTube">
+          <a
+            href="https://youtube.com/@rhishavsikdar?si=iRdfGgLjCsur0Fvy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-black/60 hover:text-black transition-colors"
+            aria-label="YouTube"
+          >
             <Youtube className="w-6 h-6" />
           </a>
-          {/* Fill these hrefs with your profile links */}
-          <a href="https://www.linkedin.com/in/rhishavsikdar?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" className="text-black/60 hover:text-black transition-colors" aria-label="LinkedIn">
+          <a
+            href="https://www.linkedin.com/in/rhishavsikdar?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-black/60 hover:text-black transition-colors"
+            aria-label="LinkedIn"
+          >
             <Linkedin className="w-6 h-6" />
           </a>
-        </div>
+        </motion.div>
 
       </div>
     </PageTransition>

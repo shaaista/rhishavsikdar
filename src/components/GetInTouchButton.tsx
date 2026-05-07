@@ -74,7 +74,7 @@ const GetInTouchButton = ({ className = "", variant = "frost" }: GetInTouchButto
               fontFamily: "'Nestborn', sans-serif",
             }}
           >
-            Get in Touch
+            Connect
           </span>
         </div>
       </motion.div>
