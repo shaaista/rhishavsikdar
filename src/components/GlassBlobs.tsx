@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const GlassPanel = ({ side, label, onClick }: { side: "left" | "right"; label: string; onClick?: () => void }) => {
   const [hovered, setHovered] = useState(false);
@@ -31,14 +32,23 @@ const GlassPanel = ({ side, label, onClick }: { side: "left" | "right"; label: s
   );
 };
 
-const GlassBlobs = () => {
+const GlassBlobs = ({ revealed = true, delay = 0 }: { revealed?: boolean; delay?: number }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="fixed top-[32vh] md:top-auto bottom-auto md:bottom-[30vh] left-0 w-screen h-[7.5vh] md:h-[14vh] z-[5] pointer-events-none flex flex-row justify-between items-center px-5 md:px-12">
+    <motion.div
+      className="fixed top-[32vh] md:top-auto bottom-auto md:bottom-[30vh] left-0 w-screen h-[7.5vh] md:h-[14vh] z-[5] pointer-events-none flex flex-row justify-between items-center px-5 md:px-12"
+      style={{ transformOrigin: "center" }}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={revealed ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+      transition={{
+        scale: { type: "spring", stiffness: 42, damping: 16, mass: 1.2, delay },
+        opacity: { duration: 0.6, delay },
+      }}
+    >
       <GlassPanel side="left" label="Illusion" onClick={() => navigate("/illusionist")} />
       <GlassPanel side="right" label="InnerWork" onClick={() => navigate("/innerwork")} />
-    </div>
+    </motion.div>
   );
 };
 
