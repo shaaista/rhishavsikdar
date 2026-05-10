@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
-import GetInTouchButton from "@/components/GetInTouchButton";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
-import portraitImg from "@/assets/diceimg.png";
+import illusionVideo from "@/assets/illusiongif.mp4";
 import googleLogo from "@/assets/logos/google.png";
 import sonyLogo from "@/assets/logos/sony.png";
 import bmwLogo from "@/assets/logos/bmw.png";
@@ -106,14 +105,6 @@ const events = [
       "No two celebrations are alike. I tailor every performance to your guest list — finding the funny, the sentimental, and the spectacular in equal measure. I turn a birthday dinner into a night of stories.",
     tags: ["Birthdays", "Anniversaries", "Retirements"],
   },
-  {
-    number: "03",
-    category: "Corporate Events",
-    title: "Wonder that moves the room",
-    description:
-      "From keynote stages to gala dinners, I design experiences that unite your team, impress your clients, and leave a lasting impression. Stage performance, intimate close-up, or a seamless blend of both — tailored to your event and audience.",
-    tags: ["Stage", "Close-up", "Conferences", "Galas"],
-  },
 ];
 
 const experiences = [
@@ -193,8 +184,6 @@ const Illusionist = () => {
           <ArrowLeft className="w-4 h-4" />
         </button>
 
-        {/* Fixed Contact Us button */}
-        <GetInTouchButton className="fixed top-6 right-6 z-50" variant="transparent" />
 
         {/* Scrollable content */}
         <div className="relative z-[2]">
@@ -210,59 +199,29 @@ const Illusionist = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
-                {/* Labels */}
+                {/* Eyebrow */}
                 <p
-                  className="text-[0.65rem] md:text-[0.72rem] tracking-[0.35em] uppercase text-black/60"
+                  className="text-[0.65rem] md:text-[0.72rem] tracking-[0.35em] uppercase text-black/55"
                   style={{ fontFamily: "’Nestborn’, sans-serif" }}
                 >
                   Mentalist&nbsp;&nbsp;·&nbsp;&nbsp;Magician&nbsp;&nbsp;·&nbsp;&nbsp;Hypnotist
                 </p>
 
-                {/* Headline */}
+                {/* Main heading — h1 */}
                 <h1
-                  className="text-[9vw] md:text-[5vw] leading-[1.08]"
+                  className="text-[9vw] md:text-[5vw] leading-[1.1] font-bold"
                   style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "black" }}
                 >
-                  The mind is the{" "}
-                  <em>greatest illusion.</em>
+                  Anything is <em>possible</em>.
                 </h1>
-
-                {/* Sub */}
-                <p
-                  className="text-[5.5vw] md:text-[2.4vw] font-bold leading-tight"
-                  style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "black" }}
-                >
-                  Anything is possible.
-                </p>
 
                 {/* Body */}
                 <p
                   className="text-base md:text-lg font-light leading-relaxed max-w-lg"
-                  style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.8)" }}
+                  style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.75)" }}
                 >
                   I’m Rhishav Sikdar — a mentalist blending psychology, intuition, and illusion into experiences that don’t just entertain, they linger.
                 </p>
-
-                {/* CTA */}
-                <motion.button
-                  onClick={() => navigate("/contact")}
-                  className="self-start mt-1 px-7 py-4 rounded-2xl flex items-center gap-3 cursor-pointer"
-                  style={{
-                    ...glassCardStyle,
-                    fontFamily: "’Nestborn’, sans-serif",
-                    color: "black",
-                    fontSize: "0.78rem",
-                    letterSpacing: "0.28em",
-                    textTransform: "uppercase",
-                    fontWeight: 700,
-                  }}
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                  Book an Experience
-                  <ArrowUpRight className="w-4 h-4" />
-                </motion.button>
 
                 {/* Stats */}
                 <div className="flex gap-6 md:gap-10 pt-4 border-t border-black/10">
@@ -304,11 +263,13 @@ const Illusionist = () => {
                       "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1), 0 20px 60px hsla(0,0%,0%,0.5)",
                   }}
                 >
-                  <img
-                    src={portraitImg}
-                    alt="Rhishav Sikdar"
+                  <video
+                    src={illusionVideo}
                     className="w-full h-full object-cover object-top"
-                    style={{ filter: "brightness(0.95) contrast(1.05) saturate(0.9)" }}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
                   />
                   <div
                     className="absolute inset-0 pointer-events-none"
@@ -348,13 +309,13 @@ const Illusionist = () => {
                 <div className="w-10 h-[1px] bg-black/25" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
                   <p
-                    className="text-base font-light leading-relaxed"
+                    className="text-sm font-light leading-relaxed"
                     style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.8)" }}
                   >
                     For over eighteen years, I’ve studied and performed the art of magic and mentalism — blending psychology, intuition, and illusion to craft moments that people remember long after the room empties.
                   </p>
                   <p
-                    className="text-base font-light leading-relaxed"
+                    className="text-sm font-light leading-relaxed"
                     style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.8)" }}
                   >
                     With more than eight years as a professional, I’ve shared these experiences across 600+ stages and with 100+ corporate organisations. Every performance is designed to bring you closer to what your own mind is truly capable of — a reminder that wonder is not something that happens to you, but something you create.
@@ -389,17 +350,10 @@ const Illusionist = () => {
                   Every celebration deserves{" "}
                   <em>a little magic</em>
                 </h2>
-                {/* Diamond */}
-                <div className="flex items-center py-1">
-                  <div
-                    className="w-2.5 h-2.5 rotate-45"
-                    style={{ background: "rgba(20, 55, 150, 0.45)" }}
-                  />
-                </div>
               </motion.div>
 
               {/* Event cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {events.map((event, i) => (
                   <motion.div
                     key={event.number}
@@ -431,7 +385,7 @@ const Illusionist = () => {
 
                     {/* Title */}
                     <h3
-                      className="text-lg md:text-xl leading-snug"
+                      className="text-xl md:text-2xl leading-tight"
                       style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "black" }}
                     >
                       {event.title}
@@ -467,61 +421,6 @@ const Illusionist = () => {
             </div>
           </section>
 
-          {/* Videos section */}
-          <section className="px-6 md:px-16 lg:px-24 pb-10">
-            <div className="max-w-6xl mx-auto">
-              <motion.h2
-                className="text-[8vw] md:text-[3vw] uppercase tracking-[0.2em] mb-6 text-center"
-                style={{
-                  fontFamily: "'Nestborn', sans-serif",
-                  color: "hsl(0, 0%, 0%)",
-                }}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6 }}
-              >
-                Gallery
-              </motion.h2>
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                {[
-                  "ejoAXoEA6-E",
-                  "kNELGcY56_0",
-                  "wZHUZ8wF4bo",
-                  "8jDlJWRpTM8",
-                ].map((videoId, i) => (
-                  <motion.div
-                    key={videoId}
-                    className="relative rounded-2xl overflow-hidden aspect-[9/16]"
-                    style={{
-                      border: "2.5px solid rgba(20, 55, 150, 0.8)",
-                      backdropFilter: "blur(20px)",
-                      boxShadow:
-                        "0 0 14px rgba(10, 40, 130, 0.5), 0 0 28px rgba(10, 40, 130, 0.3), 0 0 42px rgba(10, 40, 130, 0.15)",
-                      background:
-                        "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
-                    }}
-                    custom={i}
-                    variants={fadeUp}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-80px" }}
-                  >
-                    <iframe
-                      src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
-                      title={`Performance ${i + 1}`}
-                      className="absolute inset-0 w-full h-full"
-                      allow="autoplay; encrypted-media"
-                      loading="lazy"
-                      style={{ border: "none" }}
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </section>
-
           {/* ── The Experiences ── */}
           <section className="px-6 md:px-16 lg:px-24 pb-16">
             <div className="max-w-5xl mx-auto">
@@ -547,7 +446,7 @@ const Illusionist = () => {
                   Three ways to <em>bend</em> reality.
                 </h2>
                 <p
-                  className="text-base font-light leading-relaxed max-w-lg"
+                  className="text-sm font-light leading-relaxed max-w-lg"
                   style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.7)" }}
                 >
                   Every gathering deserves a different kind of wonder. Choose a format crafted for the room you're filling.
@@ -579,7 +478,7 @@ const Illusionist = () => {
 
                     {/* Title */}
                     <h3
-                      className="text-2xl md:text-3xl leading-tight"
+                      className="text-xl md:text-2xl leading-tight"
                       style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "black" }}
                     >
                       {exp.title}
@@ -614,23 +513,58 @@ const Illusionist = () => {
                     </ul>
 
                     {/* Enquire CTA */}
-                    <div className="pt-3 border-t border-black/10">
-                      <button
-                        onClick={() => navigate("/contact")}
-                        className="flex items-center gap-3 cursor-pointer group"
-                      >
-                        <span
-                          className="text-[0.62rem] tracking-[0.22em] uppercase text-black/60 group-hover:text-black transition-colors duration-200"
-                          style={{ fontFamily: "'Nestborn', sans-serif" }}
-                        >
-                          {exp.enquireLabel}
-                        </span>
-                        <span
-                          className="block h-[1px] w-6 bg-black/25 group-hover:w-10 group-hover:bg-black/50 transition-all duration-300"
-                          aria-hidden="true"
-                        />
-                      </button>
-                    </div>
+                    <button
+                      onClick={() => navigate("/contact")}
+                      className="mt-auto self-start flex items-center gap-2 text-base text-black border-b border-black/40 pb-1 hover:border-black transition-colors cursor-pointer"
+                      style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                    >
+                      {exp.enquireLabel}
+                      <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                    </button>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── Gallery ── */}
+          <section className="px-6 md:px-16 lg:px-24 pb-10">
+            <div className="max-w-6xl mx-auto">
+              <motion.h2
+                className="text-[7vw] md:text-[3.5vw] leading-[1.1] mb-6 text-center"
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "black" }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6 }}
+              >
+                Gallery
+              </motion.h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                {["ejoAXoEA6-E", "kNELGcY56_0", "wZHUZ8wF4bo", "8jDlJWRpTM8"].map((videoId, i) => (
+                  <motion.div
+                    key={videoId}
+                    className="relative rounded-2xl overflow-hidden aspect-[9/16]"
+                    style={{
+                      border: "2.5px solid rgba(20, 55, 150, 0.8)",
+                      backdropFilter: "blur(20px)",
+                      boxShadow: "0 0 14px rgba(10, 40, 130, 0.5), 0 0 28px rgba(10, 40, 130, 0.3), 0 0 42px rgba(10, 40, 130, 0.15)",
+                      background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
+                    }}
+                    custom={i}
+                    variants={fadeUp}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-80px" }}
+                  >
+                    <iframe
+                      src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
+                      title={`Performance ${i + 1}`}
+                      className="absolute inset-0 w-full h-full"
+                      allow="autoplay; encrypted-media"
+                      loading="lazy"
+                      style={{ border: "none" }}
+                    />
                   </motion.div>
                 ))}
               </div>
@@ -662,7 +596,7 @@ const Illusionist = () => {
                   Let's craft something <em>unforgettable</em>.
                 </h2>
                 <p
-                  className="text-base font-light leading-relaxed max-w-lg"
+                  className="text-sm font-light leading-relaxed max-w-lg"
                   style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.75)" }}
                 >
                   Share a few details about your event and I'll personally reply with availability, format recommendations, and next steps.
