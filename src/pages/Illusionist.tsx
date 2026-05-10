@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import GetInTouchButton from "@/components/GetInTouchButton";
 import PageTransition from "@/components/PageTransition";
@@ -73,6 +73,13 @@ const topLogos = [
 ];
 
 
+const glassCardStyle: React.CSSProperties = {
+  background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
+  border: "1px solid rgba(20, 55, 150, 0.6)",
+  backdropFilter: "blur(20px)",
+  boxShadow: "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
+};
+
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (i: number) => ({
@@ -82,27 +89,69 @@ const fadeUp = {
   }),
 };
 
-const services = [
+const events = [
   {
     number: "01",
-    title: "Stage",
+    category: "Weddings",
+    title: "A conjured moment you will never forget",
     description:
-      "A highly interactive stage performance that delves into the workings of the human mind, featuring raw, unfiltered mentalism. Thoughts are revealed, predictions unfold, and the entire audience is brought together in a shared experience of wonder.",
-    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+      "From the cocktail hour to the reception, I weave invisibly through your guests — creating spontaneous, personal moments of wonder. I incorporate your names, dates, thoughts and personal belongings into the magic itself, leaving you with souvenirs you'll always cherish.",
+    tags: ["Cocktail Hour", "Reception", "Table Magic", "Ceremonies"],
   },
   {
     number: "02",
-    title: "Close-up",
+    category: "Private Celebrations",
+    title: "Birthdays, anniversaries & milestones",
     description:
-      "An intimate, walk-around experience tailored for individuals and smaller groups within a larger setting. Using only borrowed items from the audience, the magic happens up close – bending reality in the most direct and astonishing way.",
-    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+      "No two celebrations are alike. I tailor every performance to your guest list — finding the funny, the sentimental, and the spectacular in equal measure. I turn a birthday dinner into a night of stories.",
+    tags: ["Birthdays", "Anniversaries", "Retirements"],
   },
   {
     number: "03",
+    category: "Corporate Events",
+    title: "Wonder that moves the room",
+    description:
+      "From keynote stages to gala dinners, I design experiences that unite your team, impress your clients, and leave a lasting impression. Stage performance, intimate close-up, or a seamless blend of both — tailored to your event and audience.",
+    tags: ["Stage", "Close-up", "Conferences", "Galas"],
+  },
+];
+
+const experiences = [
+  {
+    format: "Interactive · Large Audiences",
+    title: "Stage",
+    description:
+      "A highly interactive stage performance that delves into the workings of the human mind – featuring raw, unfiltered mentalism. Thoughts are revealed, predictions unfold, and the entire audience is brought together in shared moments of wonder.",
+    bullets: [
+      "Corporate keynotes & brand activations",
+      "Theatres, festivals & ticketed shows",
+      "Custom routines built around your theme",
+    ],
+    enquireLabel: "Enquire about Stage",
+  },
+  {
+    format: "Intimate · Walk-Around",
+    title: "Close-up",
+    description:
+      "Intimate mind-reading, sleight of hand, and full-length mentalism sets built for private rooms, keynotes and brand experiences. Using only borrowed items from the audience, the magic happens up close — bending reality in the most direct and astonishing way.",
+    bullets: [
+      "Private parties & dinners",
+      "Brand experiences & VIP receptions",
+      "Walk-around at cocktail hours & launches",
+    ],
+    enquireLabel: "Enquire about Close-up",
+  },
+  {
+    format: "Stage + Close-Up · Full Event",
     title: "Complete",
     description:
       "The best of both worlds – a full-scale experience that combines the impact of stage with the depth of close-up. It begins with an immersive stage performance and seamlessly flows into close-up, engaging the audience at every level and leaving them with memories for a lifetime.",
-    fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+    bullets: [
+      "Stage opener flowing into walk-around",
+      "Built for galas, weddings & flagship events",
+      "Hosted Q&A and shared finale moments",
+    ],
+    enquireLabel: "Enquire about Complete",
   },
 ];
 
@@ -149,15 +198,103 @@ const Illusionist = () => {
 
         {/* Scrollable content */}
         <div className="relative z-[2]">
-          {/* Hero section — image left, text right */}
-          <section className="pt-32 pb-12 md:pt-40 md:pb-16 flex items-center px-6 md:px-16 lg:px-24">
-            <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16 w-full max-w-6xl mx-auto">
+
+          {/* ── Hero ── */}
+          <section className="pt-32 pb-16 md:pt-40 md:pb-20 px-6 md:px-16 lg:px-24">
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
+
+              {/* Text column */}
+              <motion.div
+                className="w-full md:w-[55%] flex flex-col gap-5"
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
+                {/* Labels */}
+                <p
+                  className="text-[0.65rem] md:text-[0.72rem] tracking-[0.35em] uppercase text-black/60"
+                  style={{ fontFamily: "’Nestborn’, sans-serif" }}
+                >
+                  Mentalist&nbsp;&nbsp;·&nbsp;&nbsp;Magician&nbsp;&nbsp;·&nbsp;&nbsp;Hypnotist
+                </p>
+
+                {/* Headline */}
+                <h1
+                  className="text-[9vw] md:text-[5vw] leading-[1.08]"
+                  style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "black" }}
+                >
+                  The mind is the{" "}
+                  <em>greatest illusion.</em>
+                </h1>
+
+                {/* Sub */}
+                <p
+                  className="text-[5.5vw] md:text-[2.4vw] font-bold leading-tight"
+                  style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "black" }}
+                >
+                  Anything is possible.
+                </p>
+
+                {/* Body */}
+                <p
+                  className="text-base md:text-lg font-light leading-relaxed max-w-lg"
+                  style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.8)" }}
+                >
+                  I’m Rhishav Sikdar — a mentalist blending psychology, intuition, and illusion into experiences that don’t just entertain, they linger.
+                </p>
+
+                {/* CTA */}
+                <motion.button
+                  onClick={() => navigate("/contact")}
+                  className="self-start mt-1 px-7 py-4 rounded-2xl flex items-center gap-3 cursor-pointer"
+                  style={{
+                    ...glassCardStyle,
+                    fontFamily: "’Nestborn’, sans-serif",
+                    color: "black",
+                    fontSize: "0.78rem",
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase",
+                    fontWeight: 700,
+                  }}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  Book an Experience
+                  <ArrowUpRight className="w-4 h-4" />
+                </motion.button>
+
+                {/* Stats */}
+                <div className="flex gap-6 md:gap-10 pt-4 border-t border-black/10">
+                  {[
+                    { number: "18+", label: "Years of Craft" },
+                    { number: "600+", label: "Shows Performed" },
+                    { number: "100+", label: "Corporate Stages" },
+                  ].map((stat) => (
+                    <div key={stat.label} className="flex flex-col gap-1">
+                      <span
+                        className="text-2xl md:text-3xl font-bold text-black"
+                        style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}
+                      >
+                        {stat.number}
+                      </span>
+                      <span
+                        className="text-[0.58rem] md:text-[0.63rem] tracking-[0.2em] uppercase text-black/55"
+                        style={{ fontFamily: "’Nestborn’, sans-serif" }}
+                      >
+                        {stat.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
               {/* Portrait */}
               <motion.div
                 className="w-full md:w-[45%] flex-shrink-0"
-                initial={{ opacity: 0, x: -60 }}
+                initial={{ opacity: 0, x: 60 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
                 <div
                   className="relative rounded-[2rem] overflow-hidden aspect-square flex items-center justify-center"
@@ -171,160 +308,159 @@ const Illusionist = () => {
                     src={portraitImg}
                     alt="Rhishav Sikdar"
                     className="w-full h-full object-cover object-top"
-                    style={{
-                      filter: "brightness(0.95) contrast(1.05) saturate(0.9)",
-                    }}
-                  />
-                  {/* Edge blend overlays */}
-                  <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background:
-                        "radial-gradient(ellipse at center, transparent 50%, hsla(0,0%,0%,0.3) 100%)",
-                    }}
+                    style={{ filter: "brightness(0.95) contrast(1.05) saturate(0.9)" }}
                   />
                   <div
                     className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background:
-                        "linear-gradient(to top, hsla(0,0%,0%,0.35) 0%, transparent 30%), linear-gradient(to bottom, hsla(0,0%,0%,0.15) 0%, transparent 20%)",
-                    }}
+                    style={{ background: "radial-gradient(ellipse at center, transparent 50%, hsla(0,0%,0%,0.3) 100%)" }}
+                  />
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ background: "linear-gradient(to top, hsla(0,0%,0%,0.35) 0%, transparent 30%), linear-gradient(to bottom, hsla(0,0%,0%,0.15) 0%, transparent 20%)" }}
                   />
                 </div>
               </motion.div>
+            </div>
+          </section>
 
-              {/* Text content */}
+          {/* ── About ── */}
+          <section className="px-6 md:px-16 lg:px-24 pb-16">
+            <div className="max-w-5xl mx-auto">
               <motion.div
-                className="w-full md:w-[55%] flex flex-col gap-6 items-center text-center"
-                initial={{ opacity: 0, x: 60 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.2,
-                  ease: [0.25, 0.46, 0.45, 0.94],
-                }}
+                className="flex flex-col gap-5"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
-                <h1
-                  className="text-[12vw] md:text-[6vw] uppercase leading-[0.9] tracking-[0.15em]"
-                  style={{
-                    fontFamily: "'Nestborn', sans-serif",
-                    color: "hsl(0, 0%, 0%)",
-                  }}
+                <p
+                  className="text-[0.65rem] md:text-[0.72rem] tracking-[0.35em] uppercase text-black/60"
+                  style={{ fontFamily: "’Nestborn’, sans-serif" }}
                 >
-                  Illusion
-                </h1>
-                <div
-                  className="w-16 h-[2px]"
-                  style={{
-                    background:
-                      "linear-gradient(to right, hsla(0, 0%, 0%, 0.6), transparent)",
-                  }}
-                />
-                <div
-                  className="relative w-full p-6 md:p-8 rounded-2xl flex flex-col gap-4 items-center text-center"
-                  style={{
-                    background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
-                    border: "1px solid rgba(20, 55, 150, 0.6)",
-                    backdropFilter: "blur(20px)",
-                    boxShadow: "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
-                  }}
+                  About
+                </p>
+                <h2
+                  className="text-[7vw] md:text-[3.5vw] leading-[1.1]"
+                  style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "black" }}
                 >
+                  Not a show. An <em>experience</em>.
+                </h2>
+                <div className="w-10 h-[1px] bg-black/25" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
                   <p
-                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
-                    style={{
-                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                      color: "hsla(0, 0%, 0%, 0.85)",
-                    }}
+                    className="text-base font-light leading-relaxed"
+                    style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.8)" }}
                   >
-                    For over 18 years, I’ve studied and performed the art of magic and mentalism – blending psychology, intuition, and illusion to create extraordinary experiences.
+                    For over eighteen years, I’ve studied and performed the art of magic and mentalism — blending psychology, intuition, and illusion to craft moments that people remember long after the room empties.
                   </p>
                   <p
-                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
-                    style={{
-                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                      color: "hsla(0, 0%, 0%, 0.85)",
-                    }}
+                    className="text-base font-light leading-relaxed"
+                    style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.8)" }}
                   >
-                    With 8+ years as a professional, I’ve performed over 600 shows for 100+ corporate organizations.
-                  </p>
-                  <p
-                    className="text-lg leading-relaxed max-w-lg font-light mx-auto"
-                    style={{
-                      fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-                      color: "hsla(0, 0%, 0%, 0.85)",
-                    }}
-                  >
-                    This isn’t just a show – it’s an experience that brings you in touch with what your mind is truly capable of.
+                    With more than eight years as a professional, I’ve shared these experiences across 600+ stages and with 100+ corporate organisations. Every performance is designed to bring you closer to what your own mind is truly capable of — a reminder that wonder is not something that happens to you, but something you create.
                   </p>
                 </div>
               </motion.div>
             </div>
           </section>
 
-          {/* Services section */}
-          <section className="px-6 md:px-16 lg:px-24 pb-10">
+          {/* ── Perfect For ── */}
+          <section className="px-6 md:px-16 lg:px-24 pb-16">
             <div className="max-w-5xl mx-auto">
-              <motion.h2
-                className="text-[8vw] md:text-[3vw] uppercase tracking-[0.2em] mb-6 text-center"
-                style={{
-                  fontFamily: "'Nestborn', sans-serif",
-                  color: "hsl(0, 0%, 0%)",
-                }}
+
+              {/* Section header */}
+              <motion.div
+                className="flex flex-col gap-4 mb-10"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.7 }}
               >
-                Experiences
-              </motion.h2>
+                <p
+                  className="text-[0.65rem] md:text-[0.72rem] tracking-[0.35em] uppercase text-black/60"
+                  style={{ fontFamily: "’Nestborn’, sans-serif" }}
+                >
+                  Perfect For
+                </p>
+                <h2
+                  className="text-[7vw] md:text-[3.5vw] leading-[1.1]"
+                  style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "black" }}
+                >
+                  Every celebration deserves{" "}
+                  <em>a little magic</em>
+                </h2>
+                {/* Diamond */}
+                <div className="flex items-center py-1">
+                  <div
+                    className="w-2.5 h-2.5 rotate-45"
+                    style={{ background: "rgba(20, 55, 150, 0.45)" }}
+                  />
+                </div>
+              </motion.div>
 
-              <div className="flex flex-col gap-6 items-center">
-                {services.map((service, i) => (
+              {/* Event cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {events.map((event, i) => (
                   <motion.div
-                    key={service.number}
-                    className="relative w-full max-w-4xl px-6 md:px-16 py-6 md:py-8 rounded-2xl text-center overflow-hidden"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
-                      border: "1px solid rgba(20, 55, 150, 0.6)",
-                      backdropFilter: "blur(20px)",
-                      boxShadow:
-                        "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
-                    }}
+                    key={event.number}
+                    className="relative rounded-2xl p-6 flex flex-col gap-4"
+                    style={glassCardStyle}
                     custom={i}
                     variants={fadeUp}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: true, margin: "-80px" }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 20 }}
                   >
-                    {/* Corner accent */}
-                    <div
-                      className="absolute top-0 left-0 w-12 h-12 pointer-events-none"
-                      style={{
-                        borderTop: "1px solid hsla(200, 60%, 70%, 0.2)",
-                        borderLeft: "1px solid hsla(200, 60%, 70%, 0.2)",
-                        borderTopLeftRadius: "1rem",
-                      }}
-                    />
+                    {/* Category + number */}
+                    <div className="flex items-start justify-between">
+                      <span
+                        className="text-[0.6rem] tracking-[0.28em] uppercase text-black/60"
+                        style={{ fontFamily: "’Nestborn’, sans-serif" }}
+                      >
+                        {event.category}
+                      </span>
+                      <span
+                        className="text-3xl font-bold text-black/10 leading-none select-none"
+                        style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}
+                      >
+                        {event.number}
+                      </span>
+                    </div>
 
+                    {/* Title */}
                     <h3
-                      className="text-2xl md:text-3xl uppercase tracking-[0.1em] mb-3"
-                      style={{
-                        fontFamily: "'Nestborn', sans-serif",
-                        color: "hsl(0, 0%, 0%)",
-                      }}
+                      className="text-lg md:text-xl leading-snug"
+                      style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "black" }}
                     >
-                      {service.title}
+                      {event.title}
                     </h3>
+
+                    {/* Description */}
                     <p
-                      className="text-base leading-relaxed font-light"
-                      style={{
-                        fontFamily: service.fontFamily,
-                        color: "hsla(0, 0%, 0%, 0.85)",
-                      }}
+                      className="text-sm font-light leading-relaxed flex-1"
+                      style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.75)" }}
                     >
-                      {service.description}
+                      {event.description}
                     </p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      {event.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 rounded-full text-[0.58rem] tracking-[0.2em] uppercase text-black/65"
+                          style={{
+                            fontFamily: "’Nestborn’, sans-serif",
+                            border: "1px solid rgba(20, 55, 150, 0.3)",
+                            background: "hsla(0,0%,100%,0.05)",
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -383,6 +519,174 @@ const Illusionist = () => {
                   </motion.div>
                 ))}
               </div>
+            </div>
+          </section>
+
+          {/* ── The Experiences ── */}
+          <section className="px-6 md:px-16 lg:px-24 pb-16">
+            <div className="max-w-5xl mx-auto">
+
+              {/* Section header */}
+              <motion.div
+                className="flex flex-col gap-4 mb-10"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.7 }}
+              >
+                <p
+                  className="text-[0.65rem] md:text-[0.72rem] tracking-[0.35em] uppercase text-black/60"
+                  style={{ fontFamily: "'Nestborn', sans-serif" }}
+                >
+                  The Experiences
+                </p>
+                <h2
+                  className="text-[7vw] md:text-[3.5vw] leading-[1.1]"
+                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "black" }}
+                >
+                  Three ways to <em>bend</em> reality.
+                </h2>
+                <p
+                  className="text-base font-light leading-relaxed max-w-lg"
+                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.7)" }}
+                >
+                  Every gathering deserves a different kind of wonder. Choose a format crafted for the room you're filling.
+                </p>
+              </motion.div>
+
+              {/* Experience cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {experiences.map((exp, i) => (
+                  <motion.div
+                    key={exp.title}
+                    className="relative rounded-2xl p-6 md:p-7 flex flex-col gap-4"
+                    style={glassCardStyle}
+                    custom={i}
+                    variants={fadeUp}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-60px" }}
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                  >
+                    {/* Format label */}
+                    <p
+                      className="text-[0.58rem] tracking-[0.28em] uppercase text-black/55"
+                      style={{ fontFamily: "'Nestborn', sans-serif" }}
+                    >
+                      {exp.format}
+                    </p>
+
+                    {/* Title */}
+                    <h3
+                      className="text-2xl md:text-3xl leading-tight"
+                      style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "black" }}
+                    >
+                      {exp.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p
+                      className="text-sm font-light leading-relaxed"
+                      style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.75)" }}
+                    >
+                      {exp.description}
+                    </p>
+
+                    {/* Bullets */}
+                    <ul className="flex flex-col gap-1.5 flex-1">
+                      {exp.bullets.map((b) => (
+                        <li key={b} className="flex items-start gap-2">
+                          <span
+                            className="mt-[0.15em] shrink-0 text-black/35 text-sm select-none"
+                            aria-hidden="true"
+                          >
+                            —
+                          </span>
+                          <span
+                            className="text-sm font-light leading-snug"
+                            style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.7)" }}
+                          >
+                            {b}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Enquire CTA */}
+                    <div className="pt-3 border-t border-black/10">
+                      <button
+                        onClick={() => navigate("/contact")}
+                        className="flex items-center gap-3 cursor-pointer group"
+                      >
+                        <span
+                          className="text-[0.62rem] tracking-[0.22em] uppercase text-black/60 group-hover:text-black transition-colors duration-200"
+                          style={{ fontFamily: "'Nestborn', sans-serif" }}
+                        >
+                          {exp.enquireLabel}
+                        </span>
+                        <span
+                          className="block h-[1px] w-6 bg-black/25 group-hover:w-10 group-hover:bg-black/50 transition-all duration-300"
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── Connect CTA ── */}
+          <section className="px-6 md:px-16 lg:px-24 pb-16">
+            <div className="max-w-5xl mx-auto">
+              <motion.div
+                className="rounded-3xl p-8 md:p-12 flex flex-col gap-5"
+                style={glassCardStyle}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.8 }}
+                whileHover={{ scale: 1.01 }}
+              >
+                <p
+                  className="text-[0.65rem] md:text-[0.72rem] tracking-[0.35em] uppercase text-black/60"
+                  style={{ fontFamily: "'Nestborn', sans-serif" }}
+                >
+                  Book an Experience
+                </p>
+                <h2
+                  className="text-[7vw] md:text-[3.5vw] leading-[1.1] max-w-xl"
+                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "black" }}
+                >
+                  Let's craft something <em>unforgettable</em>.
+                </h2>
+                <p
+                  className="text-base font-light leading-relaxed max-w-lg"
+                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.75)" }}
+                >
+                  Share a few details about your event and I'll personally reply with availability, format recommendations, and next steps.
+                </p>
+                <motion.button
+                  onClick={() => navigate("/contact")}
+                  className="self-start mt-2 px-8 py-4 rounded-2xl flex items-center gap-3 cursor-pointer"
+                  style={{
+                    ...glassCardStyle,
+                    fontFamily: "'Nestborn', sans-serif",
+                    color: "black",
+                    fontSize: "0.78rem",
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase",
+                    fontWeight: 700,
+                  }}
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  Connect
+                  <ArrowUpRight className="w-4 h-4" />
+                </motion.button>
+              </motion.div>
             </div>
           </section>
 
