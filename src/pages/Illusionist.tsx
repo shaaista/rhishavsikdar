@@ -486,7 +486,7 @@ const Illusionist = () => {
 
                     {/* Description */}
                     <p
-                      className="text-lg leading-relaxed"
+                      className="text-base font-light leading-relaxed"
                       style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.75)" }}
                     >
                       {exp.description}
@@ -497,13 +497,13 @@ const Illusionist = () => {
                       {exp.bullets.map((b) => (
                         <li key={b} className="flex items-start gap-2">
                           <span
-                            className="mt-[0.2em] shrink-0 text-black/35 text-lg select-none"
+                            className="mt-[0.2em] shrink-0 text-black/35 text-base select-none"
                             aria-hidden="true"
                           >
                             —
                           </span>
                           <span
-                            className="text-lg leading-snug"
+                            className="text-base font-light leading-snug"
                             style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.7)" }}
                           >
                             {b}
