@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import portraitImg from "@/assets/landingpageformal.png";
+import portraitImg from "@/assets/shirt.png";
 import Iridescence from "@/components/Iridescence";
 import SplitName from "@/components/SplitName";
 import GlassBlobs from "@/components/GlassBlobs";
