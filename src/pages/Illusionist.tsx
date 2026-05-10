@@ -309,13 +309,13 @@ const Illusionist = () => {
                 <div className="w-10 h-[1px] bg-black/25" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
                   <p
-                    className="text-sm font-light leading-relaxed"
+                    className="text-base font-light leading-relaxed"
                     style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.8)" }}
                   >
                     For over eighteen years, I’ve studied and performed the art of magic and mentalism — blending psychology, intuition, and illusion to craft moments that people remember long after the room empties.
                   </p>
                   <p
-                    className="text-sm font-light leading-relaxed"
+                    className="text-base font-light leading-relaxed"
                     style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.8)" }}
                   >
                     With more than eight years as a professional, I’ve shared these experiences across 600+ stages and with 100+ corporate organisations. Every performance is designed to bring you closer to what your own mind is truly capable of — a reminder that wonder is not something that happens to you, but something you create.
@@ -393,7 +393,7 @@ const Illusionist = () => {
 
                     {/* Description */}
                     <p
-                      className="text-sm font-light leading-relaxed flex-1"
+                      className="text-base font-light leading-relaxed flex-1"
                       style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.75)" }}
                     >
                       {event.description}
@@ -446,7 +446,7 @@ const Illusionist = () => {
                   Three ways to <em>bend</em> reality.
                 </h2>
                 <p
-                  className="text-sm font-light leading-relaxed max-w-lg"
+                  className="text-base font-light leading-relaxed max-w-lg"
                   style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.7)" }}
                 >
                   Every gathering deserves a different kind of wonder. Choose a format crafted for the room you're filling.
@@ -486,7 +486,7 @@ const Illusionist = () => {
 
                     {/* Description */}
                     <p
-                      className="text-sm font-light leading-relaxed"
+                      className="text-base font-light leading-relaxed"
                       style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.75)" }}
                     >
                       {exp.description}
@@ -497,13 +497,13 @@ const Illusionist = () => {
                       {exp.bullets.map((b) => (
                         <li key={b} className="flex items-start gap-2">
                           <span
-                            className="mt-[0.15em] shrink-0 text-black/35 text-sm select-none"
+                            className="mt-[0.15em] shrink-0 text-black/35 text-base select-none"
                             aria-hidden="true"
                           >
                             —
                           </span>
                           <span
-                            className="text-sm font-light leading-snug"
+                            className="text-base font-light leading-snug"
                             style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.7)" }}
                           >
                             {b}
@@ -596,7 +596,7 @@ const Illusionist = () => {
                   Let's craft something <em>unforgettable</em>.
                 </h2>
                 <p
-                  className="text-sm font-light leading-relaxed max-w-lg"
+                  className="text-base font-light leading-relaxed max-w-lg"
                   style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.75)" }}
                 >
                   Share a few details about your event and I'll personally reply with availability, format recommendations, and next steps.
