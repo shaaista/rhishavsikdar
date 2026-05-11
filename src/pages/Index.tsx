@@ -12,6 +12,14 @@ const NAME_TOTAL_DURATION_MS = 1500;
 
 const Index = () => {
   const [revealed, setRevealed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     const t = window.setTimeout(() => setRevealed(true), NAME_TOTAL_DURATION_MS);
@@ -68,7 +76,7 @@ const Index = () => {
               initial={{ opacity: 0, scale: 0, y: 0 }}
               animate={
                 revealed
-                  ? { opacity: 1, scale: 1.1, y: "-10vh" }
+                  ? { opacity: 1, scale: 1.1, y: isMobile ? "-3vh" : "-10vh" }
                   : { opacity: 0, scale: 0, y: 0 }
               }
               transition={

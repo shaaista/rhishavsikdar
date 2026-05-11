@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import GetInTouchButton from "@/components/GetInTouchButton";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
@@ -149,6 +150,14 @@ const experiences = [
 
 const Illusionist = () => {
   const navigate = useNavigate();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.play().catch(() => {});
+  }, []);
 
   return (
     <PageTransition>
@@ -211,6 +220,7 @@ const Illusionist = () => {
                   }}
                 >
                   <video
+                    ref={videoRef}
                     src={illusionVideo}
                     className="w-full h-full object-cover object-top"
                     autoPlay
