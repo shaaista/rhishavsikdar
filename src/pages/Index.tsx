@@ -68,7 +68,7 @@ const Index = () => {
               initial={{ opacity: 0, scale: 0, y: "-12vh" }}
               animate={
                 revealed
-                  ? { opacity: 1, scale: 1.35, y: "8vh" }
+                  ? { opacity: 1, scale: 1.28, y: "8vh" }
                   : { opacity: 0, scale: 0, y: "-12vh" }
               }
               transition={
