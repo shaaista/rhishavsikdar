@@ -195,12 +195,46 @@ const Illusionist = () => {
           <section className="pt-32 pb-16 md:pt-40 md:pb-20 px-6 md:px-16 lg:px-24">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
 
-              {/* Text column */}
+              {/* Portrait — left */}
+              <motion.div
+                className="w-full md:w-[45%] flex-shrink-0"
+                initial={{ opacity: 0, x: -60 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
+                <div
+                  className="relative rounded-[2rem] overflow-hidden aspect-square flex items-center justify-center"
+                  style={{
+                    border: "1px solid rgba(20, 55, 150, 0.6)",
+                    boxShadow:
+                      "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1), 0 20px 60px hsla(0,0%,0%,0.5)",
+                  }}
+                >
+                  <video
+                    src={illusionVideo}
+                    className="w-full h-full object-cover object-top"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  />
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ background: "radial-gradient(ellipse at center, transparent 50%, hsla(0,0%,0%,0.3) 100%)" }}
+                  />
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ background: "linear-gradient(to top, hsla(0,0%,0%,0.35) 0%, transparent 30%), linear-gradient(to bottom, hsla(0,0%,0%,0.15) 0%, transparent 20%)" }}
+                  />
+                </div>
+              </motion.div>
+
+              {/* Text column — right */}
               <motion.div
                 className="w-full md:w-[55%] flex flex-col gap-5"
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                initial={{ opacity: 0, x: 60 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
                 {/* Eyebrow */}
                 <p
@@ -248,40 +282,6 @@ const Illusionist = () => {
                       </span>
                     </div>
                   ))}
-                </div>
-              </motion.div>
-
-              {/* Portrait */}
-              <motion.div
-                className="w-full md:w-[45%] flex-shrink-0"
-                initial={{ opacity: 0, x: 60 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-              >
-                <div
-                  className="relative rounded-[2rem] overflow-hidden aspect-square flex items-center justify-center"
-                  style={{
-                    border: "1px solid rgba(20, 55, 150, 0.6)",
-                    boxShadow:
-                      "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1), 0 20px 60px hsla(0,0%,0%,0.5)",
-                  }}
-                >
-                  <video
-                    src={illusionVideo}
-                    className="w-full h-full object-cover object-top"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                  />
-                  <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{ background: "radial-gradient(ellipse at center, transparent 50%, hsla(0,0%,0%,0.3) 100%)" }}
-                  />
-                  <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{ background: "linear-gradient(to top, hsla(0,0%,0%,0.35) 0%, transparent 30%), linear-gradient(to bottom, hsla(0,0%,0%,0.15) 0%, transparent 20%)" }}
-                  />
                 </div>
               </motion.div>
             </div>
