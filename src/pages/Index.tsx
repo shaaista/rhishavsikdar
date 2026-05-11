@@ -63,19 +63,18 @@ const Index = () => {
               className="relative z-[2] w-auto h-full max-h-[75vh] md:max-h-[140vh] object-contain object-bottom drop-shadow-2xl"
               style={{
                 filter: "brightness(1) contrast(1.15) saturate(1.1)",
-                transformOrigin: "center bottom",
+                transformOrigin: "center",
               }}
-              initial={{ opacity: 0, scale: 0, y: "-12vh" }}
+              initial={{ opacity: 0, scale: 0 }}
               animate={
                 revealed
-                  ? { opacity: 1, scale: 1.28, y: "2vh" }
-                  : { opacity: 0, scale: 0, y: "-12vh" }
+                  ? { opacity: 1, scale: 1.28 }
+                  : { opacity: 0, scale: 0 }
               }
               transition={
                 revealed
                   ? {
                       scale: { type: "spring", stiffness: 38, damping: 18, mass: 1.4, delay: 0.15 },
-                      y: { type: "spring", stiffness: 38, damping: 18, mass: 1.4, delay: 0.15 },
                       opacity: { duration: 0.8, delay: 0.15 },
                     }
                   : { duration: 0.3 }
