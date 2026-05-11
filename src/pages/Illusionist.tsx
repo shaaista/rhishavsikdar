@@ -155,8 +155,13 @@ const Illusionist = () => {
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
+    // iOS Safari requires muted set as both attribute and property
+    v.setAttribute("muted", "");
     v.muted = true;
-    v.play().catch(() => {});
+    const tryPlay = () => v.play().catch(() => {});
+    tryPlay();
+    v.addEventListener("loadeddata", tryPlay);
+    return () => v.removeEventListener("loadeddata", tryPlay);
   }, []);
 
   return (
@@ -227,6 +232,7 @@ const Illusionist = () => {
                     loop
                     muted
                     playsInline
+                    preload="auto"
                   />
                   <div
                     className="absolute inset-0 pointer-events-none"
