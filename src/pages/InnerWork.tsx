@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight, Clock, User, Users, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import GetInTouchButton from "@/components/GetInTouchButton";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
 import portraitImg from "@/assets/innerworkwithbg.png";
@@ -174,6 +175,9 @@ const InnerWork = () => {
         >
           <ArrowLeft className="w-4 h-4" />
         </button>
+
+        {/* Connect button top right */}
+        <GetInTouchButton className="fixed top-6 right-6 z-50" variant="transparent" />
 
         {/* Scrollable content */}
         <div className="relative z-[2]">

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
+import GetInTouchButton from "@/components/GetInTouchButton";
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
@@ -184,6 +185,8 @@ const Illusionist = () => {
           <ArrowLeft className="w-4 h-4" />
         </button>
 
+        {/* Connect button top right */}
+        <GetInTouchButton className="fixed top-6 right-6 z-50" variant="transparent" />
 
         {/* Scrollable content */}
         <div className="relative z-[2]">
@@ -201,7 +204,7 @@ const Illusionist = () => {
               >
                 {/* Eyebrow */}
                 <p
-                  className="text-[0.65rem] md:text-[0.72rem] tracking-[0.35em] uppercase text-black/55"
+                  className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/55"
                   style={{ fontFamily: "’Nestborn’, sans-serif" }}
                 >
                   Mentalist&nbsp;&nbsp;·&nbsp;&nbsp;Magician&nbsp;&nbsp;·&nbsp;&nbsp;Hypnotist
@@ -238,7 +241,7 @@ const Illusionist = () => {
                         {stat.number}
                       </span>
                       <span
-                        className="text-[0.58rem] md:text-[0.63rem] tracking-[0.2em] uppercase text-black/55"
+                        className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/55"
                         style={{ fontFamily: "’Nestborn’, sans-serif" }}
                       >
                         {stat.label}
@@ -295,7 +298,7 @@ const Illusionist = () => {
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
                 <p
-                  className="text-[0.65rem] md:text-[0.72rem] tracking-[0.35em] uppercase text-black/60"
+                  className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/60"
                   style={{ fontFamily: "’Nestborn’, sans-serif" }}
                 >
                   About
@@ -309,13 +312,13 @@ const Illusionist = () => {
                 <div className="w-10 h-[1px] bg-black/25" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
                   <p
-                    className="text-lg leading-relaxed"
+                    className="text-base md:text-lg leading-relaxed font-light"
                     style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.8)" }}
                   >
                     For over eighteen years, I’ve studied and performed the art of magic and mentalism — blending psychology, intuition, and illusion to craft moments that people remember long after the room empties.
                   </p>
                   <p
-                    className="text-lg leading-relaxed"
+                    className="text-base md:text-lg leading-relaxed font-light"
                     style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.8)" }}
                   >
                     With more than eight years as a professional, I’ve shared these experiences across 600+ stages and with 100+ corporate organisations. Every performance is designed to bring you closer to what your own mind is truly capable of — a reminder that wonder is not something that happens to you, but something you create.
@@ -338,7 +341,7 @@ const Illusionist = () => {
                 transition={{ duration: 0.7 }}
               >
                 <p
-                  className="text-[0.65rem] md:text-[0.72rem] tracking-[0.35em] uppercase text-black/60"
+                  className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/60"
                   style={{ fontFamily: "’Nestborn’, sans-serif" }}
                 >
                   Perfect For
@@ -370,7 +373,7 @@ const Illusionist = () => {
                     {/* Category + number */}
                     <div className="flex items-start justify-between">
                       <span
-                        className="text-[0.6rem] tracking-[0.28em] uppercase text-black/60"
+                        className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/60"
                         style={{ fontFamily: "’Nestborn’, sans-serif" }}
                       >
                         {event.category}
@@ -385,7 +388,7 @@ const Illusionist = () => {
 
                     {/* Title */}
                     <h3
-                      className="text-xl md:text-2xl leading-tight"
+                      className="text-3xl md:text-4xl leading-tight"
                       style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "black" }}
                     >
                       {event.title}
@@ -393,7 +396,7 @@ const Illusionist = () => {
 
                     {/* Description */}
                     <p
-                      className="text-lg leading-relaxed flex-1"
+                      className="text-base leading-relaxed font-light flex-1"
                       style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "hsla(0,0%,0%,0.75)" }}
                     >
                       {event.description}
@@ -434,7 +437,7 @@ const Illusionist = () => {
                 transition={{ duration: 0.7 }}
               >
                 <p
-                  className="text-[0.65rem] md:text-[0.72rem] tracking-[0.35em] uppercase text-black/60"
+                  className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/60"
                   style={{ fontFamily: "'Nestborn', sans-serif" }}
                 >
                   The Experiences
@@ -446,7 +449,7 @@ const Illusionist = () => {
                   Three ways to <em>bend</em> reality.
                 </h2>
                 <p
-                  className="text-lg leading-relaxed max-w-lg"
+                  className="text-base md:text-lg leading-relaxed font-light max-w-lg"
                   style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.7)" }}
                 >
                   Every gathering deserves a different kind of wonder. Choose a format crafted for the room you're filling.
@@ -470,7 +473,7 @@ const Illusionist = () => {
                   >
                     {/* Format label */}
                     <p
-                      className="text-[0.58rem] tracking-[0.28em] uppercase text-black/55"
+                      className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/55"
                       style={{ fontFamily: "'Nestborn', sans-serif" }}
                     >
                       {exp.format}
@@ -478,7 +481,7 @@ const Illusionist = () => {
 
                     {/* Title */}
                     <h3
-                      className="text-xl md:text-2xl leading-tight"
+                      className="text-3xl md:text-4xl leading-tight"
                       style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "black" }}
                     >
                       {exp.title}
@@ -584,7 +587,7 @@ const Illusionist = () => {
                 whileHover={{ scale: 1.01 }}
               >
                 <p
-                  className="text-[0.65rem] md:text-[0.72rem] tracking-[0.35em] uppercase text-black/60"
+                  className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/60"
                   style={{ fontFamily: "'Nestborn', sans-serif" }}
                 >
                   Book an Experience
@@ -596,7 +599,7 @@ const Illusionist = () => {
                   Let's craft something <em>unforgettable</em>.
                 </h2>
                 <p
-                  className="text-lg leading-relaxed max-w-lg"
+                  className="text-base md:text-lg leading-relaxed font-light max-w-lg"
                   style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "hsla(0,0%,0%,0.75)" }}
                 >
                   Share a few details about your event and I'll personally reply with availability, format recommendations, and next steps.
