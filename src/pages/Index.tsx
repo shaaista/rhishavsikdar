@@ -65,16 +65,17 @@ const Index = () => {
                 filter: "brightness(1) contrast(1.15) saturate(1.1)",
                 transformOrigin: "center",
               }}
-              initial={{ opacity: 0, scale: 0 }}
+              initial={{ opacity: 0, scale: 0, y: 0 }}
               animate={
                 revealed
-                  ? { opacity: 1, scale: 1.28 }
-                  : { opacity: 0, scale: 0 }
+                  ? { opacity: 1, scale: 1.28, y: "-8vh" }
+                  : { opacity: 0, scale: 0, y: 0 }
               }
               transition={
                 revealed
                   ? {
                       scale: { type: "spring", stiffness: 38, damping: 18, mass: 1.4, delay: 0.15 },
+                      y: { type: "spring", stiffness: 38, damping: 18, mass: 1.4, delay: 0.15 },
                       opacity: { duration: 0.8, delay: 0.15 },
                     }
                   : { duration: 0.3 }
