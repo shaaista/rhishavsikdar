@@ -60,7 +60,7 @@ const Index = () => {
             <motion.img
               src={portraitImg}
               alt="Rhishav Sikdar"
-              className="relative z-[2] w-auto h-full max-h-[75vh] md:max-h-[95vh] object-contain object-bottom drop-shadow-2xl"
+              className="relative z-[2] w-auto h-full max-h-[75vh] md:max-h-[115vh] object-contain object-bottom drop-shadow-2xl"
               style={{
                 filter: "brightness(1) contrast(1.15) saturate(1.1)",
                 transformOrigin: "center",
