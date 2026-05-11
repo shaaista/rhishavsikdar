@@ -543,9 +543,8 @@ const InnerWork = () => {
                           {faq.question}
                         </span>
                         <ChevronDown
-                          className={`w-5 h-5 flex-shrink-0 text-black/70 transition-transform duration-300 ${
-                            isOpen ? "rotate-180" : ""
-                          }`}
+                          className={`w-5 h-5 flex-shrink-0 text-black/70 transition-transform duration-300 ${isOpen ? "rotate-180" : ""
+                            }`}
                           aria-hidden="true"
                         />
                       </button>
@@ -613,7 +612,7 @@ const InnerWork = () => {
                 style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
               >
                 Whether for yourself or your organisation — share a little about
-                what you're carrying, and Rhishav will respond personally within
+                what you're carrying, and I will respond personally within
                 48 hours.
               </p>
 
