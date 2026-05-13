@@ -302,6 +302,45 @@ const Illusionist = () => {
             </div>
           </section>
 
+          {/* ── Gallery ── */}
+          <section className="px-6 md:px-16 lg:px-24 pb-10">
+            <div className="max-w-6xl mx-auto">
+              <motion.p
+                className="text-center text-2xl md:text-4xl uppercase tracking-[0.35em] mb-6 font-bold"
+                style={{ fontFamily: "’Nestborn’, sans-serif", color: "hsla(0, 0%, 0%, 0.95)" }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6 }}
+              >
+                Gallery
+              </motion.p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                {["ejoAXoEA6-E", "kNELGcY56_0", "wZHUZ8wF4bo", "8jDlJWRpTM8"].map((videoId, i) => (
+                  <motion.div
+                    key={videoId}
+                    className="relative rounded-2xl overflow-hidden aspect-[9/16]"
+                    style={{ border: "2.5px solid rgba(20, 55, 150, 0.8)", backdropFilter: "blur(20px)", boxShadow: "0 0 14px rgba(10, 40, 130, 0.5), 0 0 28px rgba(10, 40, 130, 0.3), 0 0 42px rgba(10, 40, 130, 0.15)", background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)" }}
+                    custom={i}
+                    variants={fadeUp}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-80px" }}
+                  >
+                    <iframe
+                      src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
+                      title={`Performance ${i + 1}`}
+                      className="absolute inset-0 w-full h-full"
+                      allow="autoplay; encrypted-media"
+                      loading="lazy"
+                      style={{ border: "none" }}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+
           {/* ── Perfect For ── */}
           <section className="px-6 md:px-16 lg:px-24 pb-10">
             <div className="max-w-5xl mx-auto">
@@ -443,49 +482,10 @@ const Illusionist = () => {
             </div>
           </section>
 
-          {/* ── Gallery ── */}
-          <section className="px-6 md:px-16 lg:px-24 pb-10">
-            <div className="max-w-6xl mx-auto">
-              <motion.p
-                className="text-center text-2xl md:text-4xl uppercase tracking-[0.35em] mb-6 font-bold"
-                style={{ fontFamily: "’Nestborn’, sans-serif", color: "hsla(0, 0%, 0%, 0.95)" }}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6 }}
-              >
-                Gallery
-              </motion.p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                {["ejoAXoEA6-E", "kNELGcY56_0", "wZHUZ8wF4bo", "8jDlJWRpTM8"].map((videoId, i) => (
-                  <motion.div
-                    key={videoId}
-                    className="relative rounded-2xl overflow-hidden aspect-[9/16]"
-                    style={{ border: "2.5px solid rgba(20, 55, 150, 0.8)", backdropFilter: "blur(20px)", boxShadow: "0 0 14px rgba(10, 40, 130, 0.5), 0 0 28px rgba(10, 40, 130, 0.3), 0 0 42px rgba(10, 40, 130, 0.15)", background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)" }}
-                    custom={i}
-                    variants={fadeUp}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-80px" }}
-                  >
-                    <iframe
-                      src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
-                      title={`Performance ${i + 1}`}
-                      className="absolute inset-0 w-full h-full"
-                      allow="autoplay; encrypted-media"
-                      loading="lazy"
-                      style={{ border: "none" }}
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </section>
-
           {/* ── Connect CTA ── */}
           <section className="px-6 md:px-16 lg:px-24 pb-20 md:pb-28">
             <motion.div
-              className="max-w-4xl mx-auto rounded-2xl p-8 md:p-14 flex flex-col gap-6 items-center md:items-start text-center md:text-left"
+              className="max-w-4xl mx-auto rounded-2xl p-8 md:p-14 flex flex-col gap-6 items-center text-center"
               style={glassCardStyle}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
