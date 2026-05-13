@@ -225,16 +225,16 @@ const Illusionist = () => {
                 </div>
                 <h1
                   className="text-[10vw] md:text-[4.2vw] leading-[1.05] tracking-[-0.01em] text-black"
-                  style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}
+                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
                 >
                   Anything is{" "}
-                  <span className="italic" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>possible</span>.
+                  <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>possible</span>.
                 </h1>
                 <p
                   className="text-base md:text-lg leading-relaxed font-light max-w-xl"
-                  style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif", color: "#000000" }}
+                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "#000000" }}
                 >
-                  I’m Rhishav Sikdar — a mentalist blending psychology, intuition, and illusion into experiences that don’t just entertain, they linger.
+                  I'm Rhishav Sikdar — a mentalist blending psychology, intuition, and illusion into experiences that don't just entertain, they linger.
                 </p>
               </motion.div>
             </div>
@@ -258,7 +258,7 @@ const Illusionist = () => {
                   { value: "100+", label: "Corporate Stages" },
                 ].map((s) => (
                   <div key={s.label} className="flex flex-col gap-2 items-center text-center">
-                    <span className="text-3xl md:text-5xl text-black leading-none" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>
+                    <span className="text-3xl md:text-5xl text-black leading-none" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
                       {s.value}
                     </span>
                     <span className="text-[0.65rem] md:text-[0.75rem] tracking-[0.18em] uppercase text-black/70 leading-tight" style={{ fontFamily: "Nestborn, sans-serif" }}>
@@ -275,13 +275,13 @@ const Illusionist = () => {
             <div className="max-w-5xl mx-auto flex flex-col gap-8">
               <motion.h2
                 className="text-[8vw] md:text-[3.4vw] leading-[1.05] text-center md:text-left text-black"
-                style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6 }}
               >
-                Not a show. An <span className="italic" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>experience</span>.
+                Not a show. An <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>experience</span>.
               </motion.h2>
               <motion.div
                 className="rounded-2xl p-6 md:p-10 flex flex-col gap-5"
@@ -292,11 +292,11 @@ const Illusionist = () => {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 whileHover={{ scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
               >
-                <p className="text-base md:text-lg leading-relaxed font-light text-black" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>
-                  For over eighteen years, I’ve studied and performed the art of magic and mentalism — blending psychology, intuition, and illusion to craft moments that people remember long after the room empties.
+                <p className="text-base md:text-lg leading-relaxed font-light text-black" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
+                  For over eighteen years, I've studied and performed the art of magic and mentalism — blending psychology, intuition, and illusion to craft moments that people remember long after the room empties.
                 </p>
-                <p className="text-base md:text-lg leading-relaxed font-light text-black" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>
-                  With more than eight years as a professional, I’ve shared these experiences across 600+ stages and with 100+ corporate organisations. Every performance is designed to bring you closer to what your own mind is truly capable of — a reminder that wonder is not something that happens to you, but something you create.
+                <p className="text-base md:text-lg leading-relaxed font-light text-black" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
+                  With more than eight years as a professional, I've shared these experiences across 600+ stages and with 100+ corporate organisations. Every performance is designed to bring you closer to what your own mind is truly capable of — a reminder that wonder is not something that happens to you, but something you create.
                 </p>
               </motion.div>
             </div>
@@ -357,14 +357,14 @@ const Illusionist = () => {
               </motion.div>
               <motion.h2
                 className="text-[9vw] md:text-[3.8vw] leading-[1.05] mb-8 md:mb-10 text-center text-black"
-                style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
                 Every celebration deserves{" "}
-                <span className="italic" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>a little magic</span>.
+                <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>a little magic</span>.
               </motion.h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {events.map((event, i) => (
@@ -383,11 +383,11 @@ const Illusionist = () => {
                       <span className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/70" style={{ fontFamily: "Nestborn, sans-serif" }}>
                         {event.category}
                       </span>
-                      <h3 className="text-3xl md:text-4xl leading-tight text-black" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>
+                      <h3 className="text-3xl md:text-4xl leading-tight text-black" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
                         {event.title}
                       </h3>
                     </div>
-                    <p className="text-base leading-relaxed font-light text-black" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>
+                    <p className="text-base leading-relaxed font-light text-black" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
                       {event.description}
                     </p>
                     <div className="h-[1px] w-full" style={{ background: "rgba(20, 55, 150, 0.3)" }} />
@@ -424,14 +424,14 @@ const Illusionist = () => {
               </motion.div>
               <motion.h2
                 className="text-[9vw] md:text-[3.8vw] leading-[1.05] mb-8 md:mb-10 text-center text-black"
-                style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}
+                style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
                 Three formats.{" "}
-                <span className="italic" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>One unforgettable</span>{" "}
+                <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>One unforgettable</span>{" "}
                 evening.
               </motion.h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -451,17 +451,17 @@ const Illusionist = () => {
                       <span className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/70" style={{ fontFamily: "Nestborn, sans-serif" }}>
                         {exp.format}
                       </span>
-                      <h3 className="text-3xl md:text-4xl leading-tight text-black" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>
+                      <h3 className="text-3xl md:text-4xl leading-tight text-black" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
                         {exp.title}
                       </h3>
                     </div>
-                    <p className="text-base leading-relaxed font-light text-black" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>
+                    <p className="text-base leading-relaxed font-light text-black" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
                       {exp.description}
                     </p>
                     <div className="h-[1px] w-full" style={{ background: "rgba(20, 55, 150, 0.3)" }} />
                     <ul className="flex flex-col gap-3">
                       {exp.bullets.map((b) => (
-                        <li key={b} className="flex items-start gap-3 text-base leading-snug font-light text-black" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>
+                        <li key={b} className="flex items-start gap-3 text-base leading-snug font-light text-black" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
                           <span className="inline-block mt-[0.6rem] w-3 h-[1.5px] flex-shrink-0" style={{ background: "rgba(20, 55, 150, 0.7)" }} aria-hidden="true" />
                           <span>{b}</span>
                         </li>
@@ -471,7 +471,7 @@ const Illusionist = () => {
                     <button
                       onClick={() => navigate("/contact")}
                       className="mt-auto self-start flex items-center gap-2 text-base text-black border-b border-black/40 pb-1 hover:border-black transition-colors cursor-pointer"
-                      style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}
+                      style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
                     >
                       {exp.enquireLabel}
                       <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
@@ -497,12 +497,12 @@ const Illusionist = () => {
                 <span className="inline-block w-10 h-[1px]" style={{ background: "rgba(0,0,0,0.5)" }} aria-hidden="true" />
                 <span style={{ fontFamily: "Nestborn, sans-serif" }}>Book an Experience</span>
               </div>
-              <h2 className="text-[10vw] md:text-[3.8vw] leading-[1.05] text-black" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>
-                Let’s craft something{" "}
-                <span className="italic" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>unforgettable</span>.
+              <h2 className="text-[10vw] md:text-[3.8vw] leading-[1.05] text-black" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
+                Let's craft something{" "}
+                <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>unforgettable</span>.
               </h2>
-              <p className="text-base md:text-lg leading-relaxed font-light text-black max-w-xl" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>
-                Share a few details about your event and I’ll personally reply with availability, format recommendations, and next steps.
+              <p className="text-base md:text-lg leading-relaxed font-light text-black max-w-xl" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
+                Share a few details about your event and I'll personally reply with availability, format recommendations, and next steps.
               </p>
               <GetInTouchButton variant="transparent" className="mt-2" />
             </motion.div>

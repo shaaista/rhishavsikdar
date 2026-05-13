@@ -72,13 +72,13 @@ void main() {
   vec3 colorBlue = vec3(0.58, 0.75, 0.90);        // Much darker blue
   vec3 colorWhite = vec3(0.90, 0.90, 0.94);       // Darker white
   vec3 colorCream = vec3(0.92, 0.88, 0.82);       // Much darker cream
-  
+
   // Blend colors based on wave patterns
   vec3 col = mix(colorPink, colorLavender, wave1);
   col = mix(col, colorBlue, wave2);
   col = mix(col, colorWhite, wave3);
   col = mix(col, colorCream, wave4 * 0.15);  // Minimal cream influence
-  
+
   // Subtle wave line enhancement for depth
   float waveLines = sin(uv.y * 8.0 + d * 0.5) * 0.06 + 0.94;
   col = col * waveLines;

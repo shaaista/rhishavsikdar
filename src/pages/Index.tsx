@@ -6,34 +6,55 @@ import Iridescence from "@/components/Iridescence";
 import PageTransition from "@/components/PageTransition";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
 
-// Matches scroll.html .glass-card exactly
+// Matches glassCardStyle from InnerWork/Illusionist — blue-glow glass
 const glassCard: React.CSSProperties = {
-  background: "rgba(255, 255, 255, 0.15)",
-  backdropFilter: "blur(40px)",
-  WebkitBackdropFilter: "blur(40px)",
-  border: "1px solid rgba(255, 255, 255, 0.3)",
+  background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
+  backdropFilter: "blur(20px)",
+  WebkitBackdropFilter: "blur(20px)",
+  border: "1px solid rgba(20, 55, 150, 0.6)",
   padding: "4rem",
   borderRadius: "24px",
-  boxShadow: "0 30px 60px rgba(0,0,0,0.1)",
+  boxShadow: "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
   color: "#1a1a1a",
 };
 
-// Matches scroll.html .btn-fancy exactly
+// 3D glass blue button — matches GetInTouchButton "blue" variant
 const btnFancy: React.CSSProperties = {
   marginTop: "2rem",
-  padding: "1.2rem 3.5rem",
-  background: "#000",
+  padding: "0.9rem 2.5rem",
+  position: "relative",
   color: "#fff",
-  borderRadius: "100px",
-  fontSize: "11px",
-  letterSpacing: "4px",
+  borderRadius: "4rem",
+  fontSize: "0.85rem",
+  letterSpacing: "0.3em",
   textTransform: "uppercase",
-  fontFamily: "Nestborn, sans-serif",
-  border: "none",
+  fontFamily: "'Nestborn', sans-serif",
+  fontWeight: "bold",
+  border: "1px solid rgba(10, 40, 130, 0.8)",
+  background:
+    "radial-gradient(ellipse 60% 30% at 20% 10%, rgba(255, 255, 255, 0.5) 0%, transparent 60%), " +
+    "radial-gradient(ellipse 40% 20% at 80% 90%, rgba(255, 255, 255, 0.2) 0%, transparent 60%), " +
+    "linear-gradient(135deg, rgba(120, 180, 255, 0.7) 0%, rgba(100, 160, 255, 0.8) 50%, rgba(80, 140, 255, 0.9) 100%)",
+  boxShadow:
+    "inset 4px 4px 10px rgba(255, 255, 255, 0.6), " +
+    "inset -4px -4px 10px rgba(255, 255, 255, 0.3), " +
+    "0 15px 30px rgba(80, 140, 255, 0.5), " +
+    "0 8px 15px rgba(80, 140, 255, 0.3)",
+  backdropFilter: "blur(12px) saturate(1.2)",
+  WebkitBackdropFilter: "blur(12px) saturate(1.2)",
   cursor: "pointer",
   display: "inline-block",
   whiteSpace: "nowrap",
-  transition: "transform 0.4s, background 0.4s",
+};
+
+const btnFancyHover = {
+  scale: 1.02,
+  y: -2,
+  boxShadow:
+    "inset 5px 5px 12px rgba(255, 255, 255, 0.7), " +
+    "inset -5px -5px 12px rgba(255, 255, 255, 0.4), " +
+    "0 20px 40px rgba(80, 140, 255, 0.6), " +
+    "0 10px 20px rgba(80, 140, 255, 0.4)",
 };
 
 const Index = () => {
@@ -60,27 +81,27 @@ const Index = () => {
   // Matches GSAP:
   //   Phase 1 (timeline 0→2 / scroll 0→67%): x 0→+25vw, scale 1→0.8
   //   Phase 2 (timeline 1.5→3.5 / scroll 50→100%+): x →-25vw, scale →1.1
-  const portraitX = useTransform(scrollYProgress, [0, 0.67, 1], ["0px", "25vw", "-25vw"]);
-  const portraitScale = useTransform(scrollYProgress, [0, 0.67, 1], [1, 0.8, 1.1]);
+  const portraitX = useTransform(scrollYProgress, [0, 0.571, 1], ["0px", "25vw", "-25vw"]);
+  const portraitScale = useTransform(scrollYProgress, [0, 0.571, 1], [1, 0.8, 1.1]);
 
   // ── Title scroll-driven transforms ─────────────────────────────────────────
   // Matches GSAP: .to("#main-title", { opacity: 0, y: -150, duration: 1 }, 0)
   //   timeline 0→1 / scroll 0→33%
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.33], [1, 0]);
-  const titleY = useTransform(scrollYProgress, [0, 0.33], [0, -150]);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.286], [1, 0]);
+  const titleY = useTransform(scrollYProgress, [0, 0.286], [0, -150]);
 
   // ── Illusion card ──────────────────────────────────────────────────────────
   // Matches GSAP:
   //   .to("#card-illusion", { opacity:1, y:-50, duration:1 }, 0.5)  → 0.167–0.5
   //   .to("#card-illusion", { opacity:0, y:-150, duration:1 }, 1.5) → 0.5–0.833
-  const illusionOpacity = useTransform(scrollYProgress, [0.167, 0.5, 0.833], [0, 1, 0]);
-  const illusionY = useTransform(scrollYProgress, [0.167, 0.5, 0.833], [0, -50, -150]);
+  const illusionOpacity = useTransform(scrollYProgress, [0.143, 0.429, 0.714], [0, 1, 0]);
+  const illusionY = useTransform(scrollYProgress, [0.143, 0.429, 0.714], [0, -50, -150]);
 
   // ── InnerWork card ─────────────────────────────────────────────────────────
   // Matches GSAP:
   //   .to("#card-innerwork", { opacity:1, y:-50, duration:1 }, 2) → 0.667–1.0
-  const inwOpacity = useTransform(scrollYProgress, [0.667, 1.0], [0, 1]);
-  const inwY = useTransform(scrollYProgress, [0.667, 1.0], [0, -50]);
+  const inwOpacity = useTransform(scrollYProgress, [0.571, 0.857], [0, 1]);
+  const inwY = useTransform(scrollYProgress, [0.571, 0.857], [0, -50]);
 
   return (
     <PageTransition>
@@ -121,15 +142,12 @@ const Index = () => {
             x: portraitX,
             scale: portraitScale,
             width: "32vw",
-            minWidth: "340px",
+            minWidth: "450px",
+            maxHeight: "100vh",
             height: "auto",
-            objectFit: "contain",
-            objectPosition: "bottom",
-            filter: "brightness(1) contrast(1.12) saturate(1.1)",
-            maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+            transformOrigin: "bottom center",
           }}
-          initial={{ opacity: 0, scale: 0.8, y: 100 }}
+          initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 2.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
         />
@@ -172,7 +190,7 @@ const Index = () => {
                   lineHeight: 0.9,
                   textTransform: "uppercase",
                   color: "transparent",
-                  WebkitTextStroke: "1.5px black",
+                  WebkitTextStroke: "1px black",
                   letterSpacing: "-0.01em",
                 }}
                 initial={{ y: "110%" }}
@@ -187,7 +205,7 @@ const Index = () => {
 
         {/* Section 02 — Illusion: card on LEFT, person on RIGHT */}
         <section
-          style={{ height: "100vh", display: "flex", alignItems: "center", padding: "0 8vw" }}
+          style={{ height: "100vh", display: "flex", alignItems: "center", padding: "0 100px" }}
         >
           <motion.div
             style={{
@@ -225,14 +243,21 @@ const Index = () => {
               >
                 Stage performances and close-up magic designed to leave your guests speechless. Eighteen years. Hundreds of stages. One purpose — to make the impossible feel personal.
               </p>
-              <button style={btnFancy}>View Work</button>
+              <motion.button
+                style={btnFancy}
+                whileHover={btnFancyHover}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                View Work
+              </motion.button>
             </div>
           </motion.div>
         </section>
 
         {/* Section 03 — InnerWork: card on RIGHT, person on LEFT */}
         <section
-          style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "0 8vw" }}
+          style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "0 100px" }}
         >
           <motion.div
             style={{
@@ -270,7 +295,14 @@ const Index = () => {
               >
                 Hypnotherapy and inner transformation sessions that go beyond the surface. Science-backed techniques for the subconscious mind — because lasting change begins from within.
               </p>
-              <button style={btnFancy}>Explore Depth</button>
+              <motion.button
+                style={btnFancy}
+                whileHover={btnFancyHover}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                Explore Depth
+              </motion.button>
             </div>
           </motion.div>
         </section>
