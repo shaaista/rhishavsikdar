@@ -307,7 +307,7 @@ const Illusionist = () => {
             <div className="max-w-6xl mx-auto">
               <motion.p
                 className="text-center text-2xl md:text-4xl uppercase tracking-[0.35em] mb-6 font-bold"
-                style={{ fontFamily: "’Nestborn’, sans-serif", color: "hsla(0, 0%, 0%, 0.95)" }}
+                style={{ fontFamily: "Nestborn, sans-serif", color: "hsla(0, 0%, 0%, 0.95)" }}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
@@ -517,7 +517,7 @@ const Illusionist = () => {
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7 }}
             >
-              <p className="text-center text-2xl md:text-4xl uppercase tracking-[0.35em] mb-6 font-bold" style={{ fontFamily: "’Nestborn’, sans-serif", color: "hsla(0, 0%, 0%, 0.95)" }}>
+              <p className="text-center text-2xl md:text-4xl uppercase tracking-[0.35em] mb-6 font-bold" style={{ fontFamily: "Nestborn, sans-serif", color: "hsla(0, 0%, 0%, 0.95)" }}>
                 Trusted By
               </p>
               <div className="mt-12 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
