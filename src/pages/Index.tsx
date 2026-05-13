@@ -138,7 +138,7 @@ const Index = () => {
         <motion.img
           src={portraitImg}
           alt="Rhishav Sikdar"
-          className="w-[91vw] md:w-[32vw] md:min-w-[450px] max-h-screen"
+          className="w-[109vw] md:w-[32vw] md:min-w-[450px] max-h-screen"
           style={{
             x: portraitX,
             scale: portraitScale,
