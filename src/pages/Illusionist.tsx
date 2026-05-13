@@ -204,7 +204,7 @@ const Illusionist = () => {
                   <video
                     ref={videoRef}
                     src={illusionVideo}
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-full object-cover object-top scale-125"
                     autoPlay loop muted playsInline preload="auto"
                   />
                   <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at center, transparent 50%, hsla(0,0%,0%,0.3) 100%)" }} />
