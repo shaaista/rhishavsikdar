@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import portraitImg from "@/assets/shirt.png";
 import Iridescence from "@/components/Iridescence";
@@ -39,8 +39,13 @@ const btnFancy: React.CSSProperties = {
 const Index = () => {
   const navigate = useNavigate();
 
-  // useScroll tracks the window scroll — same as GSAP ScrollTrigger on body
-  const { scrollYProgress } = useScroll();
+  // Raw scroll + spring smoothing — replicates GSAP scrub:1.2
+  const { scrollYProgress: rawProgress } = useScroll();
+  const scrollYProgress = useSpring(rawProgress, {
+    stiffness: 80,
+    damping: 25,
+    restDelta: 0.001,
+  });
 
   // Hide scrollbar on this page
   useEffect(() => {
@@ -83,13 +88,6 @@ const Index = () => {
       <div className="fixed inset-0 z-0">
         <Iridescence mouseReact amplitude={0.1} speed={1} />
       </div>
-      <div
-        className="fixed inset-0 z-[1] pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to bottom, hsla(0,0%,100%,0.08) 0%, hsla(0,0%,100%,0.12) 50%, hsla(0,0%,100%,0.2) 100%)",
-        }}
-      />
 
       {/* ── Nav — matches scroll.html nav ── */}
       <nav className="fixed top-0 w-full px-10 py-8 flex justify-between items-center z-50 pointer-events-none">
@@ -150,8 +148,8 @@ const Index = () => {
               <motion.span
                 style={{
                   display: "block",
-                  fontFamily: "Nestborn, sans-serif",
-                  fontSize: "clamp(3rem, 8.5vw, 10rem)",
+                  fontFamily: "'Syncopate', sans-serif",
+                  fontSize: "8.5vw",
                   lineHeight: 0.9,
                   textTransform: "uppercase",
                   color: "#000",
@@ -169,8 +167,8 @@ const Index = () => {
               <motion.span
                 style={{
                   display: "block",
-                  fontFamily: "Nestborn, sans-serif",
-                  fontSize: "clamp(3rem, 8.5vw, 10rem)",
+                  fontFamily: "'Syncopate', sans-serif",
+                  fontSize: "8.5vw",
                   lineHeight: 0.9,
                   textTransform: "uppercase",
                   color: "transparent",
