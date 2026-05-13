@@ -447,8 +447,8 @@ const Illusionist = () => {
           <section className="px-6 md:px-16 lg:px-24 pb-10">
             <div className="max-w-6xl mx-auto">
               <motion.h2
-                className="text-[9vw] md:text-[3.8vw] leading-[1.05] mb-6 text-center text-black"
-                style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}
+                className="text-[9vw] md:text-[3.8vw] leading-[1.05] mb-6 text-center text-black uppercase tracking-[0.3em] font-bold"
+                style={{ fontFamily: "’Nestborn’, sans-serif" }}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
@@ -507,7 +507,7 @@ const Illusionist = () => {
               <motion.button
                 onClick={() => navigate("/contact")}
                 className="mt-2 px-8 py-4 rounded-2xl flex items-center gap-3 cursor-pointer"
-                style={{ ...glassCardStyle, fontFamily: "’Nestborn’, sans-serif", color: "black", fontSize: "0.78rem", letterSpacing: "0.28em", textTransform: "uppercase", fontWeight: 700 }}
+                style={{ ...glassCardStyle, fontFamily: "’Nestborn’, sans-serif", color: "black", fontSize: "1rem", letterSpacing: "0.3em", textTransform: "uppercase", fontWeight: 700 }}
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
