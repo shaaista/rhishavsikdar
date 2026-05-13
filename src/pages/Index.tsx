@@ -7,12 +7,12 @@ import PageTransition from "@/components/PageTransition";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
 
 // Matches glassCardStyle from InnerWork/Illusionist — blue-glow glass
+// (padding applied via className so it can be responsive)
 const glassCard: React.CSSProperties = {
   background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
   backdropFilter: "blur(20px)",
   WebkitBackdropFilter: "blur(20px)",
   border: "1px solid rgba(20, 55, 150, 0.6)",
-  padding: "4rem",
   borderRadius: "24px",
   boxShadow: "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
   color: "#1a1a1a",
@@ -138,7 +138,7 @@ const Index = () => {
         <motion.img
           src={portraitImg}
           alt="Rhishav Sikdar"
-          className="w-[88vw] md:w-[32vw] md:min-w-[450px] max-h-[60vh] md:max-h-screen"
+          className="w-[70vw] md:w-[32vw] md:min-w-[450px] max-h-screen"
           style={{
             x: portraitX,
             scale: portraitScale,
@@ -151,136 +151,19 @@ const Index = () => {
         />
       </div>
 
-      {/* ── MOBILE layout — single screen, horizontal cards on top ── */}
-      <main className="md:hidden relative z-[5] min-h-screen flex flex-col items-center px-4 pt-24">
-        {/* Horizontal cards at top */}
-        <div className="grid grid-cols-2 gap-3 w-full max-w-[440px]">
-          <motion.div
-            onClick={() => navigate("/illusionist")}
-            style={glassCard}
-            className="cursor-pointer !p-4 !rounded-2xl text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <h3
-              style={{
-                fontSize: "1.05rem",
-                fontWeight: "bold",
-                margin: 0,
-                letterSpacing: "0.05em",
-                fontFamily: "Nestborn, sans-serif",
-                color: "#1a1a1a",
-              }}
-            >
-              ILLUSION
-            </h3>
-            <p
-              style={{
-                color: "rgba(0,0,0,0.6)",
-                lineHeight: 1.5,
-                fontSize: "0.7rem",
-                fontFamily: "'Libre Baskerville', serif",
-                fontWeight: 300,
-                margin: "0.5rem 0 0",
-              }}
-            >
-              Stage magic that lingers.
-            </p>
-          </motion.div>
+      {/* ── Scroll content — 3 × 100vh sections (responsive) ── */}
+      <main className="relative z-[5]">
 
-          <motion.div
-            onClick={() => navigate("/innerwork")}
-            style={glassCard}
-            className="cursor-pointer !p-4 !rounded-2xl text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <h3
-              style={{
-                fontSize: "1.05rem",
-                fontWeight: "bold",
-                margin: 0,
-                letterSpacing: "0.05em",
-                fontFamily: "Nestborn, sans-serif",
-                color: "#1a1a1a",
-              }}
-            >
-              INNERWORK
-            </h3>
-            <p
-              style={{
-                color: "rgba(0,0,0,0.6)",
-                lineHeight: 1.5,
-                fontSize: "0.7rem",
-                fontFamily: "'Libre Baskerville', serif",
-                fontWeight: 300,
-                margin: "0.5rem 0 0",
-              }}
-            >
-              Change from within.
-            </p>
-          </motion.div>
-        </div>
-
-        {/* Title — bigger, positioned just below the cards */}
-        <div className="text-center mt-10">
-          <div style={{ overflow: "hidden" }}>
-            <motion.span
-              style={{
-                display: "block",
-                fontFamily: "'Syncopate', sans-serif",
-                fontSize: "16vw",
-                lineHeight: 0.9,
-                textTransform: "uppercase",
-                color: "#000",
-                letterSpacing: "-0.01em",
-              }}
-              initial={{ y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            >
-              Rhishav
-            </motion.span>
-          </div>
-          <div style={{ overflow: "hidden" }}>
-            <motion.span
-              style={{
-                display: "block",
-                fontFamily: "'Syncopate', sans-serif",
-                fontSize: "16vw",
-                lineHeight: 0.9,
-                textTransform: "uppercase",
-                color: "transparent",
-                WebkitTextStroke: "1px black",
-                letterSpacing: "-0.01em",
-              }}
-              initial={{ y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-            >
-              Sikdar
-            </motion.span>
-          </div>
-        </div>
-      </main>
-
-      {/* ── DESKTOP scroll content — 3 × 100vh sections ── */}
-      <main className="hidden md:block relative z-[5]">
-
-        {/* Section 01 — Hero: centered name */}
-        <section
-          style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}
-        >
+        {/* Section 01 — Hero: title (mobile: bigger + higher; desktop: centered) */}
+        <section className="h-screen flex flex-col items-center justify-start pt-[18vh] md:justify-center md:pt-0">
           <motion.div style={{ opacity: titleOpacity, y: titleY, textAlign: "center" }}>
             {/* Line 1: filled */}
             <div style={{ overflow: "hidden" }}>
               <motion.span
+                className="text-[16vw] md:text-[8.5vw]"
                 style={{
                   display: "block",
                   fontFamily: "'Syncopate', sans-serif",
-                  fontSize: "8.5vw",
                   lineHeight: 0.9,
                   textTransform: "uppercase",
                   color: "#000",
@@ -296,10 +179,10 @@ const Index = () => {
             {/* Line 2: outline only */}
             <div style={{ overflow: "hidden" }}>
               <motion.span
+                className="text-[16vw] md:text-[8.5vw]"
                 style={{
                   display: "block",
                   fontFamily: "'Syncopate', sans-serif",
-                  fontSize: "8.5vw",
                   lineHeight: 0.9,
                   textTransform: "uppercase",
                   color: "transparent",
@@ -317,21 +200,17 @@ const Index = () => {
         </section>
 
         {/* Section 02 — Illusion: card on LEFT, person on RIGHT */}
-        <section
-          style={{ height: "100vh", display: "flex", alignItems: "center", padding: "0 100px" }}
-        >
+        <section className="h-screen flex items-center justify-start px-4 md:px-[100px]">
           <motion.div
+            className="w-[85%] md:w-[35%] max-w-[480px]"
             style={{
-              width: "35%",
-              maxWidth: "480px",
-              minWidth: "280px",
               opacity: illusionOpacity,
               y: illusionY,
               cursor: "pointer",
             }}
             onClick={() => navigate("/illusionist")}
           >
-            <div style={glassCard}>
+            <div style={glassCard} className="p-6 md:p-16">
               <h2
                 style={{
                   fontSize: "2.25rem",
@@ -369,21 +248,17 @@ const Index = () => {
         </section>
 
         {/* Section 03 — InnerWork: card on RIGHT, person on LEFT */}
-        <section
-          style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "0 100px" }}
-        >
+        <section className="h-screen flex items-center justify-end px-4 md:px-[100px]">
           <motion.div
+            className="w-[85%] md:w-[35%] max-w-[480px]"
             style={{
-              width: "35%",
-              maxWidth: "480px",
-              minWidth: "280px",
               opacity: inwOpacity,
               y: inwY,
               cursor: "pointer",
             }}
             onClick={() => navigate("/innerwork")}
           >
-            <div style={glassCard}>
+            <div style={glassCard} className="p-6 md:p-16">
               <h2
                 style={{
                   fontSize: "2.25rem",
