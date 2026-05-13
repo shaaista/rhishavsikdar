@@ -446,16 +446,16 @@ const Illusionist = () => {
           {/* ── Gallery ── */}
           <section className="px-6 md:px-16 lg:px-24 pb-10">
             <div className="max-w-6xl mx-auto">
-              <motion.h2
-                className="text-[9vw] md:text-[3.8vw] leading-[1.05] mb-6 text-center text-black uppercase tracking-[0.3em] font-bold"
-                style={{ fontFamily: "’Nestborn’, sans-serif" }}
+              <motion.p
+                className="text-center text-2xl md:text-4xl uppercase tracking-[0.35em] mb-6 font-bold"
+                style={{ fontFamily: "’Nestborn’, sans-serif", color: "hsla(0, 0%, 0%, 0.95)" }}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6 }}
               >
                 Gallery
-              </motion.h2>
+              </motion.p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 {["ejoAXoEA6-E", "kNELGcY56_0", "wZHUZ8wF4bo", "8jDlJWRpTM8"].map((videoId, i) => (
                   <motion.div
@@ -504,17 +504,7 @@ const Illusionist = () => {
               <p className="text-base md:text-lg leading-relaxed font-light text-black max-w-xl" style={{ fontFamily: "’Libre Baskerville’, ‘Baskerville’, serif" }}>
                 Share a few details about your event and I’ll personally reply with availability, format recommendations, and next steps.
               </p>
-              <motion.button
-                onClick={() => navigate("/contact")}
-                className="mt-2 px-8 py-4 rounded-2xl flex items-center gap-3 cursor-pointer"
-                style={{ ...glassCardStyle, fontFamily: "’Nestborn’, sans-serif", color: "black", fontSize: "1rem", letterSpacing: "0.3em", textTransform: "uppercase", fontWeight: 700 }}
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                Connect
-                <ArrowUpRight className="w-4 h-4" />
-              </motion.button>
+              <GetInTouchButton variant="transparent" className="mt-2" />
             </motion.div>
           </section>
 
