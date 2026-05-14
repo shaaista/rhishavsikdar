@@ -105,11 +105,14 @@ const Index = () => {
   const stageRef = useRef<HTMLDivElement>(null);
   const heroImgRef = useRef<HTMLImageElement>(null);
 
+  const isMobile =
+    typeof window !== "undefined" && window.innerWidth < 768;
+
   useEffect(() => {
     const prevHeight = document.body.style.height;
     const prevOverflow = document.body.style.overflowX;
-    // Tight scroll runway — phases 1-4 finish in ~2.5 screens of scroll
-    document.body.style.height = "350vh";
+    // Scroll runway — enough room for each phase to breathe smoothly
+    document.body.style.height = isMobile ? "400vh" : "450vh";
     document.body.style.overflowX = "hidden";
 
     const styleEl = document.createElement("style");
@@ -127,24 +130,36 @@ const Index = () => {
           trigger: "body",
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.7,
+          scrub: 1.0,
         },
       });
 
-      // 1. MORPH — letters scale to 0, glass icons pop in
+      // 1. MORPH — letters scale to 0, glass icons pop in (smoother in/out)
       tl.to(
         ".letter",
-        { scale: 0, opacity: 0, stagger: 0.05, duration: 0.5 },
+        {
+          scale: 0,
+          opacity: 0,
+          stagger: 0.06,
+          duration: 0.6,
+          ease: "power2.inOut",
+        },
         0,
       ).to(
         ".icon-suit",
-        { scale: 1.2, opacity: 1, stagger: 0.05, duration: 0.5 },
+        {
+          scale: 1.2,
+          opacity: 1,
+          stagger: 0.06,
+          duration: 0.6,
+          ease: "power2.out",
+        },
         0.2,
       );
 
       // 2. FORM TIGHT CIRCLE behind where the head will be
       const totalIcons = 13;
-      const radius = 75;
+      const radius = isMobile ? 48 : 75;
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
 
@@ -163,62 +178,68 @@ const Index = () => {
             const targetY = centerY + Math.sin(angle) * radius;
             return targetY - rect.top - rect.height / 2;
           },
-          duration: 1.5,
-          ease: "power3.inOut",
+          duration: 1.6,
+          ease: "power2.inOut",
         },
         1,
       );
 
-      // 3. BUFFER — icons spin in place
+      // 3. BUFFER — icons spin in place (linear for steady rotation)
       tl.to(
         ".icon-suit",
         { rotation: 720, duration: 2.5, ease: "none" },
         2,
       );
 
-      // 4. HERO + GLASS — portrait slides to center (bottom-anchored),
-      //    buttons fly in from sides
+      // 4. HERO + GLASS — portrait slides to center, buttons fly in (smoother)
       tl.to(
         "#hero",
-        { right: "50%", xPercent: 50, duration: 1.5 },
+        { right: "50%", xPercent: 50, duration: 1.6, ease: "power2.inOut" },
         2,
       ).to(
         ".glass-btn",
-        { opacity: 1, x: 0, stagger: 0.3, duration: 1 },
+        {
+          opacity: 1,
+          x: 0,
+          stagger: 0.25,
+          duration: 1.1,
+          ease: "power2.out",
+        },
         2.5,
       );
 
       // ── AUTO-PLAY timeline (phases 5 & 6) — fires at scroll-end
       const autoTl = gsap.timeline({ paused: true });
 
-      // 5. Icons fly UP off-screen (staggered) — the circle disperses upward
+      // 5. Icons fly UP and dissipate (viewport-aware so they always clear)
       autoTl.to(".icon-suit", {
-        y: "-=500",
+        y: () => `-=${window.innerHeight * 0.7}`,
         opacity: 0,
-        scale: 0.3,
+        scale: 0.25,
         rotation: "+=180",
-        duration: 0.9,
-        stagger: 0.04,
-        ease: "back.in(1.6)",
+        duration: 1.1,
+        stagger: 0.05,
+        ease: "power2.in",
       });
 
-      // 6. Horizontal name reveals — one letter at a time, top to bottom
+      // 6. Horizontal name reveals — letter by letter with soft bounce
       autoTl.to(
         ".char-reveal",
         {
           opacity: 1,
           scale: 1,
-          duration: 0.4,
-          stagger: 0.07,
-          ease: "back.out(2)",
+          duration: 0.55,
+          stagger: 0.08,
+          ease: "back.out(1.6)",
         },
-        "-=0.5",
+        "-=0.6",
       );
 
-      // Trigger autoTl when user reaches scroll-end
+      // Trigger autoTl as soon as the buttons finish revealing (~80% of scroll).
+      // Don't wait for the user to reach the literal bottom of the page.
       ScrollTrigger.create({
         trigger: "body",
-        start: "bottom bottom",
+        start: () => window.innerHeight * (isMobile ? 2.4 : 2.7),
         onEnter: () => autoTl.play(),
         onLeaveBack: () => autoTl.reverse(),
       });
@@ -313,10 +334,12 @@ const Index = () => {
           id="startName"
           className="absolute"
           style={{
-            left: "7%",
+            left: isMobile ? "10%" : "7%",
             top: "13%",
             fontFamily: "'AquireLight', sans-serif",
-            fontSize: "clamp(1.8rem, 4.5vw, 3.6rem)",
+            fontSize: isMobile
+              ? "clamp(2.2rem, 7vw, 3rem)"
+              : "clamp(1.8rem, 4.5vw, 3.6rem)",
             color: DARK,
             textTransform: "uppercase",
             letterSpacing: "0.05em",
@@ -441,9 +464,14 @@ const Index = () => {
           className="glass-btn"
           style={{
             ...glassBtn,
-            left: "15%",
-            top: "55%",
-            transform: "translateX(-150px)",
+            left: isMobile ? "4%" : "15%",
+            top: isMobile ? "78%" : "55%",
+            transform: isMobile
+              ? "translateX(-80px)"
+              : "translateX(-150px)",
+            padding: isMobile ? "0.7rem 1.3rem" : "1.2rem 2.5rem",
+            fontSize: isMobile ? "0.65rem" : "0.8rem",
+            letterSpacing: isMobile ? "0.15em" : "0.2em",
           }}
           onClick={() => navigate("/illusionist")}
         >
@@ -454,9 +482,14 @@ const Index = () => {
           className="glass-btn"
           style={{
             ...glassBtn,
-            right: "15%",
-            top: "55%",
-            transform: "translateX(150px)",
+            right: isMobile ? "4%" : "15%",
+            top: isMobile ? "78%" : "55%",
+            transform: isMobile
+              ? "translateX(80px)"
+              : "translateX(150px)",
+            padding: isMobile ? "0.7rem 1.3rem" : "1.2rem 2.5rem",
+            fontSize: isMobile ? "0.65rem" : "0.8rem",
+            letterSpacing: isMobile ? "0.15em" : "0.2em",
           }}
           onClick={() => navigate("/innerwork")}
         >
