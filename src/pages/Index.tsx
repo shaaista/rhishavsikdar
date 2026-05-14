@@ -1,13 +1,10 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import portraitImg from "@/assets/shirt.png";
 import Iridescence from "@/components/Iridescence";
 import PageTransition from "@/components/PageTransition";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const DARK = "#0f172a";
 const ACCENT = "rgba(20, 55, 150, 1)";
@@ -50,22 +47,15 @@ const letterStyle: React.CSSProperties = {
   zIndex: 2,
 };
 
-// The suit GLYPH itself is the 3D glass element — multi-stop pink+blue
-// gradient via background-clip:text, layered drop shadows for depth.
+// Solid black suit glyph with a subtle shadow for a touch of depth
 const suitStyle: React.CSSProperties = {
   position: "absolute",
   left: 0,
   top: 0,
   width: "100%",
   textAlign: "center",
-  background:
-    "linear-gradient(160deg, rgba(255,255,255,0.98) 0%, #f8a8d8 22%, #c1a0e4 45%, #88b8e8 70%, rgba(255,255,255,0.95) 100%)",
-  WebkitBackgroundClip: "text",
-  backgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  color: "transparent",
-  filter:
-    "drop-shadow(0 0 1px rgba(255,255,255,0.95)) drop-shadow(0 1.5px 3px rgba(20,55,150,0.4)) drop-shadow(0 4px 10px rgba(193,160,228,0.4))",
+  color: "#000",
+  filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.25))",
   fontSize: "0.85em",
   fontWeight: 900,
   lineHeight: 1.1,
@@ -109,39 +99,24 @@ const Index = () => {
     typeof window !== "undefined" && window.innerWidth < 768;
 
   useEffect(() => {
-    const prevHeight = document.body.style.height;
     const prevOverflow = document.body.style.overflowX;
-    // Scroll runway — enough room for each phase to breathe smoothly
-    document.body.style.height = isMobile ? "400vh" : "450vh";
     document.body.style.overflowX = "hidden";
-
-    const styleEl = document.createElement("style");
-    styleEl.id = "index-hide-scrollbar";
-    styleEl.textContent =
-      "body::-webkit-scrollbar{display:none}body{scrollbar-width:none}";
-    document.head.appendChild(styleEl);
 
     let mouseHandler: ((e: MouseEvent) => void) | null = null;
 
     const ctx = gsap.context(() => {
-      // ── SCROLL-DRIVEN timeline (phases 1-4)
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: "body",
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1.0,
-        },
-      });
+      // Single auto-playing timeline — runs the whole sequence on its own,
+      // no scrolling required.
+      const tl = gsap.timeline({ delay: 0.3 });
 
-      // 1. MORPH — letters scale to 0, glass icons pop in (smoother in/out)
+      // 1. MORPH — letters scale to 0, icons pop in
       tl.to(
         ".letter",
         {
           scale: 0,
           opacity: 0,
           stagger: 0.06,
-          duration: 0.6,
+          duration: 0.45,
           ease: "power2.inOut",
         },
         0,
@@ -151,10 +126,10 @@ const Index = () => {
           scale: 1.2,
           opacity: 1,
           stagger: 0.06,
-          duration: 0.6,
+          duration: 0.45,
           ease: "power2.out",
         },
-        0.2,
+        0.15,
       );
 
       // 2. FORM TIGHT CIRCLE behind where the head will be
@@ -178,71 +153,63 @@ const Index = () => {
             const targetY = centerY + Math.sin(angle) * radius;
             return targetY - rect.top - rect.height / 2;
           },
-          duration: 1.6,
+          duration: 1.3,
           ease: "power2.inOut",
         },
-        1,
+        "+=0.1",
       );
 
-      // 3. BUFFER — icons spin in place (linear for steady rotation)
+      // 3. BUFFER — icons spin in place
       tl.to(
         ".icon-suit",
-        { rotation: 720, duration: 2.5, ease: "none" },
-        2,
+        { rotation: 720, duration: 1.8, ease: "none" },
+        "<0.3",
       );
 
-      // 4. HERO + GLASS — portrait slides to center, buttons fly in (smoother)
+      // 4. HERO + GLASS — portrait slides to center, buttons fly in
       tl.to(
         "#hero",
-        { right: "50%", xPercent: 50, duration: 1.6, ease: "power2.inOut" },
-        2,
+        { right: "50%", xPercent: 50, duration: 1.3, ease: "power2.inOut" },
+        "<",
       ).to(
         ".glass-btn",
         {
           opacity: 1,
           x: 0,
-          stagger: 0.25,
-          duration: 1.1,
+          stagger: 0.2,
+          duration: 0.9,
           ease: "power2.out",
         },
-        2.5,
+        "<0.5",
       );
 
-      // ── AUTO-PLAY timeline (phases 5 & 6) — fires at scroll-end
-      const autoTl = gsap.timeline({ paused: true });
+      // 5. Icons fly UP and dissipate
+      tl.to(
+        ".icon-suit",
+        {
+          y: () => `-=${window.innerHeight * 0.7}`,
+          opacity: 0,
+          scale: 0.25,
+          rotation: "+=180",
+          duration: 0.9,
+          stagger: 0.04,
+          ease: "power2.in",
+        },
+        "+=0.4",
+      );
 
-      // 5. Icons fly UP and dissipate (viewport-aware so they always clear)
-      autoTl.to(".icon-suit", {
-        y: () => `-=${window.innerHeight * 0.7}`,
-        opacity: 0,
-        scale: 0.25,
-        rotation: "+=180",
-        duration: 1.1,
-        stagger: 0.05,
-        ease: "power2.in",
-      });
-
-      // 6. Horizontal name reveals — letter by letter with soft bounce
-      autoTl.to(
+      // 6. Horizontal name reveals letter by letter
+      tl.to(
         ".char-reveal",
         {
           opacity: 1,
           scale: 1,
-          duration: 0.55,
-          stagger: 0.08,
+          duration: 0.5,
+          stagger: 0.07,
           ease: "back.out(1.6)",
         },
-        "-=0.6",
+        "-=0.5",
       );
-
-      // Trigger autoTl as soon as the buttons finish revealing (~80% of scroll).
-      // Don't wait for the user to reach the literal bottom of the page.
-      ScrollTrigger.create({
-        trigger: "body",
-        start: () => window.innerHeight * (isMobile ? 2.4 : 2.7),
-        onEnter: () => autoTl.play(),
-        onLeaveBack: () => autoTl.reverse(),
-      });
 
       // Mouse parallax on the portrait
       mouseHandler = (e: MouseEvent) => {
@@ -265,9 +232,7 @@ const Index = () => {
     }, stageRef);
 
     return () => {
-      document.body.style.height = prevHeight;
       document.body.style.overflowX = prevOverflow;
-      document.getElementById("index-hide-scrollbar")?.remove();
       if (mouseHandler) window.removeEventListener("mousemove", mouseHandler);
       ctx.revert();
     };
