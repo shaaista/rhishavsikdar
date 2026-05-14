@@ -78,13 +78,13 @@ const suitStyle: React.CSSProperties = {
 
 const glassBtn: React.CSSProperties = {
   position: "absolute",
-  padding: "1.2rem 2.5rem",
+  padding: "1.1rem 3.2rem",
   background:
     "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
   backdropFilter: "blur(25px)",
   WebkitBackdropFilter: "blur(25px)",
   border: "1px solid rgba(20, 55, 150, 0.6)",
-  borderRadius: "20px",
+  borderRadius: "9999px",
   fontWeight: 800,
   letterSpacing: "0.2em",
   fontSize: "0.8rem",
@@ -392,7 +392,7 @@ const Index = () => {
         >
           <div
             className="flex justify-center mb-2"
-            style={{ gap: "0.15em" }}
+            style={{ gap: "0.35em" }}
           >
             {line1Chars.map((c, i) => (
               <span
@@ -400,7 +400,7 @@ const Index = () => {
                 className="char-reveal"
                 style={{
                   display: "inline-block",
-                  fontSize: "clamp(2.8rem, 6vw, 5.5rem)",
+                  fontSize: "clamp(3.2rem, 7vw, 6.5rem)",
                   fontWeight: 800,
                   letterSpacing: "0.05em",
                   opacity: 0,
@@ -414,14 +414,14 @@ const Index = () => {
               </span>
             ))}
           </div>
-          <div className="flex justify-center" style={{ gap: "0.15em" }}>
+          <div className="flex justify-center" style={{ gap: "0.35em" }}>
             {line2Chars.map((c, i) => (
               <span
                 key={`s-${i}`}
                 className={`char-reveal ${i === 0 ? "char-reveal-S" : ""}`}
                 style={{
                   display: "inline-block",
-                  fontSize: "clamp(2.8rem, 6vw, 5.5rem)",
+                  fontSize: "clamp(3.2rem, 7vw, 6.5rem)",
                   fontWeight: 800,
                   letterSpacing: "0.05em",
                   opacity: 0,
@@ -440,7 +440,7 @@ const Index = () => {
         {/* Portrait — ALWAYS bottom-anchored, slides right → center */}
         <div
           id="hero"
-          className="absolute pointer-events-none w-[85vw] md:w-[40vw] md:max-w-[640px]"
+          className="absolute pointer-events-none w-[72vw] md:w-[32vw] md:max-w-[500px]"
           style={{
             right: "5%",
             bottom: 0,
