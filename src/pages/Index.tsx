@@ -50,29 +50,25 @@ const letterStyle: React.CSSProperties = {
   zIndex: 2,
 };
 
-// 3D glass tile with pink+blue gradient — replaces flat gradient suits
+// The suit GLYPH itself is the 3D glass element — multi-stop pink+blue
+// gradient via background-clip:text, layered drop shadows for depth.
 const suitStyle: React.CSSProperties = {
   position: "absolute",
   left: 0,
   top: 0,
-  width: "1em",
-  height: "1em",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  width: "100%",
+  textAlign: "center",
   background:
-    "linear-gradient(135deg, rgba(248, 168, 216, 0.7) 0%, rgba(193, 160, 228, 0.55) 50%, rgba(136, 184, 232, 0.7) 100%)",
-  backdropFilter: "blur(12px)",
-  WebkitBackdropFilter: "blur(12px)",
-  border: "1px solid rgba(255, 255, 255, 0.65)",
-  borderRadius: "10px",
-  boxShadow:
-    "0 4px 14px rgba(20, 55, 150, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.6), inset 0 -1px 2px rgba(20, 55, 150, 0.12)",
-  color: "rgba(20, 30, 60, 0.95)",
-  fontSize: "0.6em",
-  fontWeight: 700,
-  lineHeight: 1,
-  textShadow: "0 1px 1px rgba(255, 255, 255, 0.5)",
+    "linear-gradient(160deg, rgba(255,255,255,0.98) 0%, #f8a8d8 22%, #c1a0e4 45%, #88b8e8 70%, rgba(255,255,255,0.95) 100%)",
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  color: "transparent",
+  filter:
+    "drop-shadow(0 0 1px rgba(255,255,255,0.95)) drop-shadow(0 1.5px 3px rgba(20,55,150,0.4)) drop-shadow(0 4px 10px rgba(193,160,228,0.4))",
+  fontSize: "0.85em",
+  fontWeight: 900,
+  lineHeight: 1.1,
   opacity: 0,
   transform: "scale(0)",
   zIndex: 1,
@@ -112,8 +108,8 @@ const Index = () => {
   useEffect(() => {
     const prevHeight = document.body.style.height;
     const prevOverflow = document.body.style.overflowX;
-    // Just enough scroll to play phases 1-4; everything after is auto.
-    document.body.style.height = "500vh";
+    // Tight scroll runway — phases 1-4 finish in ~2.5 screens of scroll
+    document.body.style.height = "350vh";
     document.body.style.overflowX = "hidden";
 
     const styleEl = document.createElement("style");
@@ -131,7 +127,7 @@ const Index = () => {
           trigger: "body",
           start: "top top",
           end: "bottom bottom",
-          scrub: 1.5,
+          scrub: 0.7,
         },
       });
 
@@ -195,61 +191,28 @@ const Index = () => {
       // ── AUTO-PLAY timeline (phases 5 & 6) — fires at scroll-end
       const autoTl = gsap.timeline({ paused: true });
 
-      // Letter target positions: each icon flies to its corresponding letter
-      // slot at the top. Mapping: VERT (icons 0-6) -> RHISHAV (letters 0-6),
-      // HORIZ (icons 7-11) -> SIKDAR positions 1-5 (skipping S which has no icon).
-      const calcDelta = (i: number, axis: "x" | "y", target: HTMLElement) => {
-        const letterEls = document.querySelectorAll<HTMLElement>(".char-reveal");
-        const letterIdx = i < 7 ? i : i + 1; // skip "S of SIKDAR" (index 7)
-        const letterEl = letterEls[letterIdx];
-        if (!letterEl) return 0;
-        const iconRect = target.getBoundingClientRect();
-        const letterRect = letterEl.getBoundingClientRect();
-        const iconCenter =
-          axis === "x"
-            ? iconRect.left + iconRect.width / 2
-            : iconRect.top + iconRect.height / 2;
-        const letterCenter =
-          axis === "x"
-            ? letterRect.left + letterRect.width / 2
-            : letterRect.top + letterRect.height / 2;
-        const currentT = (gsap.getProperty(target, axis) as number) ?? 0;
-        return currentT + (letterCenter - iconCenter);
-      };
-
-      // 5. Icons travel one-by-one to their letter spots
+      // 5. Icons fly UP off-screen (staggered) — the circle disperses upward
       autoTl.to(".icon-suit", {
-        x: (i, t) => calcDelta(i, "x", t as HTMLElement),
-        y: (i, t) => calcDelta(i, "y", t as HTMLElement),
-        rotation: 0,
-        scale: 1,
-        duration: 0.7,
-        stagger: 0.09,
-        ease: "power2.inOut",
+        y: "-=500",
+        opacity: 0,
+        scale: 0.3,
+        rotation: "+=180",
+        duration: 0.9,
+        stagger: 0.04,
+        ease: "back.in(1.6)",
       });
 
-      // Each icon fades out as it arrives, and the letter pops in at the same spot
-      autoTl.to(
-        ".icon-suit",
-        { opacity: 0, duration: 0.25, stagger: 0.09 },
-        "-=0.5",
-      );
+      // 6. Horizontal name reveals — one letter at a time, top to bottom
       autoTl.to(
         ".char-reveal",
         {
           opacity: 1,
           scale: 1,
-          duration: 0.35,
-          stagger: 0.09,
+          duration: 0.4,
+          stagger: 0.07,
           ease: "back.out(2)",
         },
-        "<",
-      );
-      // The S of SIKDAR has no preceding icon — fade it in mid-sequence
-      autoTl.to(
-        ".char-reveal-S",
-        { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" },
-        "<0.5",
+        "-=0.5",
       );
 
       // Trigger autoTl when user reaches scroll-end
