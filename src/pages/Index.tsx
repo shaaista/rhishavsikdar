@@ -387,12 +387,12 @@ const Index = () => {
                 style={{
                   display: "inline-block",
                   fontSize: "clamp(3.2rem, 7vw, 6.5rem)",
-                  fontWeight: 800,
+                  fontWeight: 300,
                   letterSpacing: "0.05em",
                   opacity: 0,
                   transform: "scale(0.4)",
                   color: "transparent",
-                  WebkitTextStroke: "1px #000",
+                  WebkitTextStroke: "0.75px #000",
                   fontFamily: "'AquireLight', sans-serif",
                   lineHeight: 1,
                 }}

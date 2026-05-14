@@ -241,7 +241,7 @@ const InnerWork = () => {
                   Beyond the stage,{" "}
                   <span
                     className="italic"
-                    style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                    style={{ fontFamily: "\'Libre Baskerville\', \'Baskerville\', serif", color: "rgba(20, 55, 150, 0.95)" }}
                   >
                     my work
                   </span>
@@ -403,7 +403,7 @@ const InnerWork = () => {
                 Two paths.{" "}
                 <span
                   className="italic"
-                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                  style={{ fontFamily: "\'Libre Baskerville\', \'Baskerville\', serif", color: "rgba(20, 55, 150, 0.95)" }}
                 >
                   One intention
                 </span>{" "}
@@ -601,7 +601,7 @@ const InnerWork = () => {
                 Begin with{" "}
                 <span
                   className="italic"
-                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                  style={{ fontFamily: "\'Libre Baskerville\', \'Baskerville\', serif", color: "rgba(20, 55, 150, 0.95)" }}
                 >
                   a quiet note.
                 </span>

@@ -228,7 +228,7 @@ const Illusionist = () => {
                   style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
                 >
                   Anything is{" "}
-                  <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>possible</span>.
+                  <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "rgba(20, 55, 150, 0.95)" }}>possible</span>.
                 </h1>
                 <p
                   className="text-base md:text-lg leading-relaxed font-light max-w-xl"
@@ -281,7 +281,7 @@ const Illusionist = () => {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6 }}
               >
-                Not a show. An <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>experience</span>.
+                Not a show. An <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "rgba(20, 55, 150, 0.95)" }}>experience</span>.
               </motion.h2>
               <motion.div
                 className="rounded-2xl p-6 md:p-10 flex flex-col gap-5"
@@ -364,7 +364,7 @@ const Illusionist = () => {
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
                 Every celebration deserves{" "}
-                <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>a little magic</span>.
+                <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "rgba(20, 55, 150, 0.95)" }}>a little magic</span>.
               </motion.h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {events.map((event, i) => (
@@ -431,7 +431,7 @@ const Illusionist = () => {
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
                 Three formats.{" "}
-                <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>One unforgettable</span>{" "}
+                <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "rgba(20, 55, 150, 0.95)" }}>One unforgettable</span>{" "}
                 evening.
               </motion.h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -499,7 +499,7 @@ const Illusionist = () => {
               </div>
               <h2 className="text-[10vw] md:text-[3.8vw] leading-[1.05] text-black" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
                 Let's craft something{" "}
-                <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>unforgettable</span>.
+                <span className="italic" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif", color: "rgba(20, 55, 150, 0.95)" }}>unforgettable</span>.
               </h2>
               <p className="text-base md:text-lg leading-relaxed font-light text-black max-w-xl" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
                 Share a few details about your event and I'll personally reply with availability, format recommendations, and next steps.

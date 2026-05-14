@@ -96,7 +96,7 @@ const Contact = () => {
                 Write to me.{" "}
                 <span
                   className="italic"
-                  style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                  style={{ fontFamily: "\'Libre Baskerville\', \'Baskerville\', serif", color: "rgba(20, 55, 150, 0.95)" }}
                 >
                   I'll write back.
                 </span>
