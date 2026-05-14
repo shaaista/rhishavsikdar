@@ -391,7 +391,8 @@ const Index = () => {
                   letterSpacing: "0.05em",
                   opacity: 0,
                   transform: "scale(0.4)",
-                  color: DARK,
+                  color: "transparent",
+                  WebkitTextStroke: `1.5px ${DARK}`,
                   fontFamily: "'AquireLight', sans-serif",
                   lineHeight: 1,
                 }}
