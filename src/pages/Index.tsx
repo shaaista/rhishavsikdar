@@ -29,19 +29,8 @@ const HORIZ = [
   { ch: "R", suit: "♦" },
 ];
 
-// 12 deterministic scattered starting positions for the suits
-// (loose ellipse around the L-shape's center, with rotation)
-const SCATTER = Array.from({ length: 12 }, (_, i) => {
-  const angle = (i / 12) * Math.PI * 2 + i * 0.31;
-  const radius = 220 + ((i * 27) % 120);
-  return {
-    x: Math.cos(angle) * radius,
-    y: Math.sin(angle) * radius * 0.55,
-    rot: ((i * 67) % 360) - 180,
-  };
-});
+const TOTAL = VERT.length + HORIZ.length; // 12
 
-// Pink → blue gradient for the card suits
 const suitGradient =
   "linear-gradient(135deg, #f8a8d8 0%, #c1a0e4 50%, #88b8e8 100%)";
 
@@ -51,18 +40,20 @@ const suitStyle: React.CSSProperties = {
   left: 0,
   right: 0,
   textAlign: "center",
+  opacity: 0,
   background: suitGradient,
   WebkitBackgroundClip: "text",
   backgroundClip: "text",
   WebkitTextFillColor: "transparent",
   color: "transparent",
-  fontSize: "1.1em",
+  fontSize: "1em",
   lineHeight: 1,
   fontWeight: 700,
   pointerEvents: "none",
+  willChange: "transform, opacity",
 };
 
-const letterCellStyle: React.CSSProperties = {
+const cellStyle: React.CSSProperties = {
   position: "relative",
   width: "1em",
   height: "1em",
@@ -77,7 +68,6 @@ const letterStyle: React.CSSProperties = {
   left: 0,
   right: 0,
   textAlign: "center",
-  opacity: 0,
   color: DARK,
   lineHeight: 1,
 };
@@ -85,7 +75,8 @@ const letterStyle: React.CSSProperties = {
 const glassBtn: React.CSSProperties = {
   position: "absolute",
   padding: "1rem 2.2rem",
-  background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
+  background:
+    "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
   backdropFilter: "blur(20px)",
   WebkitBackdropFilter: "blur(20px)",
   border: "1px solid rgba(20, 55, 150, 0.6)",
@@ -115,11 +106,51 @@ const Index = () => {
     document.body.style.height = "500vh";
     document.body.style.overflowX = "hidden";
 
-    const style = document.createElement("style");
-    style.id = "index-hide-scrollbar";
-    style.textContent =
+    const styleEl = document.createElement("style");
+    styleEl.id = "index-hide-scrollbar";
+    styleEl.textContent =
       "body::-webkit-scrollbar{display:none}body{scrollbar-width:none}";
-    document.head.appendChild(style);
+    document.head.appendChild(styleEl);
+
+    // Approximate the suit's natural (untransformed) position so we can compute
+    // GSAP transform offsets to reach absolute viewport targets.
+    const lShapeOrigin = (i: number) => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      // matches the L-shape font: clamp(2.2rem, 5.5vw, 4.2rem)
+      const fontPx = Math.min(Math.max(35.2, 0.055 * vw), 67.2);
+      const cell = fontPx;
+      const lx = 0.1 * vw;
+      const ly = 0.22 * vh;
+      if (i < VERT.length) {
+        return { x: lx + cell / 2, y: ly + i * cell + cell / 2 };
+      }
+      const hi = i - VERT.length;
+      return {
+        x: lx + (hi + 1) * cell + cell / 2,
+        y: ly + 3.3 * cell + cell / 2,
+      };
+    };
+
+    const circleTarget = (i: number) => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const angle = (i / TOTAL) * Math.PI * 2;
+      const radius = Math.min(180, vw * 0.16);
+      return {
+        x: vw / 2 + Math.cos(angle) * radius,
+        y: vh * 0.42 + Math.sin(angle) * radius,
+      };
+    };
+
+    const topTarget = (i: number) => {
+      const vw = window.innerWidth;
+      const spacing = Math.min(48, vw * 0.045);
+      return {
+        x: vw / 2 + (i - (TOTAL - 1) / 2) * spacing,
+        y: 110,
+      };
+    };
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -131,25 +162,69 @@ const Index = () => {
         },
       });
 
-      // Phase 1: Suits fly from scattered positions into their L-shape letter positions
-      tl.to(".suit", {
-        x: 0,
-        y: 0,
-        rotation: 0,
-        duration: 0.8,
+      // ── Phase 1: Letters TURN INTO suits (in place at L-shape positions)
+      tl.to(".char-letter", {
+        opacity: 0,
+        duration: 0.4,
         stagger: 0.04,
-        ease: "power3.out",
+      });
+      tl.to(
+        ".suit",
+        { opacity: 1, duration: 0.4, stagger: 0.04 },
+        "<",
+      );
+
+      // ── Phase 2: Suits fly from L-shape into a CIRCLE around viewport center
+      tl.to(
+        ".suit",
+        {
+          x: (i) => circleTarget(i).x - lShapeOrigin(i).x,
+          y: (i) => circleTarget(i).y - lShapeOrigin(i).y,
+          rotation: 360,
+          scale: 1.1,
+          duration: 1.4,
+          ease: "power2.inOut",
+        },
+        "+=0.3",
+      );
+
+      // ── Phase 3: BUFFER — circle continues to spin in place
+      // Each suit orbits one extra lap as scroll progresses
+      tl.to(".suit", {
+        rotation: "+=720",
+        duration: 2.5,
+        ease: "none",
       });
 
-      // Phase 2: Suits fade out, letters fade in (the suits transform INTO the letters)
-      tl.to(".suit", { opacity: 0, duration: 0.35, stagger: 0.03 }, "+=0.2");
-      tl.to(".char-letter", { opacity: 1, duration: 0.35, stagger: 0.03 }, "<");
+      // ── Phase 4: At end of scroll — suits fly UP to top, arranged horizontally
+      tl.to(".suit", {
+        x: (i) => topTarget(i).x - lShapeOrigin(i).x,
+        y: (i) => topTarget(i).y - lShapeOrigin(i).y,
+        rotation: "+=180",
+        scale: 0.6,
+        duration: 1.1,
+        stagger: 0.04,
+        ease: "power2.in",
+      });
 
-      // Phase 3: L-shape name fades, big stacked name reveals at top
-      tl.to("#lShapeName", { opacity: 0, duration: 0.5 }, "+=0.4");
-      tl.to("#endName", { opacity: 1, top: "8%", duration: 0.7 }, "<");
+      // ── Phase 5: Letters reveal one by one at the top — suits fade away
+      tl.to("#lShapeName", { opacity: 0, duration: 0.4 }, "+=0.1");
+      tl.to("#endName", { opacity: 1, duration: 0.4 }, "<");
+      tl.to(".suit", { opacity: 0, duration: 0.5 }, "<");
+      tl.from(
+        ".end-char",
+        {
+          opacity: 0,
+          y: 40,
+          scale: 0.4,
+          duration: 0.35,
+          stagger: 0.06,
+          ease: "back.out(2)",
+        },
+        "<0.05",
+      );
 
-      // Phase 4: Portrait slides from right to center (still bottom-anchored)
+      // ── Phase 6: Portrait slides to center, buttons fly in
       tl.to(
         "#person",
         {
@@ -158,23 +233,22 @@ const Index = () => {
           duration: 0.9,
           ease: "power2.inOut",
         },
-        "<0.1",
+        "<0.2",
       );
 
-      // Phase 5: Glass buttons fly in
       tl.to(
         ".glass-btn",
         {
           opacity: 1,
           x: 0,
           stagger: 0.2,
-          duration: 0.8,
+          duration: 0.7,
           ease: "back.out(1.7)",
         },
-        "+=0.3",
+        "<0.3",
       );
 
-      // Floating idle animation for buttons (continuous)
+      // Continuous floating idle animation for buttons
       gsap.to(".glass-btn", {
         y: "-=10",
         duration: 2,
@@ -194,7 +268,7 @@ const Index = () => {
 
   return (
     <PageTransition>
-      {/* Iridescent background — preserved */}
+      {/* Iridescent background */}
       <div className="fixed inset-0 z-0">
         <Iridescence mouseReact amplitude={0.1} speed={1} />
       </div>
@@ -243,11 +317,12 @@ const Index = () => {
         ref={containerRef}
         className="fixed top-0 left-0 w-full h-screen overflow-hidden z-[5]"
       >
-        {/* L-shape name (initial state — visible) */}
+        {/* L-shape name (initial — letters visible, suits hidden) */}
         <div
           id="lShapeName"
-          className="absolute left-[8%] md:left-[10%] z-[10]"
+          className="absolute z-[10]"
           style={{
+            left: "10%",
             top: "22%",
             fontFamily: "'AquireLight', sans-serif",
             fontSize: "clamp(2.2rem, 5.5vw, 4.2rem)",
@@ -257,82 +332,81 @@ const Index = () => {
             fontWeight: 440,
           }}
         >
-          {/* Vertical column — RHISHAV */}
+          {/* Vertical column: RHISHAV */}
           <div className="flex flex-col">
-            {VERT.map((l, i) => {
-              const scatter = SCATTER[i];
-              return (
-                <div key={`v-${i}`} style={letterCellStyle}>
-                  <span className="char-letter" style={letterStyle}>
-                    {l.ch}
-                  </span>
-                  <span
-                    className="suit"
-                    style={{
-                      ...suitStyle,
-                      transform: `translate(${scatter.x}px, ${scatter.y}px) rotate(${scatter.rot}deg)`,
-                    }}
-                  >
-                    {l.suit}
-                  </span>
-                </div>
-              );
-            })}
+            {VERT.map((l, i) => (
+              <div key={`v-${i}`} style={cellStyle}>
+                <span className="char-letter" style={letterStyle}>
+                  {l.ch}
+                </span>
+                <span className="suit" style={suitStyle}>
+                  {l.suit}
+                </span>
+              </div>
+            ))}
           </div>
 
-          {/* Horizontal row — IKDAR, sitting at the "S" row, shifted right past the column */}
+          {/* Horizontal arm: IKDAR (offset by one S-cell) */}
           <div className="absolute flex" style={{ top: "3.3em", left: 0 }}>
             <div style={{ width: "1em" }} aria-hidden="true" />
-            {HORIZ.map((l, i) => {
-              const scatter = SCATTER[VERT.length + i];
-              return (
-                <div key={`h-${i}`} style={letterCellStyle}>
-                  <span className="char-letter" style={letterStyle}>
-                    {l.ch}
-                  </span>
-                  <span
-                    className="suit"
-                    style={{
-                      ...suitStyle,
-                      transform: `translate(${scatter.x}px, ${scatter.y}px) rotate(${scatter.rot}deg)`,
-                    }}
-                  >
-                    {l.suit}
-                  </span>
-                </div>
-              );
-            })}
+            {HORIZ.map((l, i) => (
+              <div key={`h-${i}`} style={cellStyle}>
+                <span className="char-letter" style={letterStyle}>
+                  {l.ch}
+                </span>
+                <span className="suit" style={suitStyle}>
+                  {l.suit}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Final stacked name — AquireLight (initially hidden, fades in at top) */}
+        {/* Final stacked name — hidden, revealed letter-by-letter at end */}
         <div
           id="endName"
           className="absolute left-1/2 -translate-x-1/2 text-center z-[20]"
-          style={{ top: "5%", opacity: 0 }}
+          style={{
+            top: "5%",
+            opacity: 0,
+            fontFamily: "'AquireLight', sans-serif",
+          }}
         >
           <h1
             className="uppercase tracking-[0.2em] leading-none text-[14vw] md:text-[9vw] font-[770] md:font-[440]"
-            style={{ fontFamily: "'AquireLight', sans-serif", color: DARK }}
+            style={{ color: DARK }}
           >
-            RHISHAV
+            {"RHISHAV".split("").map((c, i) => (
+              <span
+                key={`er-${i}`}
+                className="end-char"
+                style={{ display: "inline-block" }}
+              >
+                {c}
+              </span>
+            ))}
           </h1>
           <h1
             className="uppercase tracking-[0.2em] leading-none text-[14vw] md:text-[9vw] font-[770] md:font-[440]"
-            style={{ fontFamily: "'AquireLight', sans-serif", color: DARK }}
+            style={{ color: DARK }}
           >
-            SIKDAR
+            {"SIKDAR".split("").map((c, i) => (
+              <span
+                key={`es-${i}`}
+                className="end-char"
+                style={{ display: "inline-block" }}
+              >
+                {c}
+              </span>
+            ))}
           </h1>
         </div>
 
-        {/* Portrait — ALWAYS bottom-anchored, never floats. Starts right, slides to center */}
+        {/* Portrait — always bottom-anchored, slides from right to center */}
         <div
           id="person"
           className="absolute z-[15] pointer-events-none w-[60vw] md:w-[28vw] md:max-w-[360px]"
-          style={{
-            right: "5%",
-            bottom: 0,
-          }}
+          style={{ right: "5%", bottom: 0 }}
         >
           <img
             src={portraitImg}
@@ -344,7 +418,7 @@ const Index = () => {
           />
         </div>
 
-        {/* Glass buttons */}
+        {/* Glass buttons — fly in at the end */}
         <a
           id="btn-illusion"
           className="glass-btn"
