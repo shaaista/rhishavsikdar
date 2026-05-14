@@ -392,7 +392,7 @@ const Index = () => {
                   opacity: 0,
                   transform: "scale(0.4)",
                   color: "transparent",
-                  WebkitTextStroke: "2.5px #000",
+                  WebkitTextStroke: "1px #000",
                   fontFamily: "'AquireLight', sans-serif",
                   lineHeight: 1,
                 }}
