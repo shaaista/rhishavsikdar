@@ -13,25 +13,22 @@ const DARK = "#0f172a";
 const ACCENT = "rgba(20, 55, 150, 1)";
 
 const VERT = [
-  { ch: "R", suit: "♤" },
-  { ch: "H", suit: "♡" },
-  { ch: "I", suit: "◇" },
-  { ch: "S", suit: "♧", accent: true },
-  { ch: "H", suit: "♤" },
-  { ch: "A", suit: "♡" },
-  { ch: "V", suit: "◇" },
+  { ch: "R", suit: "♠" },
+  { ch: "H", suit: "♥" },
+  { ch: "I", suit: "♦" },
+  { ch: "S", suit: "♣", accent: true },
+  { ch: "H", suit: "♠" },
+  { ch: "A", suit: "♥" },
+  { ch: "V", suit: "♦" },
 ];
 
 const HORIZ = [
-  { ch: "I", suit: "♧" },
-  { ch: "K", suit: "♤" },
-  { ch: "D", suit: "♡" },
-  { ch: "A", suit: "◇" },
-  { ch: "R", suit: "♧" },
+  { ch: "I", suit: "♣" },
+  { ch: "K", suit: "♠" },
+  { ch: "D", suit: "♥" },
+  { ch: "A", suit: "♦" },
+  { ch: "R", suit: "♣" },
 ];
-
-const suitGradient =
-  "linear-gradient(135deg, #f8a8d8 0%, #c1a0e4 50%, #88b8e8 100%)";
 
 const cellStyle: React.CSSProperties = {
   display: "inline-block",
@@ -53,24 +50,34 @@ const letterStyle: React.CSSProperties = {
   zIndex: 2,
 };
 
+// 3D glass tile with pink+blue gradient — replaces flat gradient suits
 const suitStyle: React.CSSProperties = {
   position: "absolute",
-  width: "100%",
   left: 0,
   top: 0,
-  textAlign: "center",
+  width: "1em",
+  height: "1em",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  background:
+    "linear-gradient(135deg, rgba(248, 168, 216, 0.7) 0%, rgba(193, 160, 228, 0.55) 50%, rgba(136, 184, 232, 0.7) 100%)",
+  backdropFilter: "blur(12px)",
+  WebkitBackdropFilter: "blur(12px)",
+  border: "1px solid rgba(255, 255, 255, 0.65)",
+  borderRadius: "10px",
+  boxShadow:
+    "0 4px 14px rgba(20, 55, 150, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.6), inset 0 -1px 2px rgba(20, 55, 150, 0.12)",
+  color: "rgba(20, 30, 60, 0.95)",
+  fontSize: "0.6em",
+  fontWeight: 700,
+  lineHeight: 1,
+  textShadow: "0 1px 1px rgba(255, 255, 255, 0.5)",
   opacity: 0,
   transform: "scale(0)",
-  background: suitGradient,
-  WebkitBackgroundClip: "text",
-  backgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-  color: "transparent",
-  fontSize: "1.1em",
-  lineHeight: 1.1,
-  fontWeight: 700,
   zIndex: 1,
   pointerEvents: "none",
+  willChange: "transform, opacity",
 };
 
 const glassBtn: React.CSSProperties = {
@@ -105,7 +112,8 @@ const Index = () => {
   useEffect(() => {
     const prevHeight = document.body.style.height;
     const prevOverflow = document.body.style.overflowX;
-    document.body.style.height = "700vh";
+    // Just enough scroll to play phases 1-4; everything after is auto.
+    document.body.style.height = "500vh";
     document.body.style.overflowX = "hidden";
 
     const styleEl = document.createElement("style");
@@ -117,6 +125,7 @@ const Index = () => {
     let mouseHandler: ((e: MouseEvent) => void) | null = null;
 
     const ctx = gsap.context(() => {
+      // ── SCROLL-DRIVEN timeline (phases 1-4)
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: "body",
@@ -126,7 +135,7 @@ const Index = () => {
         },
       });
 
-      // ── 1. MORPH (Left Side) — letters scale to 0, icons scale up + fade in
+      // 1. MORPH — letters scale to 0, glass icons pop in
       tl.to(
         ".letter",
         { scale: 0, opacity: 0, stagger: 0.05, duration: 0.5 },
@@ -137,9 +146,9 @@ const Index = () => {
         0.2,
       );
 
-      // ── 2. FORM TIGHT CIRCLE IN MIDDLE
+      // 2. FORM TIGHT CIRCLE behind where the head will be
       const totalIcons = 13;
-      const radius = 65;
+      const radius = 75;
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
 
@@ -164,15 +173,15 @@ const Index = () => {
         1,
       );
 
-      // ── 3. BUFFER (spinning tightly)
+      // 3. BUFFER — icons spin in place
       tl.to(
         ".icon-suit",
         { rotation: 720, duration: 2.5, ease: "none" },
         2,
       );
 
-      // ── 4. REVEAL HERO & GLASS
-      // Hero: slide horizontally to center, keep BOTTOM-anchored (no top change)
+      // 4. HERO + GLASS — portrait slides to center (bottom-anchored),
+      //    buttons fly in from sides
       tl.to(
         "#hero",
         { right: "50%", xPercent: 50, duration: 1.5 },
@@ -183,29 +192,67 @@ const Index = () => {
         2.5,
       );
 
-      // ── 5 & 6: AUTO-PLAY timeline (fires when user reaches scroll end)
+      // ── AUTO-PLAY timeline (phases 5 & 6) — fires at scroll-end
       const autoTl = gsap.timeline({ paused: true });
-      autoTl
-        .to(".icon-suit", {
-          y: "-=500",
-          opacity: 0,
-          scale: 0.2,
-          duration: 1,
-          ease: "back.in(1.7)",
-        })
-        .to(
-          ".char-reveal",
-          {
-            opacity: 1,
-            y: 0,
-            stagger: 0.08,
-            duration: 0.5,
-            ease: "back.out(2)",
-          },
-          "<0.4",
-        );
 
-      // Trigger the auto timeline once the user has scrolled all the way down
+      // Letter target positions: each icon flies to its corresponding letter
+      // slot at the top. Mapping: VERT (icons 0-6) -> RHISHAV (letters 0-6),
+      // HORIZ (icons 7-11) -> SIKDAR positions 1-5 (skipping S which has no icon).
+      const calcDelta = (i: number, axis: "x" | "y", target: HTMLElement) => {
+        const letterEls = document.querySelectorAll<HTMLElement>(".char-reveal");
+        const letterIdx = i < 7 ? i : i + 1; // skip "S of SIKDAR" (index 7)
+        const letterEl = letterEls[letterIdx];
+        if (!letterEl) return 0;
+        const iconRect = target.getBoundingClientRect();
+        const letterRect = letterEl.getBoundingClientRect();
+        const iconCenter =
+          axis === "x"
+            ? iconRect.left + iconRect.width / 2
+            : iconRect.top + iconRect.height / 2;
+        const letterCenter =
+          axis === "x"
+            ? letterRect.left + letterRect.width / 2
+            : letterRect.top + letterRect.height / 2;
+        const currentT = (gsap.getProperty(target, axis) as number) ?? 0;
+        return currentT + (letterCenter - iconCenter);
+      };
+
+      // 5. Icons travel one-by-one to their letter spots
+      autoTl.to(".icon-suit", {
+        x: (i, t) => calcDelta(i, "x", t as HTMLElement),
+        y: (i, t) => calcDelta(i, "y", t as HTMLElement),
+        rotation: 0,
+        scale: 1,
+        duration: 0.7,
+        stagger: 0.09,
+        ease: "power2.inOut",
+      });
+
+      // Each icon fades out as it arrives, and the letter pops in at the same spot
+      autoTl.to(
+        ".icon-suit",
+        { opacity: 0, duration: 0.25, stagger: 0.09 },
+        "-=0.5",
+      );
+      autoTl.to(
+        ".char-reveal",
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.35,
+          stagger: 0.09,
+          ease: "back.out(2)",
+        },
+        "<",
+      );
+      // The S of SIKDAR has no preceding icon — fade it in mid-sequence
+      autoTl.to(
+        ".char-reveal-S",
+        { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" },
+        "<0.5",
+      );
+
+      // Trigger autoTl when user reaches scroll-end
       ScrollTrigger.create({
         trigger: "body",
         start: "bottom bottom",
@@ -213,7 +260,7 @@ const Index = () => {
         onLeaveBack: () => autoTl.reverse(),
       });
 
-      // Mouse parallax on hero image
+      // Mouse parallax on the portrait
       mouseHandler = (e: MouseEvent) => {
         const x = (e.clientX / window.innerWidth - 0.5) * 20;
         const y = (e.clientY / window.innerHeight - 0.5) * 20;
@@ -223,7 +270,7 @@ const Index = () => {
       };
       window.addEventListener("mousemove", mouseHandler);
 
-      // Continuous floating idle for buttons
+      // Idle float on buttons
       gsap.to(".glass-btn", {
         y: "-=15",
         duration: 2,
@@ -241,6 +288,11 @@ const Index = () => {
       ctx.revert();
     };
   }, []);
+
+  // Final name char data — flag the S of SIKDAR so we can target it for the
+  // standalone reveal (it has no preceding icon).
+  const line1Chars = "RHISHAV".split("");
+  const line2Chars = "SIKDAR".split("");
 
   return (
     <PageTransition>
@@ -298,8 +350,8 @@ const Index = () => {
           id="startName"
           className="absolute"
           style={{
-            left: "10%",
-            top: "10%",
+            left: "7%",
+            top: "13%",
             fontFamily: "'AquireLight', sans-serif",
             fontSize: "clamp(1.8rem, 4.5vw, 3.6rem)",
             color: DARK,
@@ -341,11 +393,11 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Final name reveal — at top, AquireLight font preserved */}
+        {/* Final big name — AquireLight, revealed at scroll-end */}
         <div
           className="absolute z-[20]"
           style={{
-            top: "40px",
+            top: "5%",
             left: "50%",
             transform: "translateX(-50%)",
             textAlign: "center",
@@ -353,42 +405,44 @@ const Index = () => {
           }}
         >
           <div
-            className="flex justify-center mb-1"
-            style={{ gap: "12px" }}
+            className="flex justify-center mb-2"
+            style={{ gap: "0.15em" }}
           >
-            {"RHISHAV".split("").map((c, i) => (
+            {line1Chars.map((c, i) => (
               <span
                 key={`r-${i}`}
                 className="char-reveal"
                 style={{
                   display: "inline-block",
-                  fontSize: "clamp(1.6rem, 3vw, 2.6rem)",
+                  fontSize: "clamp(2.8rem, 6vw, 5.5rem)",
                   fontWeight: 800,
-                  letterSpacing: "0.2em",
+                  letterSpacing: "0.05em",
                   opacity: 0,
-                  transform: "translateY(20px)",
+                  transform: "scale(0.4)",
                   color: DARK,
                   fontFamily: "'AquireLight', sans-serif",
+                  lineHeight: 1,
                 }}
               >
                 {c}
               </span>
             ))}
           </div>
-          <div className="flex justify-center" style={{ gap: "12px" }}>
-            {"SIKDAR".split("").map((c, i) => (
+          <div className="flex justify-center" style={{ gap: "0.15em" }}>
+            {line2Chars.map((c, i) => (
               <span
                 key={`s-${i}`}
-                className="char-reveal"
+                className={`char-reveal ${i === 0 ? "char-reveal-S" : ""}`}
                 style={{
                   display: "inline-block",
-                  fontSize: "clamp(1.6rem, 3vw, 2.6rem)",
+                  fontSize: "clamp(2.8rem, 6vw, 5.5rem)",
                   fontWeight: 800,
-                  letterSpacing: "0.2em",
+                  letterSpacing: "0.05em",
                   opacity: 0,
-                  transform: "translateY(20px)",
+                  transform: "scale(0.4)",
                   color: DARK,
                   fontFamily: "'AquireLight', sans-serif",
+                  lineHeight: 1,
                 }}
               >
                 {c}
@@ -397,10 +451,10 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Portrait — ALWAYS bottom-anchored, slides right -> center */}
+        {/* Portrait — ALWAYS bottom-anchored, slides right → center */}
         <div
           id="hero"
-          className="absolute pointer-events-none w-[75vw] md:w-[34vw] md:max-w-[540px]"
+          className="absolute pointer-events-none w-[85vw] md:w-[40vw] md:max-w-[640px]"
           style={{
             right: "5%",
             bottom: 0,
