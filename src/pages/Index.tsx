@@ -10,100 +10,102 @@ import { Instagram, Youtube, Linkedin } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 
 const DARK = "#0f172a";
+const ACCENT = "rgba(20, 55, 150, 1)";
 
 const VERT = [
-  { ch: "R", suit: "♠" },
-  { ch: "H", suit: "♥" },
-  { ch: "I", suit: "♣" },
-  { ch: "S", suit: "♦" },
-  { ch: "H", suit: "♠" },
-  { ch: "A", suit: "♥" },
-  { ch: "V", suit: "♣" },
+  { ch: "R", suit: "♤" },
+  { ch: "H", suit: "♡" },
+  { ch: "I", suit: "◇" },
+  { ch: "S", suit: "♧", accent: true },
+  { ch: "H", suit: "♤" },
+  { ch: "A", suit: "♡" },
+  { ch: "V", suit: "◇" },
 ];
 
 const HORIZ = [
-  { ch: "I", suit: "♦" },
-  { ch: "K", suit: "♠" },
-  { ch: "D", suit: "♥" },
-  { ch: "A", suit: "♣" },
-  { ch: "R", suit: "♦" },
+  { ch: "I", suit: "♧" },
+  { ch: "K", suit: "♤" },
+  { ch: "D", suit: "♡" },
+  { ch: "A", suit: "◇" },
+  { ch: "R", suit: "♧" },
 ];
-
-const TOTAL = VERT.length + HORIZ.length; // 12
 
 const suitGradient =
   "linear-gradient(135deg, #f8a8d8 0%, #c1a0e4 50%, #88b8e8 100%)";
 
+const cellStyle: React.CSSProperties = {
+  display: "inline-block",
+  position: "relative",
+  width: "1.1em",
+  height: "1.1em",
+  textAlign: "center",
+  lineHeight: 1.1,
+};
+
+const letterStyle: React.CSSProperties = {
+  position: "absolute",
+  width: "100%",
+  left: 0,
+  top: 0,
+  textAlign: "center",
+  color: DARK,
+  lineHeight: 1.1,
+  zIndex: 2,
+};
+
 const suitStyle: React.CSSProperties = {
   position: "absolute",
-  top: 0,
+  width: "100%",
   left: 0,
-  right: 0,
+  top: 0,
   textAlign: "center",
   opacity: 0,
+  transform: "scale(0)",
   background: suitGradient,
   WebkitBackgroundClip: "text",
   backgroundClip: "text",
   WebkitTextFillColor: "transparent",
   color: "transparent",
-  fontSize: "1em",
-  lineHeight: 1,
+  fontSize: "1.1em",
+  lineHeight: 1.1,
   fontWeight: 700,
+  zIndex: 1,
   pointerEvents: "none",
-  willChange: "transform, opacity",
-};
-
-const cellStyle: React.CSSProperties = {
-  position: "relative",
-  width: "1em",
-  height: "1em",
-  textAlign: "center",
-  lineHeight: 1,
-  overflow: "visible",
-};
-
-const letterStyle: React.CSSProperties = {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  right: 0,
-  textAlign: "center",
-  color: DARK,
-  lineHeight: 1,
 };
 
 const glassBtn: React.CSSProperties = {
   position: "absolute",
-  padding: "1rem 2.2rem",
+  padding: "1.2rem 2.5rem",
   background:
     "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
-  backdropFilter: "blur(20px)",
-  WebkitBackdropFilter: "blur(20px)",
+  backdropFilter: "blur(25px)",
+  WebkitBackdropFilter: "blur(25px)",
   border: "1px solid rgba(20, 55, 150, 0.6)",
   borderRadius: "20px",
-  fontWeight: 700,
+  fontWeight: 800,
   letterSpacing: "0.2em",
+  fontSize: "0.8rem",
   opacity: 0,
   boxShadow:
     "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
-  zIndex: 25,
+  zIndex: 100,
   textDecoration: "none",
   color: DARK,
   fontFamily: "'Nestborn', sans-serif",
   textTransform: "uppercase",
-  fontSize: "0.85rem",
   cursor: "pointer",
   whiteSpace: "nowrap",
 };
 
 const Index = () => {
   const navigate = useNavigate();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const heroImgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const prevHeight = document.body.style.height;
     const prevOverflow = document.body.style.overflowX;
-    document.body.style.height = "500vh";
+    document.body.style.height = "1200vh";
     document.body.style.overflowX = "hidden";
 
     const styleEl = document.createElement("style");
@@ -112,45 +114,7 @@ const Index = () => {
       "body::-webkit-scrollbar{display:none}body{scrollbar-width:none}";
     document.head.appendChild(styleEl);
 
-    // Approximate the suit's natural (untransformed) position so we can compute
-    // GSAP transform offsets to reach absolute viewport targets.
-    const lShapeOrigin = (i: number) => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      // matches the L-shape font: clamp(2.2rem, 5.5vw, 4.2rem)
-      const fontPx = Math.min(Math.max(35.2, 0.055 * vw), 67.2);
-      const cell = fontPx;
-      const lx = 0.1 * vw;
-      const ly = 0.22 * vh;
-      if (i < VERT.length) {
-        return { x: lx + cell / 2, y: ly + i * cell + cell / 2 };
-      }
-      const hi = i - VERT.length;
-      return {
-        x: lx + (hi + 1) * cell + cell / 2,
-        y: ly + 3.3 * cell + cell / 2,
-      };
-    };
-
-    const circleTarget = (i: number) => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const angle = (i / TOTAL) * Math.PI * 2;
-      const radius = Math.min(180, vw * 0.16);
-      return {
-        x: vw / 2 + Math.cos(angle) * radius,
-        y: vh * 0.42 + Math.sin(angle) * radius,
-      };
-    };
-
-    const topTarget = (i: number) => {
-      const vw = window.innerWidth;
-      const spacing = Math.min(48, vw * 0.045);
-      return {
-        x: vw / 2 + (i - (TOTAL - 1) / 2) * spacing,
-        y: 110,
-      };
-    };
+    let mouseHandler: ((e: MouseEvent) => void) | null = null;
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -162,113 +126,121 @@ const Index = () => {
         },
       });
 
-      // ── Phase 1: Letters TURN INTO suits (in place at L-shape positions)
-      tl.to(".char-letter", {
-        opacity: 0,
-        duration: 0.4,
-        stagger: 0.04,
-      });
+      // ── 1. MORPH (Left Side) — letters scale to 0, icons scale up + fade in
       tl.to(
-        ".suit",
-        { opacity: 1, duration: 0.4, stagger: 0.04 },
-        "<",
+        ".letter",
+        { scale: 0, opacity: 0, stagger: 0.05, duration: 0.5 },
+        0,
+      ).to(
+        ".icon-suit",
+        { scale: 1.2, opacity: 1, stagger: 0.05, duration: 0.5 },
+        0.2,
       );
 
-      // ── Phase 2: Suits fly from L-shape into a CIRCLE around viewport center
+      // ── 2. FORM TIGHT CIRCLE IN MIDDLE
+      const totalIcons = 13;
+      const radius = 65;
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+
       tl.to(
-        ".suit",
+        ".icon-suit",
         {
-          x: (i) => circleTarget(i).x - lShapeOrigin(i).x,
-          y: (i) => circleTarget(i).y - lShapeOrigin(i).y,
-          rotation: 360,
-          scale: 1.1,
-          duration: 1.4,
-          ease: "power2.inOut",
+          x: (i, target) => {
+            const rect = (target as HTMLElement).getBoundingClientRect();
+            const angle = (i / totalIcons) * Math.PI * 2;
+            const targetX = centerX + Math.cos(angle) * radius;
+            return targetX - rect.left - rect.width / 2;
+          },
+          y: (i, target) => {
+            const rect = (target as HTMLElement).getBoundingClientRect();
+            const angle = (i / totalIcons) * Math.PI * 2;
+            const targetY = centerY + Math.sin(angle) * radius;
+            return targetY - rect.top - rect.height / 2;
+          },
+          duration: 1.5,
+          ease: "power3.inOut",
         },
-        "+=0.3",
+        1,
       );
 
-      // ── Phase 3: BUFFER — circle continues to spin in place
-      // Each suit orbits one extra lap as scroll progresses
-      tl.to(".suit", {
-        rotation: "+=720",
-        duration: 2.5,
-        ease: "none",
-      });
-
-      // ── Phase 4: At end of scroll — suits fly UP to top, arranged horizontally
-      tl.to(".suit", {
-        x: (i) => topTarget(i).x - lShapeOrigin(i).x,
-        y: (i) => topTarget(i).y - lShapeOrigin(i).y,
-        rotation: "+=180",
-        scale: 0.6,
-        duration: 1.1,
-        stagger: 0.04,
-        ease: "power2.in",
-      });
-
-      // ── Phase 5: Letters reveal one by one at the top — suits fade away
-      tl.to("#lShapeName", { opacity: 0, duration: 0.4 }, "+=0.1");
-      tl.to("#endName", { opacity: 1, duration: 0.4 }, "<");
-      tl.to(".suit", { opacity: 0, duration: 0.5 }, "<");
-      tl.from(
-        ".end-char",
-        {
-          opacity: 0,
-          y: 40,
-          scale: 0.4,
-          duration: 0.35,
-          stagger: 0.06,
-          ease: "back.out(2)",
-        },
-        "<0.05",
-      );
-
-      // ── Phase 6: Portrait slides to center, buttons fly in
+      // ── 3. BUFFER (spinning tightly)
       tl.to(
-        "#person",
-        {
-          right: "50%",
-          xPercent: 50,
-          duration: 0.9,
-          ease: "power2.inOut",
-        },
-        "<0.2",
+        ".icon-suit",
+        { rotation: 720, duration: 2.5, ease: "none" },
+        2,
       );
 
+      // ── 4. REVEAL HERO & GLASS
+      // Hero: slide horizontally to center, keep BOTTOM-anchored (no top change)
       tl.to(
+        "#hero",
+        { right: "50%", xPercent: 50, duration: 1.5 },
+        2,
+      ).to(
         ".glass-btn",
+        { opacity: 1, x: 0, stagger: 0.3, duration: 1 },
+        2.5,
+      );
+
+      // ── 5. ICON DISCLOSE — fly to top
+      tl.to(
+        ".icon-suit",
+        {
+          y: "-=500",
+          opacity: 0,
+          scale: 0.2,
+          duration: 1,
+          ease: "back.in(1.7)",
+        },
+        4.5,
+      );
+
+      // ── 6. FINAL NAME REVEAL
+      tl.to(
+        ".char-reveal",
         {
           opacity: 1,
-          x: 0,
-          stagger: 0.2,
-          duration: 0.7,
-          ease: "back.out(1.7)",
+          y: 0,
+          stagger: 0.08,
+          duration: 0.4,
+          ease: "back.out(2)",
         },
-        "<0.3",
+        5,
       );
 
-      // Continuous floating idle animation for buttons
+      // Mouse parallax on hero image
+      mouseHandler = (e: MouseEvent) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+        if (heroImgRef.current) {
+          gsap.to(heroImgRef.current, { x, y, duration: 1.5 });
+        }
+      };
+      window.addEventListener("mousemove", mouseHandler);
+
+      // Continuous floating idle for buttons
       gsap.to(".glass-btn", {
-        y: "-=10",
+        y: "-=15",
         duration: 2,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
       });
-    }, containerRef);
+    }, stageRef);
 
     return () => {
       document.body.style.height = prevHeight;
       document.body.style.overflowX = prevOverflow;
       document.getElementById("index-hide-scrollbar")?.remove();
+      if (mouseHandler) window.removeEventListener("mousemove", mouseHandler);
       ctx.revert();
     };
   }, []);
 
   return (
     <PageTransition>
-      {/* Iridescent background */}
+      {/* Iridescent background — preserved */}
       <div className="fixed inset-0 z-0">
         <Iridescence mouseReact amplitude={0.1} speed={1} />
       </div>
@@ -314,47 +286,50 @@ const Index = () => {
 
       {/* Pinned animation stage */}
       <div
-        ref={containerRef}
-        className="fixed top-0 left-0 w-full h-screen overflow-hidden z-[5]"
+        ref={stageRef}
+        className="fixed top-0 left-0 w-screen h-screen overflow-hidden z-[10]"
       >
-        {/* L-shape name (initial — letters visible, suits hidden) */}
+        {/* Initial L-shape (cross) name */}
         <div
-          id="lShapeName"
-          className="absolute z-[10]"
+          id="startName"
+          className="absolute"
           style={{
             left: "10%",
             top: "22%",
             fontFamily: "'AquireLight', sans-serif",
-            fontSize: "clamp(2.2rem, 5.5vw, 4.2rem)",
+            fontSize: "clamp(2rem, 5vw, 4rem)",
             color: DARK,
             textTransform: "uppercase",
             letterSpacing: "0.05em",
             fontWeight: 440,
           }}
         >
-          {/* Vertical column: RHISHAV */}
           <div className="flex flex-col">
             {VERT.map((l, i) => (
               <div key={`v-${i}`} style={cellStyle}>
-                <span className="char-letter" style={letterStyle}>
+                <span
+                  className="letter"
+                  style={{
+                    ...letterStyle,
+                    color: l.accent ? ACCENT : DARK,
+                  }}
+                >
                   {l.ch}
                 </span>
-                <span className="suit" style={suitStyle}>
+                <span className="icon-suit" style={suitStyle}>
                   {l.suit}
                 </span>
               </div>
             ))}
           </div>
-
-          {/* Horizontal arm: IKDAR (offset by one S-cell) */}
           <div className="absolute flex" style={{ top: "3.3em", left: 0 }}>
-            <div style={{ width: "1em" }} aria-hidden="true" />
+            <div style={{ ...cellStyle, visibility: "hidden" }}>S</div>
             {HORIZ.map((l, i) => (
               <div key={`h-${i}`} style={cellStyle}>
-                <span className="char-letter" style={letterStyle}>
+                <span className="letter" style={letterStyle}>
                   {l.ch}
                 </span>
-                <span className="suit" style={suitStyle}>
+                <span className="icon-suit" style={suitStyle}>
                   {l.suit}
                 </span>
               </div>
@@ -362,84 +337,105 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Final stacked name — hidden, revealed letter-by-letter at end */}
+        {/* Final name reveal — at top, AquireLight font preserved */}
         <div
-          id="endName"
-          className="absolute left-1/2 -translate-x-1/2 text-center z-[20]"
+          className="absolute z-[20]"
           style={{
-            top: "5%",
-            opacity: 0,
+            top: "40px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            textAlign: "center",
             fontFamily: "'AquireLight', sans-serif",
           }}
         >
-          <h1
-            className="uppercase tracking-[0.2em] leading-none text-[14vw] md:text-[9vw] font-[770] md:font-[440]"
-            style={{ color: DARK }}
+          <div
+            className="flex justify-center mb-1"
+            style={{ gap: "12px" }}
           >
             {"RHISHAV".split("").map((c, i) => (
               <span
-                key={`er-${i}`}
-                className="end-char"
-                style={{ display: "inline-block" }}
+                key={`r-${i}`}
+                className="char-reveal"
+                style={{
+                  display: "inline-block",
+                  fontSize: "clamp(1.6rem, 3vw, 2.6rem)",
+                  fontWeight: 800,
+                  letterSpacing: "0.2em",
+                  opacity: 0,
+                  transform: "translateY(20px)",
+                  color: DARK,
+                  fontFamily: "'AquireLight', sans-serif",
+                }}
               >
                 {c}
               </span>
             ))}
-          </h1>
-          <h1
-            className="uppercase tracking-[0.2em] leading-none text-[14vw] md:text-[9vw] font-[770] md:font-[440]"
-            style={{ color: DARK }}
-          >
+          </div>
+          <div className="flex justify-center" style={{ gap: "12px" }}>
             {"SIKDAR".split("").map((c, i) => (
               <span
-                key={`es-${i}`}
-                className="end-char"
-                style={{ display: "inline-block" }}
+                key={`s-${i}`}
+                className="char-reveal"
+                style={{
+                  display: "inline-block",
+                  fontSize: "clamp(1.6rem, 3vw, 2.6rem)",
+                  fontWeight: 800,
+                  letterSpacing: "0.2em",
+                  opacity: 0,
+                  transform: "translateY(20px)",
+                  color: DARK,
+                  fontFamily: "'AquireLight', sans-serif",
+                }}
               >
                 {c}
               </span>
             ))}
-          </h1>
+          </div>
         </div>
 
-        {/* Portrait — always bottom-anchored, slides from right to center */}
+        {/* Portrait — ALWAYS bottom-anchored, slides right -> center */}
         <div
-          id="person"
-          className="absolute z-[15] pointer-events-none w-[60vw] md:w-[28vw] md:max-w-[360px]"
-          style={{ right: "5%", bottom: 0 }}
+          id="hero"
+          className="absolute pointer-events-none w-[60vw] md:w-[28vw] md:max-w-[450px]"
+          style={{
+            right: "5%",
+            bottom: 0,
+            zIndex: 5,
+          }}
         >
           <img
+            ref={heroImgRef}
             src={portraitImg}
             alt="Rhishav Sikdar"
             className="w-full h-auto block"
             style={{
-              filter: "drop-shadow(0 20px 40px rgba(10, 40, 130, 0.18))",
+              filter: "drop-shadow(0 20px 50px rgba(10, 40, 130, 0.18))",
             }}
           />
         </div>
 
-        {/* Glass buttons — fly in at the end */}
+        {/* Glass buttons */}
         <a
-          id="btn-illusion"
+          id="btn-l"
           className="glass-btn"
           style={{
             ...glassBtn,
-            left: "10%",
-            top: "78%",
-            transform: "translateX(-120px)",
+            left: "15%",
+            top: "55%",
+            transform: "translateX(-150px)",
           }}
           onClick={() => navigate("/illusionist")}
         >
           Illusion
         </a>
         <a
-          id="btn-innerwork"
+          id="btn-r"
           className="glass-btn"
           style={{
             ...glassBtn,
-            right: "10%",
-            top: "78%",
-            transform: "translateX(120px)",
+            right: "15%",
+            top: "55%",
+            transform: "translateX(150px)",
           }}
           onClick={() => navigate("/innerwork")}
         >
