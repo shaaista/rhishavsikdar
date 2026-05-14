@@ -9,13 +9,13 @@ import { Instagram, Youtube, Linkedin } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ACCENT = "rgba(20, 55, 150, 1)";
+const DARK = "#0f172a";
 
 const VERT = [
   { ch: "R", suit: "♠" },
   { ch: "H", suit: "♥" },
   { ch: "I", suit: "♣" },
-  { ch: "S", suit: "♦", accent: true },
+  { ch: "S", suit: "♦" },
   { ch: "H", suit: "♠" },
   { ch: "A", suit: "♥" },
   { ch: "V", suit: "♣" },
@@ -29,9 +29,62 @@ const HORIZ = [
   { ch: "R", suit: "♦" },
 ];
 
+// 12 deterministic scattered starting positions for the suits
+// (loose ellipse around the L-shape's center, with rotation)
+const SCATTER = Array.from({ length: 12 }, (_, i) => {
+  const angle = (i / 12) * Math.PI * 2 + i * 0.31;
+  const radius = 220 + ((i * 27) % 120);
+  return {
+    x: Math.cos(angle) * radius,
+    y: Math.sin(angle) * radius * 0.55,
+    rot: ((i * 67) % 360) - 180,
+  };
+});
+
+// Pink → blue gradient for the card suits
+const suitGradient =
+  "linear-gradient(135deg, #f8a8d8 0%, #c1a0e4 50%, #88b8e8 100%)";
+
+const suitStyle: React.CSSProperties = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  right: 0,
+  textAlign: "center",
+  background: suitGradient,
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  color: "transparent",
+  fontSize: "1.1em",
+  lineHeight: 1,
+  fontWeight: 700,
+  pointerEvents: "none",
+};
+
+const letterCellStyle: React.CSSProperties = {
+  position: "relative",
+  width: "1em",
+  height: "1em",
+  textAlign: "center",
+  lineHeight: 1,
+  overflow: "visible",
+};
+
+const letterStyle: React.CSSProperties = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  right: 0,
+  textAlign: "center",
+  opacity: 0,
+  color: DARK,
+  lineHeight: 1,
+};
+
 const glassBtn: React.CSSProperties = {
   position: "absolute",
-  padding: "1.1rem 2.4rem",
+  padding: "1rem 2.2rem",
   background: "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
   backdropFilter: "blur(20px)",
   WebkitBackdropFilter: "blur(20px)",
@@ -42,9 +95,9 @@ const glassBtn: React.CSSProperties = {
   opacity: 0,
   boxShadow:
     "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
-  zIndex: 15,
+  zIndex: 25,
   textDecoration: "none",
-  color: "#0f172a",
+  color: DARK,
   fontFamily: "'Nestborn', sans-serif",
   textTransform: "uppercase",
   fontSize: "0.85rem",
@@ -57,13 +110,11 @@ const Index = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // 500vh scroll height for the scroll-driven animation
     const prevHeight = document.body.style.height;
     const prevOverflow = document.body.style.overflowX;
     document.body.style.height = "500vh";
     document.body.style.overflowX = "hidden";
 
-    // Hide scrollbar
     const style = document.createElement("style");
     style.id = "index-hide-scrollbar";
     style.textContent =
@@ -80,60 +131,52 @@ const Index = () => {
         },
       });
 
-      // 1. Letters fade out, suits appear
-      tl.to(".char-letter", {
-        color: "transparent",
-        duration: 0.3,
-        stagger: 0.05,
-      }).to(".suit", { opacity: 1, duration: 0.3, stagger: 0.05 }, 0);
+      // Phase 1: Suits fly from scattered positions into their L-shape letter positions
+      tl.to(".suit", {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        duration: 0.8,
+        stagger: 0.04,
+        ease: "power3.out",
+      });
 
-      // 2. Suits move into a spinning ring in center
-      tl.to(
-        ".suit",
-        {
-          x: (i: number) => Math.cos(i) * 60 + (window.innerWidth / 2 - 220),
-          y: (i: number) => Math.sin(i) * 60,
-          rotation: 360,
-          duration: 1,
-          ease: "power2.inOut",
-        },
-        0.5,
-      );
+      // Phase 2: Suits fade out, letters fade in (the suits transform INTO the letters)
+      tl.to(".suit", { opacity: 0, duration: 0.35, stagger: 0.03 }, "+=0.2");
+      tl.to(".char-letter", { opacity: 1, duration: 0.35, stagger: 0.03 }, "<");
 
-      // 3. Suits disappear up, end name reveals, start name fades out
-      tl.to(".suit", { top: "-100px", opacity: 0, scale: 0, duration: 0.8 }, 1.5)
-        .to("#endName", { opacity: 1, top: "8%", duration: 0.8 }, 1.5)
-        .to("#startName", { opacity: 0, duration: 0.4 }, 1.5);
+      // Phase 3: L-shape name fades, big stacked name reveals at top
+      tl.to("#lShapeName", { opacity: 0, duration: 0.5 }, "+=0.4");
+      tl.to("#endName", { opacity: 1, top: "8%", duration: 0.7 }, "<");
 
-      // 4. Image moves to center
+      // Phase 4: Portrait slides from right to center (still bottom-anchored)
       tl.to(
         "#person",
         {
           right: "50%",
           xPercent: 50,
-          top: "55%",
-          width: window.innerWidth < 768 ? "70vw" : "380px",
-          duration: 1.2,
+          duration: 0.9,
+          ease: "power2.inOut",
         },
-        1.2,
+        "<0.1",
       );
 
-      // 5. Glass buttons reveal
+      // Phase 5: Glass buttons fly in
       tl.to(
         ".glass-btn",
         {
           opacity: 1,
           x: 0,
           stagger: 0.2,
-          duration: 1,
+          duration: 0.8,
           ease: "back.out(1.7)",
         },
-        2,
+        "+=0.3",
       );
 
-      // Floating idle animation for buttons
+      // Floating idle animation for buttons (continuous)
       gsap.to(".glass-btn", {
-        y: "-=12",
+        y: "-=10",
         duration: 2,
         repeat: -1,
         yoyo: true,
@@ -195,72 +238,74 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* Fixed animation stage — pinned full viewport */}
+      {/* Pinned animation stage */}
       <div
         ref={containerRef}
         className="fixed top-0 left-0 w-full h-screen overflow-hidden z-[5]"
       >
-        {/* Start name — L-shape, Space Mono for proper alignment */}
+        {/* L-shape name (initial state — visible) */}
         <div
-          id="startName"
-          className="absolute left-[8%] md:left-[10%] top-1/2 -translate-y-1/2 z-[10]"
+          id="lShapeName"
+          className="absolute left-[8%] md:left-[10%] z-[10]"
           style={{
-            fontFamily: "'Space Mono', monospace",
-            fontSize: "clamp(1.4rem, 4vw, 3rem)",
+            top: "22%",
+            fontFamily: "'AquireLight', sans-serif",
+            fontSize: "clamp(2.2rem, 5.5vw, 4.2rem)",
+            color: DARK,
             textTransform: "uppercase",
-            color: "#0f172a",
-            fontWeight: 700,
+            letterSpacing: "0.05em",
+            fontWeight: 440,
           }}
         >
-          {/* Vertical RHISHAV */}
-          <div
-            className="flex flex-col"
-            style={{ lineHeight: 1.1 }}
-          >
-            {VERT.map((l, i) => (
-              <span key={`v-${i}`} className="inline-block relative">
-                <span
-                  className="char-letter"
-                  style={l.accent ? { color: ACCENT } : undefined}
-                >
-                  {l.ch}
-                </span>
-                <span
-                  className="suit absolute top-0 left-0 opacity-0"
-                  style={{ color: ACCENT, fontSize: "1.2em" }}
-                >
-                  {l.suit}
-                </span>
-              </span>
-            ))}
+          {/* Vertical column — RHISHAV */}
+          <div className="flex flex-col">
+            {VERT.map((l, i) => {
+              const scatter = SCATTER[i];
+              return (
+                <div key={`v-${i}`} style={letterCellStyle}>
+                  <span className="char-letter" style={letterStyle}>
+                    {l.ch}
+                  </span>
+                  <span
+                    className="suit"
+                    style={{
+                      ...suitStyle,
+                      transform: `translate(${scatter.x}px, ${scatter.y}px) rotate(${scatter.rot}deg)`,
+                    }}
+                  >
+                    {l.suit}
+                  </span>
+                </div>
+              );
+            })}
           </div>
 
-          {/* Horizontal IKDAR — starts at row "S" with a hidden placeholder */}
-          <div
-            className="absolute flex"
-            style={{ top: "3.3em", left: 0 }}
-          >
-            <span
-              className="inline-block relative"
-              style={{ visibility: "hidden" }}
-            >
-              <span className="char-letter">S</span>
-            </span>
-            {HORIZ.map((l, i) => (
-              <span key={`h-${i}`} className="inline-block relative">
-                <span className="char-letter">{l.ch}</span>
-                <span
-                  className="suit absolute top-0 left-0 opacity-0"
-                  style={{ color: ACCENT, fontSize: "1.2em" }}
-                >
-                  {l.suit}
-                </span>
-              </span>
-            ))}
+          {/* Horizontal row — IKDAR, sitting at the "S" row, shifted right past the column */}
+          <div className="absolute flex" style={{ top: "3.3em", left: 0 }}>
+            <div style={{ width: "1em" }} aria-hidden="true" />
+            {HORIZ.map((l, i) => {
+              const scatter = SCATTER[VERT.length + i];
+              return (
+                <div key={`h-${i}`} style={letterCellStyle}>
+                  <span className="char-letter" style={letterStyle}>
+                    {l.ch}
+                  </span>
+                  <span
+                    className="suit"
+                    style={{
+                      ...suitStyle,
+                      transform: `translate(${scatter.x}px, ${scatter.y}px) rotate(${scatter.rot}deg)`,
+                    }}
+                  >
+                    {l.suit}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* End name — stacked, AquireLight (the original brand font) */}
+        {/* Final stacked name — AquireLight (initially hidden, fades in at top) */}
         <div
           id="endName"
           className="absolute left-1/2 -translate-x-1/2 text-center z-[20]"
@@ -268,27 +313,25 @@ const Index = () => {
         >
           <h1
             className="uppercase tracking-[0.2em] leading-none text-[14vw] md:text-[9vw] font-[770] md:font-[440]"
-            style={{ fontFamily: "'AquireLight', sans-serif", color: "#0f172a" }}
+            style={{ fontFamily: "'AquireLight', sans-serif", color: DARK }}
           >
             RHISHAV
           </h1>
           <h1
             className="uppercase tracking-[0.2em] leading-none text-[14vw] md:text-[9vw] font-[770] md:font-[440]"
-            style={{ fontFamily: "'AquireLight', sans-serif", color: "#0f172a" }}
+            style={{ fontFamily: "'AquireLight', sans-serif", color: DARK }}
           >
             SIKDAR
           </h1>
         </div>
 
-        {/* Portrait — starts right, moves to center */}
+        {/* Portrait — ALWAYS bottom-anchored, never floats. Starts right, slides to center */}
         <div
           id="person"
-          className="absolute z-[5] pointer-events-none"
+          className="absolute z-[15] pointer-events-none w-[60vw] md:w-[28vw] md:max-w-[360px]"
           style={{
-            right: "8%",
-            top: "50%",
-            transform: "translateY(-50%)",
-            width: "min(360px, 38vw)",
+            right: "5%",
+            bottom: 0,
           }}
         >
           <img
@@ -307,9 +350,9 @@ const Index = () => {
           className="glass-btn"
           style={{
             ...glassBtn,
-            left: "15%",
-            top: "72%",
-            transform: "translateX(-100px)",
+            left: "10%",
+            top: "78%",
+            transform: "translateX(-120px)",
           }}
           onClick={() => navigate("/illusionist")}
         >
@@ -320,9 +363,9 @@ const Index = () => {
           className="glass-btn"
           style={{
             ...glassBtn,
-            right: "15%",
-            top: "72%",
-            transform: "translateX(100px)",
+            right: "10%",
+            top: "78%",
+            transform: "translateX(120px)",
           }}
           onClick={() => navigate("/innerwork")}
         >
