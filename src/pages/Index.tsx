@@ -105,7 +105,7 @@ const Index = () => {
   useEffect(() => {
     const prevHeight = document.body.style.height;
     const prevOverflow = document.body.style.overflowX;
-    document.body.style.height = "1200vh";
+    document.body.style.height = "700vh";
     document.body.style.overflowX = "hidden";
 
     const styleEl = document.createElement("style");
@@ -183,31 +183,35 @@ const Index = () => {
         2.5,
       );
 
-      // ── 5. ICON DISCLOSE — fly to top
-      tl.to(
-        ".icon-suit",
-        {
+      // ── 5 & 6: AUTO-PLAY timeline (fires when user reaches scroll end)
+      const autoTl = gsap.timeline({ paused: true });
+      autoTl
+        .to(".icon-suit", {
           y: "-=500",
           opacity: 0,
           scale: 0.2,
           duration: 1,
           ease: "back.in(1.7)",
-        },
-        4.5,
-      );
+        })
+        .to(
+          ".char-reveal",
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.08,
+            duration: 0.5,
+            ease: "back.out(2)",
+          },
+          "<0.4",
+        );
 
-      // ── 6. FINAL NAME REVEAL
-      tl.to(
-        ".char-reveal",
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.08,
-          duration: 0.4,
-          ease: "back.out(2)",
-        },
-        5,
-      );
+      // Trigger the auto timeline once the user has scrolled all the way down
+      ScrollTrigger.create({
+        trigger: "body",
+        start: "bottom bottom",
+        onEnter: () => autoTl.play(),
+        onLeaveBack: () => autoTl.reverse(),
+      });
 
       // Mouse parallax on hero image
       mouseHandler = (e: MouseEvent) => {
@@ -295,9 +299,9 @@ const Index = () => {
           className="absolute"
           style={{
             left: "10%",
-            top: "22%",
+            top: "10%",
             fontFamily: "'AquireLight', sans-serif",
-            fontSize: "clamp(2rem, 5vw, 4rem)",
+            fontSize: "clamp(1.8rem, 4.5vw, 3.6rem)",
             color: DARK,
             textTransform: "uppercase",
             letterSpacing: "0.05em",
@@ -396,7 +400,7 @@ const Index = () => {
         {/* Portrait — ALWAYS bottom-anchored, slides right -> center */}
         <div
           id="hero"
-          className="absolute pointer-events-none w-[60vw] md:w-[28vw] md:max-w-[450px]"
+          className="absolute pointer-events-none w-[75vw] md:w-[34vw] md:max-w-[540px]"
           style={{
             right: "5%",
             bottom: 0,
