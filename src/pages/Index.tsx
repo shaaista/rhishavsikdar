@@ -9,22 +9,24 @@ import { Instagram, Youtube, Linkedin } from "lucide-react";
 const DARK = "#0f172a";
 const ACCENT = "rgba(20, 55, 150, 1)";
 
+// ︎ = variation selector "text presentation" — prevents iOS/Android
+// from rendering ♥ ♦ as red emoji glyphs; forces monochrome text rendering
 const VERT = [
-  { ch: "R", suit: "♠" },
-  { ch: "H", suit: "♥" },
-  { ch: "I", suit: "♦" },
-  { ch: "S", suit: "♣", accent: true },
-  { ch: "H", suit: "♠" },
-  { ch: "A", suit: "♥" },
-  { ch: "V", suit: "♦" },
+  { ch: "R", suit: "♠︎" },
+  { ch: "H", suit: "♥︎" },
+  { ch: "I", suit: "♦︎" },
+  { ch: "S", suit: "♣︎", accent: true },
+  { ch: "H", suit: "♠︎" },
+  { ch: "A", suit: "♥︎" },
+  { ch: "V", suit: "♦︎" },
 ];
 
 const HORIZ = [
-  { ch: "I", suit: "♣" },
-  { ch: "K", suit: "♠" },
-  { ch: "D", suit: "♥" },
-  { ch: "A", suit: "♦" },
-  { ch: "R", suit: "♣" },
+  { ch: "I", suit: "♣︎" },
+  { ch: "K", suit: "♠︎" },
+  { ch: "D", suit: "♥︎" },
+  { ch: "A", suit: "♦︎" },
+  { ch: "R", suit: "♣︎" },
 ];
 
 const cellStyle: React.CSSProperties = {
@@ -348,7 +350,7 @@ const Index = () => {
         <div
           className="absolute z-[20]"
           style={{
-            top: "5%",
+            top: isMobile ? "9%" : "5%",
             left: "50%",
             transform: "translateX(-50%)",
             textAlign: "center",
@@ -406,7 +408,7 @@ const Index = () => {
         {/* Portrait — ALWAYS bottom-anchored, slides right → center */}
         <div
           id="hero"
-          className="absolute pointer-events-none w-[72vw] md:w-[32vw] md:max-w-[500px]"
+          className="absolute pointer-events-none w-[90vw] md:w-[32vw] md:max-w-[500px] md:max-h-[100vh] max-h-[60vh]"
           style={{
             right: "5%",
             bottom: 0,
@@ -430,8 +432,8 @@ const Index = () => {
           className="glass-btn"
           style={{
             ...glassBtn,
-            left: isMobile ? "4%" : "15%",
-            top: isMobile ? "78%" : "55%",
+            left: isMobile ? "6%" : "15%",
+            top: isMobile ? "28%" : "55%",
             transform: isMobile
               ? "translateX(-80px)"
               : "translateX(-150px)",
@@ -448,8 +450,8 @@ const Index = () => {
           className="glass-btn"
           style={{
             ...glassBtn,
-            right: isMobile ? "4%" : "15%",
-            top: isMobile ? "78%" : "55%",
+            right: isMobile ? "6%" : "15%",
+            top: isMobile ? "28%" : "55%",
             transform: isMobile
               ? "translateX(80px)"
               : "translateX(150px)",
