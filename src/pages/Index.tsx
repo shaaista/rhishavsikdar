@@ -1,253 +1,25 @@
-import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import gsap from "gsap";
-import portraitImg from "@/assets/shirt.png";
+import { motion } from "framer-motion";
+import cardsImg from "@/assets/cards.png";
 import Iridescence from "@/components/Iridescence";
 import PageTransition from "@/components/PageTransition";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
 
 const DARK = "#0f172a";
-const ACCENT = "rgba(20, 55, 150, 1)";
+const ACCENT_DOT = "rgba(20, 55, 150, 0.95)";
 
-// ︎ = variation selector "text presentation" — prevents iOS/Android
-// from rendering ♥ ♦ as red emoji glyphs; forces monochrome text rendering
-const VERT = [
-  { ch: "R", suit: "♠︎" },
-  { ch: "H", suit: "♥︎" },
-  { ch: "I", suit: "♦︎" },
-  { ch: "S", suit: "♣︎", accent: true },
-  { ch: "H", suit: "♠︎" },
-  { ch: "A", suit: "♥︎" },
-  { ch: "V", suit: "♦︎" },
-];
-
-const HORIZ = [
-  { ch: "I", suit: "♣︎" },
-  { ch: "K", suit: "♠︎" },
-  { ch: "D", suit: "♥︎" },
-  { ch: "A", suit: "♦︎" },
-  { ch: "R", suit: "♣︎" },
-];
-
-const cellStyle: React.CSSProperties = {
-  display: "inline-block",
-  position: "relative",
-  width: "1.1em",
-  height: "1.1em",
-  textAlign: "center",
-  lineHeight: 1.1,
-};
-
-const letterStyle: React.CSSProperties = {
-  position: "absolute",
-  width: "100%",
-  left: 0,
-  top: 0,
-  textAlign: "center",
-  color: DARK,
-  lineHeight: 1.1,
-  zIndex: 2,
-};
-
-// Solid black suit glyph with a subtle shadow for a touch of depth
-const suitStyle: React.CSSProperties = {
-  position: "absolute",
-  left: 0,
-  top: 0,
-  width: "100%",
-  textAlign: "center",
-  color: "#000",
-  filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.25))",
-  fontSize: "0.85em",
-  fontWeight: 900,
-  lineHeight: 1.1,
-  opacity: 0,
-  transform: "scale(0)",
-  zIndex: 1,
-  pointerEvents: "none",
-  willChange: "transform, opacity",
-};
-
-const glassBtn: React.CSSProperties = {
-  position: "absolute",
-  padding: "1.1rem 3.2rem",
-  background:
-    "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
-  backdropFilter: "blur(25px)",
-  WebkitBackdropFilter: "blur(25px)",
-  border: "1px solid rgba(20, 55, 150, 0.6)",
-  borderRadius: "9999px",
-  fontWeight: 800,
-  letterSpacing: "0.2em",
-  fontSize: "0.8rem",
-  opacity: 0,
-  boxShadow:
-    "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
-  zIndex: 100,
-  textDecoration: "none",
-  color: DARK,
-  fontFamily: "'Nestborn', sans-serif",
-  textTransform: "uppercase",
-  cursor: "pointer",
-  whiteSpace: "nowrap",
-};
+const fadeUp = (delay: number) => ({
+  initial: { opacity: 0, y: 18 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+});
 
 const Index = () => {
   const navigate = useNavigate();
-  const stageRef = useRef<HTMLDivElement>(null);
-  const heroImgRef = useRef<HTMLImageElement>(null);
-
-  const isMobile =
-    typeof window !== "undefined" && window.innerWidth < 768;
-
-  useEffect(() => {
-    const prevOverflow = document.body.style.overflowX;
-    document.body.style.overflowX = "hidden";
-
-    let mouseHandler: ((e: MouseEvent) => void) | null = null;
-
-    const ctx = gsap.context(() => {
-      // Single auto-playing timeline — runs the whole sequence on its own,
-      // no scrolling required.
-      const tl = gsap.timeline({ delay: 0.3 });
-
-      // 1. MORPH — letters scale to 0, icons pop in
-      tl.to(
-        ".letter",
-        {
-          scale: 0,
-          opacity: 0,
-          stagger: 0.06,
-          duration: 0.45,
-          ease: "power2.inOut",
-        },
-        0,
-      ).to(
-        ".icon-suit",
-        {
-          scale: 1.2,
-          opacity: 1,
-          stagger: 0.06,
-          duration: 0.45,
-          ease: "power2.out",
-        },
-        0.15,
-      );
-
-      // 2. FORM TIGHT CIRCLE behind where the head will be
-      const totalIcons = 13;
-      const radius = isMobile ? 48 : 75;
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-
-      tl.to(
-        ".icon-suit",
-        {
-          x: (i, target) => {
-            const rect = (target as HTMLElement).getBoundingClientRect();
-            const angle = (i / totalIcons) * Math.PI * 2;
-            const targetX = centerX + Math.cos(angle) * radius;
-            return targetX - rect.left - rect.width / 2;
-          },
-          y: (i, target) => {
-            const rect = (target as HTMLElement).getBoundingClientRect();
-            const angle = (i / totalIcons) * Math.PI * 2;
-            const targetY = centerY + Math.sin(angle) * radius;
-            return targetY - rect.top - rect.height / 2;
-          },
-          duration: 1.3,
-          ease: "power2.inOut",
-        },
-        "+=0.1",
-      );
-
-      // 3. BUFFER — icons spin in place
-      tl.to(
-        ".icon-suit",
-        { rotation: 720, duration: 1.8, ease: "none" },
-        "<0.3",
-      );
-
-      // 4. HERO + GLASS — portrait slides to center, buttons fly in
-      tl.to(
-        "#hero",
-        { right: "50%", xPercent: 50, duration: 1.3, ease: "power2.inOut" },
-        "<",
-      ).to(
-        ".glass-btn",
-        {
-          opacity: 1,
-          x: 0,
-          stagger: 0.2,
-          duration: 0.9,
-          ease: "power2.out",
-        },
-        "<0.5",
-      );
-
-      // 5. Icons fly UP and dissipate
-      tl.to(
-        ".icon-suit",
-        {
-          y: () => `-=${window.innerHeight * 0.7}`,
-          opacity: 0,
-          scale: 0.25,
-          rotation: "+=180",
-          duration: 0.9,
-          stagger: 0.04,
-          ease: "power2.in",
-        },
-        "+=0.4",
-      );
-
-      // 6. Horizontal name reveals letter by letter
-      tl.to(
-        ".char-reveal",
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.5,
-          stagger: 0.07,
-          ease: "back.out(1.6)",
-        },
-        "-=0.5",
-      );
-
-      // Mouse parallax on the portrait
-      mouseHandler = (e: MouseEvent) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 20;
-        const y = (e.clientY / window.innerHeight - 0.5) * 20;
-        if (heroImgRef.current) {
-          gsap.to(heroImgRef.current, { x, y, duration: 1.5 });
-        }
-      };
-      window.addEventListener("mousemove", mouseHandler);
-
-      // Idle float on buttons
-      gsap.to(".glass-btn", {
-        y: "-=15",
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-    }, stageRef);
-
-    return () => {
-      document.body.style.overflowX = prevOverflow;
-      if (mouseHandler) window.removeEventListener("mousemove", mouseHandler);
-      ctx.revert();
-    };
-  }, []);
-
-  // Final name char data — flag the S of SIKDAR so we can target it for the
-  // standalone reveal (it has no preceding icon).
-  const line1Chars = "RHISHAV".split("");
-  const line2Chars = "SIKDAR".split("");
 
   return (
     <PageTransition>
-      {/* Iridescent background — preserved */}
+      {/* Animated iridescent background — preserved */}
       <div className="fixed inset-0 z-0">
         <Iridescence mouseReact amplitude={0.1} speed={1} />
       </div>
@@ -255,215 +27,142 @@ const Index = () => {
       {/* Nav */}
       <nav className="fixed top-0 w-full px-6 md:px-10 py-6 md:py-8 flex justify-between items-center z-50 pointer-events-none">
         <div
-          className="text-[9px] tracking-[1.2em] font-bold text-black uppercase pointer-events-auto"
+          className="text-[9px] md:text-[10px] tracking-[0.45em] font-bold text-black uppercase pointer-events-auto"
           style={{ fontFamily: "Nestborn, sans-serif" }}
         >
           Rhishav Sikdar
         </div>
-        <div className="hidden md:flex gap-4 pointer-events-auto">
+        <div className="flex gap-4 md:gap-5 pointer-events-auto">
           <a
             href="https://www.instagram.com/rhishavsikdar?igsh=MWVqbGl3c2NjYzczag=="
             target="_blank"
             rel="noopener noreferrer"
-            className="text-black/50 hover:text-black transition-colors"
+            className="text-black/60 hover:text-black transition-colors"
             aria-label="Instagram"
           >
-            <Instagram className="w-4 h-4" />
+            <Instagram className="w-4 h-4 md:w-[18px] md:h-[18px]" />
           </a>
           <a
             href="https://youtube.com/@rhishavsikdar?si=iRdfGgLjCsur0Fvy"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-black/50 hover:text-black transition-colors"
+            className="text-black/60 hover:text-black transition-colors"
             aria-label="YouTube"
           >
-            <Youtube className="w-4 h-4" />
+            <Youtube className="w-4 h-4 md:w-[18px] md:h-[18px]" />
           </a>
           <a
             href="https://www.linkedin.com/in/rhishavsikdar?utm_source=share_via&utm_content=profile&utm_medium=member_android"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-black/50 hover:text-black transition-colors"
+            className="text-black/60 hover:text-black transition-colors"
             aria-label="LinkedIn"
           >
-            <Linkedin className="w-4 h-4" />
+            <Linkedin className="w-4 h-4 md:w-[18px] md:h-[18px]" />
           </a>
         </div>
       </nav>
 
-      {/* Pinned animation stage */}
-      <div
-        ref={stageRef}
-        className="fixed top-0 left-0 w-screen h-screen overflow-hidden z-[10]"
-      >
-        {/* Initial L-shape (cross) name */}
-        <div
-          id="startName"
-          className="absolute"
-          style={{
-            left: isMobile ? "10%" : "7%",
-            top: "13%",
-            fontFamily: "'AquireLight', sans-serif",
-            fontSize: isMobile
-              ? "clamp(2.2rem, 7vw, 3rem)"
-              : "clamp(1.8rem, 4.5vw, 3.6rem)",
-            color: DARK,
-            textTransform: "uppercase",
-            letterSpacing: "0.05em",
-            fontWeight: 440,
-          }}
-        >
-          <div className="flex flex-col">
-            {VERT.map((l, i) => (
-              <div key={`v-${i}`} style={cellStyle}>
-                <span
-                  className="letter"
-                  style={{
-                    ...letterStyle,
-                    color: l.accent ? ACCENT : DARK,
-                  }}
-                >
-                  {l.ch}
-                </span>
-                <span className="icon-suit" style={suitStyle}>
-                  {l.suit}
-                </span>
-              </div>
-            ))}
-          </div>
-          <div className="absolute flex" style={{ top: "3.3em", left: 0 }}>
-            <div style={{ ...cellStyle, visibility: "hidden" }}>S</div>
-            {HORIZ.map((l, i) => (
-              <div key={`h-${i}`} style={cellStyle}>
-                <span className="letter" style={letterStyle}>
-                  {l.ch}
-                </span>
-                <span className="icon-suit" style={suitStyle}>
-                  {l.suit}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Final big name — AquireLight, revealed at scroll-end */}
-        <div
-          className="absolute z-[20]"
-          style={{
-            top: isMobile ? "9%" : "5%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            textAlign: "center",
-            fontFamily: "'AquireLight', sans-serif",
-          }}
-        >
-          <div
-            className="flex justify-center mb-2"
-            style={{ gap: "0.35em" }}
-          >
-            {line1Chars.map((c, i) => (
-              <span
-                key={`r-${i}`}
-                className="char-reveal"
+      {/* Hero */}
+      <main className="relative z-[10] min-h-screen w-full flex items-center px-6 md:px-16 lg:px-24 pt-24 md:pt-0 pb-12 md:pb-0">
+        <div className="w-full max-w-[1600px] mx-auto flex flex-col md:flex-row items-center md:items-center gap-10 md:gap-8">
+          {/* Left — text content */}
+          <div className="flex-1 flex flex-col gap-6 md:gap-7 items-start w-full">
+            {/* Title */}
+            <div className="flex flex-col leading-none">
+              <motion.h1
+                {...fadeUp(0.2)}
+                className="uppercase font-black text-[16vw] md:text-[8.2vw] leading-[0.95]"
                 style={{
-                  display: "inline-block",
-                  fontSize: "clamp(3.2rem, 7vw, 6.5rem)",
-                  fontWeight: 800,
-                  letterSpacing: "0.05em",
-                  opacity: 0,
-                  transform: "scale(0.4)",
+                  fontFamily: "'AquireLight', sans-serif",
                   color: DARK,
-                  fontFamily: "'AquireLight', sans-serif",
-                  lineHeight: 1,
+                  letterSpacing: "-0.02em",
                 }}
               >
-                {c}
-              </span>
-            ))}
-          </div>
-          <div className="flex justify-center" style={{ gap: "0.35em" }}>
-            {line2Chars.map((c, i) => (
-              <span
-                key={`s-${i}`}
-                className={`char-reveal ${i === 0 ? "char-reveal-S" : ""}`}
+                Rhishav
+              </motion.h1>
+              <motion.h1
+                {...fadeUp(0.35)}
+                className="uppercase font-black text-[16vw] md:text-[8.2vw] leading-[0.95]"
                 style={{
-                  display: "inline-block",
-                  fontSize: "clamp(3.2rem, 7vw, 6.5rem)",
-                  fontWeight: 300,
-                  letterSpacing: "0.05em",
-                  opacity: 0,
-                  transform: "scale(0.4)",
-                  color: "transparent",
-                  WebkitTextStroke: "0.75px #000",
                   fontFamily: "'AquireLight', sans-serif",
-                  lineHeight: 1,
+                  color: "transparent",
+                  WebkitTextStroke: `1px ${DARK}`,
+                  letterSpacing: "-0.02em",
                 }}
               >
-                {c}
-              </span>
-            ))}
+                Sikdar
+              </motion.h1>
+            </div>
+
+            {/* Subtitle pill row */}
+            <motion.div
+              {...fadeUp(0.55)}
+              className="flex items-center gap-2 md:gap-3 text-[0.65rem] md:text-[0.78rem] tracking-[0.32em] uppercase"
+              style={{ fontFamily: "Nestborn, sans-serif", color: DARK }}
+            >
+              <span>Magician</span>
+              <span style={{ color: ACCENT_DOT }}>•</span>
+              <span>Mentalist</span>
+              <span style={{ color: ACCENT_DOT }}>•</span>
+              <span>Illusionist</span>
+            </motion.div>
+
+            {/* CTA button */}
+            <motion.button
+              {...fadeUp(0.7)}
+              onClick={() => navigate("/illusionist")}
+              className="group flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 rounded-full uppercase text-[0.7rem] md:text-[0.8rem] tracking-[0.3em] cursor-pointer"
+              style={{
+                fontFamily: "Nestborn, sans-serif",
+                border: `1px solid ${DARK}`,
+                color: DARK,
+                background: "rgba(255,255,255,0.15)",
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
+              }}
+              whileHover={{
+                scale: 1.04,
+                backgroundColor: "rgba(255,255,255,0.3)",
+              }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              <span>Enter the Experience</span>
+              <motion.span
+                style={{ color: ACCENT_DOT, fontSize: "0.9rem" }}
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              >
+                ✦
+              </motion.span>
+            </motion.button>
           </div>
-        </div>
 
-        {/* Portrait — ALWAYS bottom-anchored, slides right → center */}
-        <div
-          id="hero"
-          className="absolute pointer-events-none w-[90vw] md:w-[32vw] md:max-w-[500px] md:max-h-[100vh] max-h-[60vh]"
-          style={{
-            right: "5%",
-            bottom: 0,
-            zIndex: 5,
-          }}
-        >
-          <img
-            ref={heroImgRef}
-            src={portraitImg}
-            alt="Rhishav Sikdar"
-            className="w-full h-auto block"
-            style={{
-              filter: "drop-shadow(0 20px 50px rgba(10, 40, 130, 0.18))",
-            }}
-          />
+          {/* Right — cards image with floating animation */}
+          <motion.div
+            className="flex-1 flex justify-center md:justify-end w-full"
+            initial={{ opacity: 0, scale: 0.94 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.3, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <motion.img
+              src={cardsImg}
+              alt="Rhishav Sikdar — illusionist with cards"
+              className="w-full max-w-[420px] md:max-w-[640px] h-auto block pointer-events-none select-none"
+              style={{
+                filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
+              }}
+              animate={{ y: [0, -14, 0] }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          </motion.div>
         </div>
-
-        {/* Glass buttons */}
-        <a
-          id="btn-l"
-          className="glass-btn"
-          style={{
-            ...glassBtn,
-            left: isMobile ? "6%" : "15%",
-            top: isMobile ? "28%" : "55%",
-            transform: isMobile
-              ? "translateX(-80px)"
-              : "translateX(-150px)",
-            padding: isMobile ? "0.7rem 1.3rem" : "1.2rem 2.5rem",
-            fontSize: isMobile ? "0.65rem" : "0.8rem",
-            letterSpacing: isMobile ? "0.15em" : "0.2em",
-          }}
-          onClick={() => navigate("/illusionist")}
-        >
-          Illusion
-        </a>
-        <a
-          id="btn-r"
-          className="glass-btn"
-          style={{
-            ...glassBtn,
-            right: isMobile ? "6%" : "15%",
-            top: isMobile ? "28%" : "55%",
-            transform: isMobile
-              ? "translateX(80px)"
-              : "translateX(150px)",
-            padding: isMobile ? "0.7rem 1.3rem" : "1.2rem 2.5rem",
-            fontSize: isMobile ? "0.65rem" : "0.8rem",
-            letterSpacing: isMobile ? "0.15em" : "0.2em",
-          }}
-          onClick={() => navigate("/innerwork")}
-        >
-          InnerWork
-        </a>
-      </div>
+      </main>
     </PageTransition>
   );
 };
