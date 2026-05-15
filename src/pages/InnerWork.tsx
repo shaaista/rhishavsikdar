@@ -162,9 +162,9 @@ const InnerWork = () => {
           }}
         />
 
-        {/* Back button */}
+        {/* Back button — routes back to the experience selection */}
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/experience")}
           className="fixed top-6 left-6 z-50 p-2 rounded-full backdrop-blur-md bg-black/5 text-black/60 hover:text-black hover:bg-black/10 transition-all duration-300 cursor-pointer"
           style={{
             border: "1px solid rgba(20, 55, 150, 0.6)",

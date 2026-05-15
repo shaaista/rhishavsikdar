@@ -175,10 +175,10 @@ const Illusionist = () => {
         />
 
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/experience")}
           className="fixed top-6 left-6 z-50 p-2 rounded-full backdrop-blur-md bg-black/5 text-black/60 hover:text-black hover:bg-black/10 transition-all duration-300 cursor-pointer"
           style={{ border: "1px solid rgba(20, 55, 150, 0.6)", boxShadow: "0 0 5px rgba(10, 40, 130, 0.4), 0 0 10px rgba(10, 40, 130, 0.2), 0 0 15px rgba(10, 40, 130, 0.1)" }}
-          aria-label="Back"
+          aria-label="Back to experience selection"
         >
           <ArrowLeft className="w-4 h-4" />
         </button>

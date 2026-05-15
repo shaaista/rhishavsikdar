@@ -174,13 +174,14 @@ const Index = () => {
               </motion.span>
             </motion.button>
 
-            {/* Mobile-only image — static, larger, bottom-anchored
-                Negative left/right margin lets it span beyond the px-6 padding
-                Negative bottom margin pulls it flush to the viewport bottom */}
+            {/* Mobile-only image — static, oversized, sits lower toward bottom.
+                Width pushed past 100vw to enlarge; centred via negative side
+                margin. Top margin pushes the image lower; negative bottom
+                margin ensures no gap below. */}
             <motion.img
               src={cardsImg}
               alt="Rhishav Sikdar — illusionist with cards"
-              className="md:hidden w-screen max-w-none h-auto block pointer-events-none select-none mx-[-1.5rem] mb-[-1rem] mt-2"
+              className="md:hidden w-[125vw] max-w-none h-auto block pointer-events-none select-none mx-[-12.5vw] mb-[-2rem] mt-10"
               style={{
                 filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
               }}

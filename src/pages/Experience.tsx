@@ -351,6 +351,7 @@ const Experience = () => {
             description="Performance, wonder, and unforgettable live experiences."
             onClick={() => navigate("/illusionist")}
             delay={0.5}
+            cardBg="linear-gradient(160deg, rgba(232,240,252,0.72) 0%, rgba(225,235,250,0.4) 60%, rgba(232,240,252,0.58) 100%)"
           />
           <ExperienceCard
             visual={<MeditationFigure />}
