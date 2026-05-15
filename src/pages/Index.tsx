@@ -179,12 +179,14 @@ const Index = () => {
 
         {/* Mobile-only image — absolutely anchored to the bottom of <main>
             so it always touches the viewport bottom with zero gap. Width
-            pushed past 100vw and centred so it's visibly oversized. */}
+            pushed past 100vw and centred via left:calc() so framer-motion's
+            transform on the img can't break the horizontal centering. */}
         <motion.img
           src={cardsImg}
           alt="Rhishav Sikdar — illusionist with cards"
-          className="md:hidden absolute bottom-0 left-1/2 -translate-x-1/2 w-[138vw] max-w-none h-auto block pointer-events-none select-none"
+          className="md:hidden absolute bottom-0 w-[138vw] max-w-none h-auto block pointer-events-none select-none"
           style={{
+            left: "calc(50% - 69vw)",
             filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
           }}
           initial={{ opacity: 0, scale: 0.97 }}
