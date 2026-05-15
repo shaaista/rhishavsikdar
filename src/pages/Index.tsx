@@ -92,7 +92,7 @@ const Index = () => {
         <div className="relative z-[2] min-h-screen w-full flex items-start md:items-center px-6 md:pl-16 lg:pl-24 pt-24 md:pt-0 pb-0 md:pb-0">
           <div className="w-full md:w-[50%] flex flex-col gap-4 md:gap-7 items-start">
             {/* Title — AquireLight (brand font, restored) */}
-            <div className="flex flex-col leading-none w-full text-center md:text-left">
+            <div className="flex flex-col leading-none">
               <motion.h1
                 {...fadeUp(0.2)}
                 className="uppercase text-[16vw] md:text-[8.2vw] leading-[0.95]"
@@ -122,7 +122,7 @@ const Index = () => {
             {/* Subtitle pill row with gold bullets */}
             <motion.div
               {...fadeUp(0.55)}
-              className="w-full md:w-auto flex items-center justify-center md:justify-start gap-2 md:gap-4 text-[0.52rem] md:text-[0.78rem] tracking-[0.2em] md:tracking-[0.35em] uppercase"
+              className="flex items-center gap-2 md:gap-4 text-[0.52rem] md:text-[0.78rem] tracking-[0.2em] md:tracking-[0.35em] uppercase"
               style={{
                 fontFamily: "'Outfit', sans-serif",
                 fontWeight: 600,
@@ -174,23 +174,23 @@ const Index = () => {
               </motion.span>
             </motion.button>
 
-            {/* Mobile-only image — static, oversized, sits lower toward bottom.
-                Width pushed past 100vw to enlarge; centred via negative side
-                margin. Top margin pushes the image lower; negative bottom
-                margin ensures no gap below. */}
-            <motion.img
-              src={cardsImg}
-              alt="Rhishav Sikdar — illusionist with cards"
-              className="md:hidden w-[125vw] max-w-none h-auto block pointer-events-none select-none mx-[-12.5vw] mb-[-2rem] mt-10"
-              style={{
-                filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
-              }}
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            />
           </div>
         </div>
+
+        {/* Mobile-only image — absolutely anchored to the bottom of <main>
+            so it always touches the viewport bottom with zero gap. Width
+            pushed past 100vw and centred so it's visibly oversized. */}
+        <motion.img
+          src={cardsImg}
+          alt="Rhishav Sikdar — illusionist with cards"
+          className="md:hidden absolute bottom-0 left-1/2 -translate-x-1/2 w-[138vw] max-w-none h-auto block pointer-events-none select-none"
+          style={{
+            filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
+          }}
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        />
       </main>
     </PageTransition>
   );
