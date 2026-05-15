@@ -90,9 +90,9 @@ const Index = () => {
 
         {/* Text content overlay (left side) */}
         <div className="relative z-[2] min-h-screen w-full flex items-start md:items-center px-6 md:pl-16 lg:pl-24 pt-24 md:pt-0 pb-0 md:pb-0">
-          <div className="w-full md:w-[50%] flex flex-col gap-4 md:gap-7 items-start">
+          <div className="w-full md:w-[50%] flex flex-col gap-4 md:gap-7 items-center md:items-start">
             {/* Title — AquireLight (brand font, restored) */}
-            <div className="flex flex-col leading-none">
+            <div className="flex flex-col leading-none text-center md:text-left">
               <motion.h1
                 {...fadeUp(0.2)}
                 className="uppercase text-[16vw] md:text-[8.2vw] leading-[0.95]"
