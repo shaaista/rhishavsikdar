@@ -78,7 +78,7 @@ const Index = () => {
             className="h-[110vh] w-auto max-w-none block select-none"
             style={{
               filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
-              transform: "translateX(2%)",
+              transform: "translateX(5%)",
               maskImage:
                 "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
               WebkitMaskImage:
@@ -186,7 +186,9 @@ const Index = () => {
           alt="Rhishav Sikdar — illusionist with cards"
           className="md:hidden absolute bottom-0 w-[138vw] max-w-none h-auto block pointer-events-none select-none"
           style={{
-            left: "calc(50% - 69vw)",
+            // Shift left so the person (who sits on the right half of the
+            // image's own composition) ends up roughly centered on screen.
+            left: "calc(50% - 82vw)",
             filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
           }}
           initial={{ opacity: 0, scale: 0.97 }}
