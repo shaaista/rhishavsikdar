@@ -6,11 +6,10 @@ import { Instagram, Youtube, Linkedin, ArrowRight } from "lucide-react";
 import glitterCardImg from "@/assets/glitter-card.png";
 import calmImg from "@/assets/calm.png";
 
-// Gold accent palette used by the Experience page (reverted from the brief
-// navy refactor — that experiment is undone).
+// Blue accent palette (matches the rest of the site)
 const DARK = "#000000";
-const ACCENT = "#c4a373";
-const ACCENT_SOFT = "#e8c898";
+const ACCENT = "rgba(20, 55, 150, 0.95)";
+const ACCENT_SOFT = "rgba(20, 55, 150, 0.55)";
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 18 },
@@ -174,16 +173,6 @@ const ExperienceCard = ({
       transition: { duration: 0.4 },
     }}
   >
-    {/* card-level glitter — corners + edges */}
-    <Twinkle top={14} left={20} size={10} delay={0.4} bright />
-    <Twinkle top={18} right={26} size={8} delay={1.0} />
-    <Twinkle bottom={18} left={30} size={9} delay={0.7} />
-    <Twinkle bottom={22} right={20} size={7} delay={1.4} bright />
-    <Glint top={40} left={10} delay={0.5} />
-    <Glint top={62} right={14} delay={1.2} />
-    <Glint bottom={40} left={16} delay={0.9} />
-    <Glint bottom={64} right={28} delay={1.6} />
-
     {/* Visual on top */}
     <div className="mb-1 md:mb-1.5 flex items-center justify-center">{visual}</div>
 
@@ -268,23 +257,6 @@ const Experience = () => {
         }}
       />
 
-      {/* Ambient page-wide glitter */}
-      <div className="fixed inset-0 z-[2] pointer-events-none">
-        <Twinkle top="14%" left="6%" size={11} delay={0.0} duration={3.5} bright />
-        <Twinkle top="22%" right="12%" size={8} delay={1.5} />
-        <Twinkle bottom="18%" left="10%" size={9} delay={0.9} duration={3.2} />
-        <Twinkle bottom="14%" right="8%" size={11} delay={2.1} bright />
-        <Twinkle top="40%" left="3%" size={7} delay={0.4} />
-        <Twinkle top="55%" right="3%" size={8} delay={1.7} duration={2.8} />
-        <Twinkle top="78%" left="48%" size={6} delay={2.3} />
-        <Glint top="20%" left="22%" delay={0.6} />
-        <Glint top="30%" right="20%" delay={1.2} />
-        <Glint bottom="22%" left="22%" delay={0.3} />
-        <Glint bottom="30%" right="24%" delay={1.5} />
-        <Glint top="48%" left="50%" delay={0.8} />
-        <Glint top="68%" left="42%" delay={1.9} />
-      </div>
-
       {/* Nav */}
       <nav className="fixed top-0 w-full px-6 md:px-10 py-5 md:py-6 flex justify-between items-center z-50 pointer-events-none">
         <button
@@ -327,7 +299,7 @@ const Experience = () => {
       </nav>
 
       {/* Hero — viewport-fitted */}
-      <main className="relative z-[10] h-screen w-full flex flex-col items-center justify-start px-6 md:px-10 overflow-hidden pt-20 md:pt-24">
+      <main className="relative z-[10] min-h-screen md:h-screen w-full flex flex-col items-center justify-start px-6 md:px-10 overflow-y-auto md:overflow-hidden pt-20 md:pt-24 pb-10 md:pb-0">
         <motion.div
           {...fadeUp(0.1)}
           className="text-[0.6rem] md:text-[0.68rem] tracking-[0.4em] uppercase mb-2"

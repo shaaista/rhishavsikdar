@@ -89,10 +89,10 @@ const Index = () => {
         </motion.div>
 
         {/* Text content overlay (left side) */}
-        <div className="relative z-[2] min-h-screen w-full flex items-center px-6 md:pl-16 lg:pl-24 pt-24 md:pt-0 pb-12 md:pb-0">
-          <div className="w-full md:w-[50%] flex flex-col gap-6 md:gap-7 items-start">
+        <div className="relative z-[2] min-h-screen w-full flex items-start md:items-center px-6 md:pl-16 lg:pl-24 pt-24 md:pt-0 pb-0 md:pb-0">
+          <div className="w-full md:w-[50%] flex flex-col gap-4 md:gap-7 items-start">
             {/* Title — AquireLight (brand font, restored) */}
-            <div className="flex flex-col leading-none">
+            <div className="flex flex-col leading-none w-full text-center md:text-left">
               <motion.h1
                 {...fadeUp(0.2)}
                 className="uppercase text-[16vw] md:text-[8.2vw] leading-[0.95]"
@@ -122,7 +122,7 @@ const Index = () => {
             {/* Subtitle pill row with gold bullets */}
             <motion.div
               {...fadeUp(0.55)}
-              className="flex items-center gap-3 md:gap-4 text-[0.68rem] md:text-[0.78rem] tracking-[0.35em] uppercase"
+              className="w-full md:w-auto flex items-center justify-center md:justify-start gap-2 md:gap-4 text-[0.52rem] md:text-[0.78rem] tracking-[0.2em] md:tracking-[0.35em] uppercase"
               style={{
                 fontFamily: "'Outfit', sans-serif",
                 fontWeight: 600,
@@ -174,21 +174,19 @@ const Index = () => {
               </motion.span>
             </motion.button>
 
-            {/* Mobile-only image (below text) */}
+            {/* Mobile-only image — static, larger, bottom-anchored
+                Negative left/right margin lets it span beyond the px-6 padding
+                Negative bottom margin pulls it flush to the viewport bottom */}
             <motion.img
               src={cardsImg}
               alt="Rhishav Sikdar — illusionist with cards"
-              className="md:hidden w-full max-w-[480px] h-auto block pointer-events-none select-none mt-8 mx-auto"
+              className="md:hidden w-screen max-w-none h-auto block pointer-events-none select-none mx-[-1.5rem] mb-[-1rem] mt-2"
               style={{
                 filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
               }}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
-              transition={{
-                opacity: { duration: 1.2, delay: 0.3 },
-                scale: { duration: 1.2, delay: 0.3 },
-                y: { duration: 5, repeat: Infinity, ease: "easeInOut" },
-              }}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
             />
           </div>
         </div>
