@@ -29,13 +29,7 @@ const Index = () => {
       </div>
 
       {/* Nav */}
-      <nav className="fixed top-0 w-full px-6 md:px-10 py-6 md:py-8 flex justify-between items-center z-50 pointer-events-none">
-        <div
-          className="text-[9px] md:text-[10px] tracking-[0.45em] font-bold text-black uppercase pointer-events-auto"
-          style={{ fontFamily: "Nestborn, sans-serif" }}
-        >
-          Rhishav Sikdar
-        </div>
+      <nav className="fixed top-0 w-full px-6 md:px-10 py-6 md:py-8 flex justify-end items-center z-50 pointer-events-none">
         <div className="flex gap-4 md:gap-5 pointer-events-auto">
           <a
             href="https://www.instagram.com/rhishavsikdar?igsh=MWVqbGl3c2NjYzczag=="
@@ -72,8 +66,8 @@ const Index = () => {
         {/* Cards image — taller than viewport, anchored to bottom so the float
             never reveals a gap. Left edge fades into the iridescent bg. */}
         <motion.div
-          className="hidden md:flex absolute right-0 items-end justify-end pointer-events-none overflow-visible"
-          style={{ width: "62%", top: "-5vh", height: "115vh" }}
+          className="hidden md:flex absolute right-0 items-start justify-end pointer-events-none overflow-visible"
+          style={{ width: "46%", top: "0", height: "100vh" }}
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.3, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
@@ -81,25 +75,15 @@ const Index = () => {
           <motion.img
             src={cardsImg}
             alt="Rhishav Sikdar — illusionist with cards"
-            className="h-[115vh] w-auto max-w-none block select-none"
+            className="h-[110vh] w-auto max-w-none block select-none"
             style={{
               filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
-              transform: "translateX(8%)",
-              // Soft radial-style mask: image is fully visible around the person,
-              // fades out gradually at every edge so it dissolves into the bg.
+              transform: "translateX(2%)",
               maskImage:
                 "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
               WebkitMaskImage:
                 "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-              // Lighten blend makes the golden glitter sit on the iridescent bg
-              // additively (whites/golds become part of the bg, not on top of it)
               mixBlendMode: "lighten",
-            }}
-            animate={{ y: [0, -14, 0] }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut",
             }}
           />
         </motion.div>
@@ -127,8 +111,7 @@ const Index = () => {
                 style={{
                   fontFamily: "'AquireLight', sans-serif",
                   fontWeight: 400,
-                  color: "transparent",
-                  WebkitTextStroke: `1px ${DARK}`,
+                  color: DARK,
                   letterSpacing: "-0.02em",
                 }}
               >
@@ -147,29 +130,32 @@ const Index = () => {
               }}
             >
               <span>Magician</span>
-              <span style={{ color: GOLD, fontSize: "0.9em" }}>●</span>
+              <span style={{ color: "rgba(20, 55, 150, 0.95)", fontSize: "0.9em" }}>●</span>
               <span>Mentalist</span>
-              <span style={{ color: GOLD, fontSize: "0.9em" }}>●</span>
+              <span style={{ color: "rgba(20, 55, 150, 0.95)", fontSize: "0.9em" }}>●</span>
               <span>Hypnotherapist</span>
             </motion.div>
 
             {/* CTA button — matches Connect button on other pages (Nestborn font) */}
             <motion.button
               {...fadeUp(0.7)}
-              onClick={() => navigate("/illusionist")}
+              onClick={() => navigate("/experience")}
               className="group flex items-center gap-3 px-7 md:px-9 py-3.5 md:py-4 rounded-full uppercase text-[0.75rem] md:text-base tracking-[0.15em] md:tracking-[0.3em] cursor-pointer font-bold whitespace-nowrap"
               style={{
                 fontFamily: "'Nestborn', sans-serif",
-                border: `1.5px solid ${GOLD}`,
+                border: "1px solid rgba(20, 55, 150, 0.6)",
                 color: DARK,
-                background: "rgba(255,255,255,0.12)",
-                backdropFilter: "blur(8px)",
-                WebkitBackdropFilter: "blur(8px)",
+                background:
+                  "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                boxShadow:
+                  "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
               }}
               whileHover={{
                 scale: 1.04,
-                backgroundColor: "rgba(255,255,255,0.3)",
-                boxShadow: `0 0 24px ${GOLD}55`,
+                boxShadow:
+                  "0 0 14px rgba(10, 40, 130, 0.55), 0 0 28px rgba(10, 40, 130, 0.3), 0 0 42px rgba(10, 40, 130, 0.15)",
               }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -177,7 +163,7 @@ const Index = () => {
               <span>Enter the Experience</span>
               <motion.span
                 style={{
-                  color: GOLD,
+                  color: "rgba(20, 55, 150, 0.95)",
                   fontSize: "0.95rem",
                   display: "inline-block",
                 }}

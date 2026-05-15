@@ -7,6 +7,7 @@ import { lazy, Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 
 const Index = lazy(() => import("./pages/Index.tsx"));
+const Experience = lazy(() => import("./pages/Experience.tsx"));
 const Illusionist = lazy(() => import("./pages/Illusionist.tsx"));
 const InnerWork = lazy(() => import("./pages/InnerWork.tsx"));
 const Contact = lazy(() => import("./pages/Contact.tsx"));
@@ -23,6 +24,7 @@ const AnimatedRoutes = () => {
       <Suspense fallback={<div className="w-screen h-screen bg-black" />}>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Index />} />
+          <Route path="/experience" element={<Experience />} />
           <Route path="/illusionist" element={<Illusionist />} />
           <Route path="/innerwork" element={<InnerWork />} />
           <Route path="/contact" element={<Contact />} />
