@@ -6,12 +6,16 @@ import PageTransition from "@/components/PageTransition";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
 
 const DARK = "#0f172a";
-const ACCENT_DOT = "rgba(20, 55, 150, 0.95)";
+const GOLD = "#c4a373"; // warm gold accent — bullets, sparkle, button border
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 18 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+  transition: {
+    duration: 0.9,
+    delay,
+    ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+  },
 });
 
 const Index = () => {
@@ -64,17 +68,53 @@ const Index = () => {
       </nav>
 
       {/* Hero */}
-      <main className="relative z-[10] min-h-screen w-full flex items-center px-6 md:px-16 lg:px-24 pt-24 md:pt-0 pb-12 md:pb-0">
-        <div className="w-full max-w-[1600px] mx-auto flex flex-col md:flex-row items-center md:items-center gap-10 md:gap-8">
-          {/* Left — text content */}
-          <div className="flex-1 flex flex-col gap-6 md:gap-7 items-start w-full">
-            {/* Title */}
+      <main className="relative z-[10] min-h-screen w-full overflow-hidden">
+        {/* Cards image — taller than viewport, anchored to bottom so the float
+            never reveals a gap. Left edge fades into the iridescent bg. */}
+        <motion.div
+          className="hidden md:flex absolute right-0 items-end justify-end pointer-events-none overflow-visible"
+          style={{ width: "62%", top: "-5vh", height: "115vh" }}
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.3, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <motion.img
+            src={cardsImg}
+            alt="Rhishav Sikdar — illusionist with cards"
+            className="h-[115vh] w-auto max-w-none block select-none"
+            style={{
+              filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
+              transform: "translateX(8%)",
+              // Soft radial-style mask: image is fully visible around the person,
+              // fades out gradually at every edge so it dissolves into the bg.
+              maskImage:
+                "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+              WebkitMaskImage:
+                "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+              // Lighten blend makes the golden glitter sit on the iridescent bg
+              // additively (whites/golds become part of the bg, not on top of it)
+              mixBlendMode: "lighten",
+            }}
+            animate={{ y: [0, -14, 0] }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        </motion.div>
+
+        {/* Text content overlay (left side) */}
+        <div className="relative z-[2] min-h-screen w-full flex items-center px-6 md:pl-16 lg:pl-24 pt-24 md:pt-0 pb-12 md:pb-0">
+          <div className="w-full md:w-[50%] flex flex-col gap-6 md:gap-7 items-start">
+            {/* Title — AquireLight (brand font, restored) */}
             <div className="flex flex-col leading-none">
               <motion.h1
                 {...fadeUp(0.2)}
-                className="uppercase font-black text-[16vw] md:text-[8.2vw] leading-[0.95]"
+                className="uppercase text-[16vw] md:text-[8.2vw] leading-[0.95]"
                 style={{
                   fontFamily: "'AquireLight', sans-serif",
+                  fontWeight: 400,
                   color: DARK,
                   letterSpacing: "-0.02em",
                 }}
@@ -83,9 +123,10 @@ const Index = () => {
               </motion.h1>
               <motion.h1
                 {...fadeUp(0.35)}
-                className="uppercase font-black text-[16vw] md:text-[8.2vw] leading-[0.95]"
+                className="uppercase text-[16vw] md:text-[8.2vw] leading-[0.95]"
                 style={{
                   fontFamily: "'AquireLight', sans-serif",
+                  fontWeight: 400,
                   color: "transparent",
                   WebkitTextStroke: `1px ${DARK}`,
                   letterSpacing: "-0.02em",
@@ -95,72 +136,75 @@ const Index = () => {
               </motion.h1>
             </div>
 
-            {/* Subtitle pill row */}
+            {/* Subtitle pill row with gold bullets */}
             <motion.div
               {...fadeUp(0.55)}
-              className="flex items-center gap-2 md:gap-3 text-[0.65rem] md:text-[0.78rem] tracking-[0.32em] uppercase"
-              style={{ fontFamily: "Nestborn, sans-serif", color: DARK }}
+              className="flex items-center gap-3 md:gap-4 text-[0.68rem] md:text-[0.78rem] tracking-[0.35em] uppercase"
+              style={{
+                fontFamily: "'Outfit', sans-serif",
+                fontWeight: 600,
+                color: DARK,
+              }}
             >
               <span>Magician</span>
-              <span style={{ color: ACCENT_DOT }}>•</span>
+              <span style={{ color: GOLD, fontSize: "0.9em" }}>●</span>
               <span>Mentalist</span>
-              <span style={{ color: ACCENT_DOT }}>•</span>
-              <span>Illusionist</span>
+              <span style={{ color: GOLD, fontSize: "0.9em" }}>●</span>
+              <span>Hypnotherapist</span>
             </motion.div>
 
-            {/* CTA button */}
+            {/* CTA button — matches Connect button on other pages (Nestborn font) */}
             <motion.button
               {...fadeUp(0.7)}
               onClick={() => navigate("/illusionist")}
-              className="group flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 rounded-full uppercase text-[0.7rem] md:text-[0.8rem] tracking-[0.3em] cursor-pointer"
+              className="group flex items-center gap-3 px-7 md:px-9 py-3.5 md:py-4 rounded-full uppercase text-[0.75rem] md:text-base tracking-[0.15em] md:tracking-[0.3em] cursor-pointer font-bold whitespace-nowrap"
               style={{
-                fontFamily: "Nestborn, sans-serif",
-                border: `1px solid ${DARK}`,
+                fontFamily: "'Nestborn', sans-serif",
+                border: `1.5px solid ${GOLD}`,
                 color: DARK,
-                background: "rgba(255,255,255,0.15)",
+                background: "rgba(255,255,255,0.12)",
                 backdropFilter: "blur(8px)",
                 WebkitBackdropFilter: "blur(8px)",
               }}
               whileHover={{
                 scale: 1.04,
                 backgroundColor: "rgba(255,255,255,0.3)",
+                boxShadow: `0 0 24px ${GOLD}55`,
               }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <span>Enter the Experience</span>
               <motion.span
-                style={{ color: ACCENT_DOT, fontSize: "0.9rem" }}
+                style={{
+                  color: GOLD,
+                  fontSize: "0.95rem",
+                  display: "inline-block",
+                }}
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
               >
                 ✦
               </motion.span>
             </motion.button>
-          </div>
 
-          {/* Right — cards image with floating animation */}
-          <motion.div
-            className="flex-1 flex justify-center md:justify-end w-full"
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.3, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
+            {/* Mobile-only image (below text) */}
             <motion.img
               src={cardsImg}
               alt="Rhishav Sikdar — illusionist with cards"
-              className="w-full max-w-[420px] md:max-w-[640px] h-auto block pointer-events-none select-none"
+              className="md:hidden w-full max-w-[480px] h-auto block pointer-events-none select-none mt-8 mx-auto"
               style={{
                 filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
               }}
-              animate={{ y: [0, -14, 0] }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
               transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut",
+                opacity: { duration: 1.2, delay: 0.3 },
+                scale: { duration: 1.2, delay: 0.3 },
+                y: { duration: 5, repeat: Infinity, ease: "easeInOut" },
               }}
             />
-          </motion.div>
+          </div>
         </div>
       </main>
     </PageTransition>
