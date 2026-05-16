@@ -78,7 +78,7 @@ const Index = () => {
             className="h-[89vh] w-auto max-w-none block select-none"
             style={{
               filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
-              transform: "translateX(5%)",
+              transform: "translateX(-2%)",
               maskImage:
                 "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
               WebkitMaskImage:
