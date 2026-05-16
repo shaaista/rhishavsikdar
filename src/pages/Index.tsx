@@ -220,36 +220,33 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Mobile-only image — absolutely anchored to the bottom of <main>
-            so it always touches the viewport bottom with zero gap. Width
-            pushed past 100vw and centred via left:calc() so framer-motion's
-            transform on the img can't break the horizontal centering. */}
-        {/* Mobile-only portrait — top of viewport, below nav.
-            A bottom-fade mask blends its lower edge softly into the text
-            area below so it doesn't look like a hard cutout. */}
-        <motion.img
-          src={cardsImg}
-          alt="Rhishav Sikdar — illusionist with cards"
-          className="md:hidden fixed w-[145vw] max-w-none h-auto block pointer-events-none select-none"
-          style={{
-            // Shift left so the person ends up roughly centered on screen.
-            left: "calc(50% - 80vw)",
-            top: "2vh",
-            // Cap height so the portrait fills the upper half generously
-            // and overlaps the name area, while leaving CTA visible.
-            maxHeight: "82vh",
-            // Strong bottom fade so the image dissolves smoothly into
-            // the iridescent bg + over the name area instead of cutting.
-            maskImage:
-              "linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,0.5) 78%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,0.5) 78%, transparent 100%)",
-            filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
-          }}
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        />
+        {/* Mobile-only portrait.
+            The source PNG has substantial empty space on the left, so the
+            wrapper translates by image-width percentage to keep the subject
+            centered over the stacked name without affecting desktop. */}
+        <div
+          className="md:hidden fixed top-[4.5vh] left-1/2 z-[1] w-fit pointer-events-none"
+          style={{ transform: "translateX(-60%)" }}
+        >
+          <motion.img
+            src={cardsImg}
+            alt="Rhishav Sikdar — illusionist with cards"
+            className="w-[220vw] max-w-none h-auto block select-none"
+            style={{
+              // Let more of the torso stay visible so the portrait sits
+              // closer to the name instead of fading out too early.
+              maxHeight: "80vh",
+              maskImage:
+                "linear-gradient(to bottom, #000 0%, #000 76%, rgba(0,0,0,0.82) 90%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, #000 0%, #000 76%, rgba(0,0,0,0.82) 90%, transparent 100%)",
+              filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
+            }}
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          />
+        </div>
       </main>
     </PageTransition>
   );
