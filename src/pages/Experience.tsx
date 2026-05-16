@@ -94,7 +94,7 @@ const SparkleDivider = () => (
 // ─── Ace of Spades — real photo with mix-blend-mode to drop the black bg ──────
 const SpadeCard = () => (
   <motion.div
-    className="relative w-[230px] h-[140px] mx-auto flex items-center justify-center pointer-events-none"
+    className="relative w-[210px] h-[140px] mx-auto flex items-center justify-center pointer-events-none"
     animate={{ y: [0, -4, 0] }}
     transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
   >
@@ -115,7 +115,7 @@ const SpadeCard = () => (
 // ─── Calm image — real photo with mix-blend-mode to drop the dark bg ──────────
 const MeditationFigure = () => (
   <motion.div
-    className="relative w-[230px] h-[140px] mx-auto flex items-center justify-center pointer-events-none"
+    className="relative w-[210px] h-[140px] mx-auto flex items-center justify-center pointer-events-none"
     animate={{ y: [0, -4, 0] }}
     transition={{ duration: 5, delay: 0.6, repeat: Infinity, ease: "easeInOut" }}
   >
@@ -157,19 +157,21 @@ const ExperienceCard = ({
   <motion.div
     {...fadeUp(delay)}
     onClick={onClick}
-    className="rounded-[1.5rem] px-6 py-4 md:px-8 md:py-5 flex flex-col items-center text-center cursor-pointer relative overflow-visible group"
+    className="rounded-[1.5rem] px-6 py-4 md:px-7 md:py-5 flex flex-col items-center text-center cursor-pointer relative overflow-visible group"
     style={{
       background: cardBg ?? DEFAULT_CARD_BG,
       backdropFilter: "blur(34px) saturate(1.15)",
       WebkitBackdropFilter: "blur(34px) saturate(1.15)",
-      border: "1px solid rgba(255,255,255,0.65)",
+      border: "1px solid rgba(20, 55, 150, 0.6)",
+      // Same triple-layer navy glow used by the glass components on the
+      // Illusionist / InnerWork pages
       boxShadow:
-        "0 28px 56px rgba(20, 35, 75, 0.12), 0 0 0 1px rgba(20, 55, 150, 0.14), 0 0 60px rgba(20, 55, 150, 0.12)",
+        "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
     }}
     whileHover={{
       y: -6,
       boxShadow:
-        "0 34px 70px rgba(20, 35, 75, 0.18), 0 0 0 1px rgba(20, 55, 150, 0.32), 0 0 80px rgba(20, 55, 150, 0.22)",
+        "0 0 14px rgba(10, 40, 130, 0.55), 0 0 28px rgba(10, 40, 130, 0.3), 0 0 42px rgba(10, 40, 130, 0.15)",
       transition: { duration: 0.4 },
     }}
   >
@@ -180,7 +182,8 @@ const ExperienceCard = ({
       className="uppercase"
       style={{
         fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-        fontSize: "clamp(1.45rem, 2.2vw, 2rem)",
+        fontSize: "clamp(1.55rem, 2.4vw, 2.1rem)",
+        fontWeight: 400,
         letterSpacing: "0.06em",
         color: DARK,
         lineHeight: 1,
@@ -189,9 +192,25 @@ const ExperienceCard = ({
       {title}
     </h2>
 
+    {/* diamond divider under the title — dash-diamond-dash */}
+    <div
+      className="flex items-center justify-center mt-2 mb-2"
+      style={{ color: ACCENT_SOFT }}
+    >
+      <span
+        className="block h-px w-12"
+        style={{ background: ACCENT_SOFT, opacity: 0.7 }}
+      />
+      <span style={{ fontSize: "0.55rem", margin: "0 8px" }}>◆</span>
+      <span
+        className="block h-px w-12"
+        style={{ background: ACCENT_SOFT, opacity: 0.7 }}
+      />
+    </div>
+
     {/* tags row */}
     <div
-      className="flex items-center justify-center flex-nowrap gap-2 mt-2 mb-3 text-[0.46rem] md:text-[0.55rem] uppercase whitespace-nowrap"
+      className="flex items-center justify-center flex-nowrap gap-2 mb-3 text-[0.46rem] md:text-[0.55rem] uppercase whitespace-nowrap"
       style={{
         color: ACCENT,
         letterSpacing: "0.3em",
@@ -218,23 +237,30 @@ const ExperienceCard = ({
       {description}
     </p>
 
-    <motion.span
-      className="flex items-center gap-2 text-[0.66rem] md:text-[0.72rem] uppercase font-bold"
-      style={{
-        color: ACCENT,
-        letterSpacing: "0.4em",
-        fontFamily: "'Nestborn', sans-serif",
-      }}
-    >
-      Enter
+    <div className="flex flex-col items-center">
       <motion.span
-        className="inline-block"
-        whileHover={{ x: 4 }}
-        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+        className="flex items-center gap-2 text-[0.74rem] md:text-[0.82rem] uppercase font-bold"
+        style={{
+          color: ACCENT,
+          letterSpacing: "0.4em",
+          fontFamily: "'Nestborn', sans-serif",
+        }}
       >
-        <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.5} />
+        Enter
+        <motion.span
+          className="inline-block"
+          whileHover={{ x: 4 }}
+          transition={{ type: "spring", stiffness: 400, damping: 20 }}
+        >
+          <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.5} />
+        </motion.span>
       </motion.span>
-    </motion.span>
+      {/* Thin underline beneath the ENTER label */}
+      <span
+        className="block h-px w-16 mt-1.5"
+        style={{ background: ACCENT_SOFT, opacity: 0.7 }}
+      />
+    </div>
   </motion.div>
 );
 
@@ -258,15 +284,7 @@ const Experience = () => {
       />
 
       {/* Nav */}
-      <nav className="fixed top-0 w-full px-6 md:px-10 py-5 md:py-6 flex justify-between items-center z-50 pointer-events-none">
-        <button
-          onClick={() => navigate("/")}
-          className="text-[9px] md:text-[10px] tracking-[0.45em] font-bold uppercase pointer-events-auto cursor-pointer bg-transparent border-none hover:opacity-60 transition-opacity"
-          style={{ color: DARK, fontFamily: "Nestborn, sans-serif" }}
-          aria-label="Back to home"
-        >
-          Rhishav Sikdar
-        </button>
+      <nav className="fixed top-0 w-full px-6 md:px-10 py-5 md:py-6 flex justify-end items-center z-50 pointer-events-none">
         <div className="flex gap-4 md:gap-5 pointer-events-auto">
           <a
             href="https://www.instagram.com/rhishavsikdar?igsh=MWVqbGl3c2NjYzczag=="
@@ -299,7 +317,7 @@ const Experience = () => {
       </nav>
 
       {/* Hero — viewport-fitted */}
-      <main className="relative z-[10] min-h-screen md:h-screen w-full flex flex-col items-center justify-start px-6 md:px-10 overflow-y-auto md:overflow-hidden pt-20 md:pt-24 pb-10 md:pb-0">
+      <main className="relative z-[10] min-h-screen md:h-screen w-full flex flex-col items-center justify-start px-6 md:px-10 overflow-y-auto md:overflow-hidden pt-20 md:pt-14 pb-10 md:pb-0">
         <motion.div
           {...fadeUp(0.1)}
           className="text-[0.6rem] md:text-[0.68rem] tracking-[0.4em] uppercase mb-2"
@@ -322,6 +340,7 @@ const Experience = () => {
           style={{
             fontFamily: "'Libre Baskerville', 'Baskerville', serif",
             fontSize: "clamp(1.6rem, 3.8vw, 3.2rem)",
+            fontWeight: 400,
             color: DARK,
             letterSpacing: "0.02em",
             lineHeight: 1.05,
@@ -333,7 +352,7 @@ const Experience = () => {
 
         <motion.p
           {...fadeUp(0.4)}
-          className="text-center text-xs md:text-sm mb-5 md:mb-7 max-w-md"
+          className="text-center text-xs md:text-sm mb-4 md:mb-5 max-w-md"
           style={{
             color: DARK,
             opacity: 0.7,
@@ -343,11 +362,11 @@ const Experience = () => {
           Choose the side of Rhishav you want to explore.
         </motion.p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full max-w-[920px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 w-full max-w-[820px]">
           <ExperienceCard
             visual={<SpadeCard />}
             title="Illusion"
-            tags={["Shows", "Mentalism", "Corporate Events"]}
+            tags={["Magic", "Mentalism"]}
             description="Performance, wonder, and unforgettable live experiences."
             onClick={() => navigate("/illusionist")}
             delay={0.5}
@@ -356,7 +375,7 @@ const Experience = () => {
           <ExperienceCard
             visual={<MeditationFigure />}
             title="Inner Work"
-            tags={["Hypnotherapy", "Transformation", "Private Sessions"]}
+            tags={["Reiki", "Hypnotherapy"]}
             description="Mindset, healing, and inner transformation."
             onClick={() => navigate("/innerwork")}
             delay={0.65}
