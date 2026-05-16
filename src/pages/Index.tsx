@@ -190,7 +190,7 @@ const Index = () => {
             centered over the stacked name without affecting desktop. */}
         <div
           className="md:hidden fixed top-[8vh] left-1/2 z-[1] w-fit pointer-events-none"
-          style={{ transform: "translateX(-66%)" }}
+          style={{ transform: "translateX(-63%)" }}
         >
           <motion.img
             src={cardsImg}
