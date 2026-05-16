@@ -195,11 +195,11 @@ const Index = () => {
           <motion.img
             src={cardsImg}
             alt="Rhishav Sikdar — illusionist with cards"
-            className="w-[196vw] max-w-none h-auto block select-none"
+            className="relative z-[1] w-[188vw] max-w-none h-auto block select-none"
             style={{
               // Pull the portrait upward and reduce its scale so the fade
               // lands around the first name line on phones.
-              maxHeight: "76vh",
+              maxHeight: "73vh",
               maskImage:
                 "linear-gradient(to bottom, #000 0%, #000 78%, rgba(0,0,0,0.82) 92%, transparent 100%)",
               WebkitMaskImage:
@@ -209,6 +209,20 @@ const Index = () => {
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          />
+          <div
+            aria-hidden="true"
+            className="absolute left-1/2 bottom-[-6vh] h-[26vh] w-[112vw] -translate-x-1/2 rounded-full"
+            style={{
+              background: `
+                radial-gradient(ellipse 58% 46% at 50% 18%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.82) 34%, rgba(255,255,255,0.45) 58%, transparent 100%),
+                radial-gradient(ellipse 48% 34% at 24% 58%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.14) 62%, transparent 100%),
+                radial-gradient(ellipse 46% 32% at 76% 56%, rgba(255,255,255,0.52) 0%, rgba(255,255,255,0.12) 60%, transparent 100%)
+              `,
+              filter: "blur(22px)",
+              opacity: 0.96,
+              mixBlendMode: "screen",
+            }}
           />
         </div>
       </main>
