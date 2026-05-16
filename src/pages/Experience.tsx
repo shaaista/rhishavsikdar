@@ -94,7 +94,11 @@ const SparkleDivider = () => (
 // ─── Ace of Spades — real photo with mix-blend-mode to drop the black bg ──────
 const SpadeCard = () => (
   <motion.div
-    className="relative w-[210px] h-[140px] mx-auto flex items-center justify-center pointer-events-none"
+    className="relative mx-auto flex items-center justify-center pointer-events-none"
+    style={{
+      width: "clamp(215px, 19.5vw, 420px)",
+      height: "clamp(145px, 13vw, 280px)",
+    }}
     animate={{ y: [0, -4, 0] }}
     transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
   >
@@ -115,7 +119,11 @@ const SpadeCard = () => (
 // ─── Calm image — real photo with mix-blend-mode to drop the dark bg ──────────
 const MeditationFigure = () => (
   <motion.div
-    className="relative w-[210px] h-[140px] mx-auto flex items-center justify-center pointer-events-none"
+    className="relative mx-auto flex items-center justify-center pointer-events-none"
+    style={{
+      width: "clamp(215px, 19.5vw, 420px)",
+      height: "clamp(145px, 13vw, 280px)",
+    }}
     animate={{ y: [0, -4, 0] }}
     transition={{ duration: 5, delay: 0.6, repeat: Infinity, ease: "easeInOut" }}
   >
@@ -157,8 +165,9 @@ const ExperienceCard = ({
   <motion.div
     {...fadeUp(delay)}
     onClick={onClick}
-    className="rounded-[1.5rem] px-6 py-4 md:px-7 md:py-5 flex flex-col items-center text-center cursor-pointer relative overflow-visible group"
+    className="rounded-[1.5rem] flex flex-col items-center text-center cursor-pointer relative overflow-visible group"
     style={{
+      padding: "clamp(1rem, 1.8vw, 2.5rem) clamp(1.25rem, 2vw, 3rem)",
       background: cardBg ?? DEFAULT_CARD_BG,
       backdropFilter: "blur(34px) saturate(1.15)",
       WebkitBackdropFilter: "blur(34px) saturate(1.15)",
@@ -176,13 +185,13 @@ const ExperienceCard = ({
     }}
   >
     {/* Visual on top */}
-    <div className="mb-1 md:mb-1.5 flex items-center justify-center">{visual}</div>
+    <div className="-mt-1 mb-0 flex items-center justify-center">{visual}</div>
 
     <h2
       className="uppercase"
       style={{
         fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-        fontSize: "clamp(1.55rem, 2.4vw, 2.1rem)",
+        fontSize: "clamp(1.55rem, 2.4vw, 3.4rem)",
         fontWeight: 400,
         letterSpacing: "0.06em",
         color: DARK,
@@ -194,7 +203,7 @@ const ExperienceCard = ({
 
     {/* diamond divider under the title — dash-diamond-dash */}
     <div
-      className="flex items-center justify-center mt-2 mb-2"
+      className="flex items-center justify-center mt-1.5 mb-1.5"
       style={{ color: ACCENT_SOFT }}
     >
       <span
@@ -210,10 +219,11 @@ const ExperienceCard = ({
 
     {/* tags row */}
     <div
-      className="flex items-center justify-center flex-nowrap gap-2 mb-3 text-[0.46rem] md:text-[0.55rem] uppercase whitespace-nowrap"
+      className="flex items-center justify-center flex-nowrap gap-2.5 mb-2.5 uppercase whitespace-nowrap"
       style={{
+        fontSize: "clamp(0.62rem, 0.78vw, 1.15rem)",
         color: ACCENT,
-        letterSpacing: "0.3em",
+        letterSpacing: "0.28em",
         fontFamily: "'Nestborn', sans-serif",
         fontWeight: 600,
       }}
@@ -227,8 +237,10 @@ const ExperienceCard = ({
     </div>
 
     <p
-      className="text-[0.72rem] md:text-[0.8rem] mb-2.5 leading-snug max-w-[280px]"
+      className="mb-2 leading-snug"
       style={{
+        fontSize: "clamp(0.72rem, 0.95vw, 1.15rem)",
+        maxWidth: "clamp(220px, 22vw, 380px)",
         color: DARK,
         opacity: 0.78,
         fontFamily: "'Libre Baskerville', serif",
@@ -239,8 +251,9 @@ const ExperienceCard = ({
 
     <div className="flex flex-col items-center">
       <motion.span
-        className="flex items-center gap-2 text-[0.74rem] md:text-[0.82rem] uppercase font-bold"
+        className="flex items-center gap-2 uppercase font-bold"
         style={{
+          fontSize: "clamp(0.74rem, 0.95vw, 1.3rem)",
           color: ACCENT,
           letterSpacing: "0.4em",
           fontFamily: "'Nestborn', sans-serif",
@@ -320,8 +333,9 @@ const Experience = () => {
       <main className="relative z-[10] min-h-screen md:h-screen w-full flex flex-col items-center justify-start px-6 md:px-10 overflow-y-auto md:overflow-hidden pt-20 md:pt-14 pb-10 md:pb-0">
         <motion.div
           {...fadeUp(0.1)}
-          className="text-[0.6rem] md:text-[0.68rem] tracking-[0.4em] uppercase mb-2"
+          className="tracking-[0.4em] uppercase mb-2"
           style={{
+            fontSize: "clamp(0.6rem, 0.78vw, 1.15rem)",
             color: ACCENT,
             fontFamily: "'Nestborn', sans-serif",
             fontWeight: 600,
@@ -336,33 +350,24 @@ const Experience = () => {
 
         <motion.h1
           {...fadeUp(0.3)}
-          className="text-center uppercase mb-2 flex items-center gap-3"
+          className="text-center uppercase mb-5 md:mb-6 flex flex-col items-center"
           style={{
             fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-            fontSize: "clamp(1.6rem, 3.8vw, 3.2rem)",
+            fontSize: "clamp(1.45rem, 3.2vw, 4.5rem)",
             fontWeight: 400,
             color: DARK,
             letterSpacing: "0.02em",
-            lineHeight: 1.05,
+            lineHeight: 1.15,
           }}
         >
-          Two Worlds. One Mind
-          <span style={{ color: ACCENT, fontSize: "0.55em" }}>✦</span>
+          <span>The Art of Illusion.</span>
+          <span>The Science of Inner Work</span>
         </motion.h1>
 
-        <motion.p
-          {...fadeUp(0.4)}
-          className="text-center text-xs md:text-sm mb-4 md:mb-5 max-w-md"
-          style={{
-            color: DARK,
-            opacity: 0.7,
-            fontFamily: "'Libre Baskerville', serif",
-          }}
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 w-full"
+          style={{ maxWidth: "min(90vw, clamp(820px, 60vw, 1400px))" }}
         >
-          Choose the side of Rhishav you want to explore.
-        </motion.p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 w-full max-w-[820px]">
           <ExperienceCard
             visual={<SpadeCard />}
             title="Illusion"
