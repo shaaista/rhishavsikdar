@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import cardsImg from "@/assets/cards.png";
@@ -20,6 +21,44 @@ const fadeUp = (delay: number) => ({
 
 const Index = () => {
   const navigate = useNavigate();
+
+  // Pin html + body to the dynamic viewport height while on the home page.
+  // Chrome on mobile reports 100vh including the URL-bar area, which makes
+  // <main> taller than the visible viewport — that's what's causing the
+  // gap between the text and the bottom-anchored portrait, plus the small
+  // scroll. Forcing 100dvh on the root elements + position:fixed on body
+  // pins the page to the visible area regardless of URL-bar state.
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const prev = {
+      htmlOverflow: html.style.overflow,
+      htmlHeight: html.style.height,
+      bodyOverflow: body.style.overflow,
+      bodyHeight: body.style.height,
+      bodyPosition: body.style.position,
+      bodyWidth: body.style.width,
+      bodyOverscroll: body.style.overscrollBehaviorY as string | undefined,
+    };
+
+    html.style.overflow = "hidden";
+    html.style.height = "100dvh";
+    body.style.overflow = "hidden";
+    body.style.height = "100dvh";
+    body.style.position = "fixed";
+    body.style.width = "100%";
+    body.style.overscrollBehaviorY = "none";
+
+    return () => {
+      html.style.overflow = prev.htmlOverflow;
+      html.style.height = prev.htmlHeight;
+      body.style.overflow = prev.bodyOverflow;
+      body.style.height = prev.bodyHeight;
+      body.style.position = prev.bodyPosition;
+      body.style.width = prev.bodyWidth;
+      body.style.overscrollBehaviorY = prev.bodyOverscroll ?? "";
+    };
+  }, []);
 
   return (
     <PageTransition>
@@ -62,7 +101,7 @@ const Index = () => {
       </nav>
 
       {/* Hero */}
-      <main className="relative z-[10] min-h-screen min-h-[100dvh] w-full overflow-hidden">
+      <main className="relative z-[10] h-screen h-[100dvh] w-full overflow-hidden">
         {/* Cards image — taller than viewport, anchored to bottom so the float
             never reveals a gap. Left edge fades into the iridescent bg. */}
         <motion.div
@@ -89,7 +128,7 @@ const Index = () => {
         </motion.div>
 
         {/* Text content overlay (left side) */}
-        <div className="relative z-[2] min-h-screen min-h-[100dvh] w-full flex items-start md:items-center px-6 md:pl-16 lg:pl-24 pt-24 md:pt-0 pb-0 md:pb-0">
+        <div className="relative z-[2] h-full w-full flex items-start md:items-center px-6 md:pl-16 lg:pl-24 pt-24 md:pt-0 pb-0 md:pb-0">
           <div className="w-full md:w-[50%] flex flex-col gap-4 md:gap-7 items-center md:items-start">
             {/* Title — AquireLight (brand font, restored) */}
             <div className="flex flex-col leading-none text-center md:text-left">
