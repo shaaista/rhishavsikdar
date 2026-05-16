@@ -189,7 +189,7 @@ const Index = () => {
             wrapper translates by image-width percentage to keep the subject
             centered over the stacked name without affecting desktop. */}
         <div
-          className="md:hidden fixed top-[11vh] left-1/2 z-[1] w-fit pointer-events-none"
+          className="md:hidden fixed top-[13vh] left-1/2 z-[1] w-fit pointer-events-none"
           style={{ transform: "translateX(-61.5%)" }}
         >
           <motion.img
