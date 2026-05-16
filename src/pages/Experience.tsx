@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Iridescence from "@/components/Iridescence";
 import PageTransition from "@/components/PageTransition";
-import { Instagram, Youtube, Linkedin, ArrowRight } from "lucide-react";
+import { Instagram, Youtube, Linkedin, ArrowRight, ArrowLeft } from "lucide-react";
 import glitterCardImg from "@/assets/glitter-card.png";
 import calmImg from "@/assets/calm.png";
 
@@ -295,6 +295,20 @@ const Experience = () => {
             "radial-gradient(ellipse 80% 70% at center, rgba(255,253,248,0.55) 0%, rgba(255,250,240,0.3) 45%, rgba(255,250,240,0.1) 80%, transparent 100%)",
         }}
       />
+
+      {/* Back button — routes back to the main hero */}
+      <button
+        onClick={() => navigate("/")}
+        className="fixed top-6 left-6 z-50 p-2 rounded-full backdrop-blur-md bg-black/5 text-black/60 hover:text-black hover:bg-black/10 transition-all duration-300 cursor-pointer"
+        style={{
+          border: "1px solid rgba(20, 55, 150, 0.6)",
+          boxShadow:
+            "0 0 5px rgba(10, 40, 130, 0.4), 0 0 10px rgba(10, 40, 130, 0.2), 0 0 15px rgba(10, 40, 130, 0.1)",
+        }}
+        aria-label="Back to home"
+      >
+        <ArrowLeft className="w-4 h-4" />
+      </button>
 
       {/* Nav */}
       <nav className="fixed top-0 w-full px-6 md:px-10 py-5 md:py-6 flex justify-end items-center z-50 pointer-events-none">
