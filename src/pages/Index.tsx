@@ -36,17 +36,16 @@ const Index = () => {
       htmlHeight: html.style.height,
       bodyOverflow: body.style.overflow,
       bodyHeight: body.style.height,
-      bodyPosition: body.style.position,
-      bodyWidth: body.style.width,
       bodyOverscroll: body.style.overscrollBehaviorY as string | undefined,
     };
 
+    // NOTE: deliberately not setting body{position:fixed} — that would
+    // disable Chrome's pull-to-refresh. overflow:hidden alone is enough
+    // to prevent scroll-bounce while leaving the gesture working.
     html.style.overflow = "hidden";
     html.style.height = "100dvh";
     body.style.overflow = "hidden";
     body.style.height = "100dvh";
-    body.style.position = "fixed";
-    body.style.width = "100%";
     body.style.overscrollBehaviorY = "none";
 
     return () => {
@@ -54,8 +53,6 @@ const Index = () => {
       html.style.height = prev.htmlHeight;
       body.style.overflow = prev.bodyOverflow;
       body.style.height = prev.bodyHeight;
-      body.style.position = prev.bodyPosition;
-      body.style.width = prev.bodyWidth;
       body.style.overscrollBehaviorY = prev.bodyOverscroll ?? "";
     };
   }, []);
@@ -223,11 +220,14 @@ const Index = () => {
         <motion.img
           src={cardsImg}
           alt="Rhishav Sikdar — illusionist with cards"
-          className="md:hidden absolute bottom-0 w-[138vw] max-w-none h-auto block pointer-events-none select-none"
+          className="md:hidden absolute w-[138vw] max-w-none h-auto block pointer-events-none select-none"
           style={{
             // Shift left so the person (who sits on the right half of the
             // image's own composition) ends up roughly centered on screen.
             left: "calc(50% - 82vw)",
+            // Lift the image up a touch from the very bottom so Chrome's
+            // bottom UI / nav bar doesn't clip the magician's lower edge.
+            bottom: "4vh",
             filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
           }}
           initial={{ opacity: 0, scale: 0.97 }}
