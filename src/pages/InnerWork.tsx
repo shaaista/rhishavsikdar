@@ -222,7 +222,7 @@ const InnerWork = () => {
                 }}
               >
                 {/* Eyebrow tags */}
-                <div className="flex items-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/70">
+                <div className="flex items-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-[rgba(20,55,150,0.95)]">
                   <span
                     className="hidden md:inline-block w-10 h-[1px]"
                     style={{ background: "rgba(0,0,0,0.5)" }}
@@ -279,7 +279,7 @@ const InnerWork = () => {
                 {credentials.map((c) => (
                   <div key={c.label} className="flex flex-col gap-2">
                     <span
-                      className="text-[0.7rem] md:text-[0.75rem] tracking-[0.2em] uppercase text-black/70"
+                      className="text-[0.7rem] md:text-[0.75rem] tracking-[0.2em] uppercase text-[rgba(20,55,150,0.95)]"
                       style={{ fontFamily: "'Nestborn', sans-serif" }}
                     >
                       {c.label}
@@ -357,7 +357,7 @@ const InnerWork = () => {
                         {s.value}
                       </span>
                       <span
-                        className="text-[0.65rem] md:text-[0.75rem] tracking-[0.18em] uppercase text-black/70 leading-tight"
+                        className="text-[0.65rem] md:text-[0.75rem] tracking-[0.18em] uppercase text-[rgba(20,55,150,0.95)] leading-tight"
                         style={{ fontFamily: "'Nestborn', sans-serif" }}
                       >
                         {s.label}
@@ -373,7 +373,7 @@ const InnerWork = () => {
           <section className="px-6 md:px-16 lg:px-24 pb-10">
             <div className="max-w-5xl mx-auto">
               <motion.div
-                className="flex items-center justify-center gap-3 text-[0.75rem] md:text-[0.85rem] tracking-[0.3em] uppercase text-black/70 mb-3"
+                className="flex items-center justify-center gap-3 text-[0.75rem] md:text-[0.85rem] tracking-[0.3em] uppercase text-[rgba(20,55,150,0.95)] mb-3"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -427,7 +427,7 @@ const InnerWork = () => {
                     >
                       <div className="flex flex-col gap-2">
                         <span
-                          className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/70"
+                          className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-[rgba(20,55,150,0.95)]"
                           style={{ fontFamily: "'Nestborn', sans-serif" }}
                         >
                           {item.eyebrow}
@@ -585,7 +585,7 @@ const InnerWork = () => {
               transition={{ duration: 0.6 }}
               whileHover={{ scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
             >
-              <div className="flex items-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.3em] uppercase text-black/70">
+              <div className="flex items-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.3em] uppercase text-[rgba(20,55,150,0.95)]">
                 <span
                   className="inline-block w-10 h-[1px]"
                   style={{ background: "rgba(0,0,0,0.5)" }}

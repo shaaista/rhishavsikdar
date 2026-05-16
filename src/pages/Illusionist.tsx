@@ -219,7 +219,7 @@ const Illusionist = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
-                <div className="flex items-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/70">
+                <div className="flex items-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-[rgba(20,55,150,0.95)]">
                   <span className="hidden md:inline-block w-10 h-[1px]" style={{ background: "rgba(0,0,0,0.5)" }} aria-hidden="true" />
                   <span style={{ fontFamily: "Nestborn, sans-serif" }}>Mentalist&nbsp;&nbsp;·&nbsp;&nbsp;Magician&nbsp;&nbsp;·&nbsp;&nbsp;Hypnotist</span>
                 </div>
@@ -261,7 +261,7 @@ const Illusionist = () => {
                     <span className="text-3xl md:text-5xl text-black leading-none" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
                       {s.value}
                     </span>
-                    <span className="text-[0.65rem] md:text-[0.75rem] tracking-[0.18em] uppercase text-black/70 leading-tight" style={{ fontFamily: "Nestborn, sans-serif" }}>
+                    <span className="text-[0.65rem] md:text-[0.75rem] tracking-[0.18em] uppercase text-[rgba(20,55,150,0.95)] leading-tight" style={{ fontFamily: "Nestborn, sans-serif" }}>
                       {s.label}
                     </span>
                   </div>
@@ -345,7 +345,7 @@ const Illusionist = () => {
           <section className="px-6 md:px-16 lg:px-24 pb-10">
             <div className="max-w-5xl mx-auto">
               <motion.div
-                className="flex items-center justify-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.3em] uppercase text-black/70 mb-3"
+                className="flex items-center justify-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.3em] uppercase text-[rgba(20,55,150,0.95)] mb-3"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -380,7 +380,7 @@ const Illusionist = () => {
                     whileHover={{ scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
                   >
                     <div className="flex flex-col gap-2">
-                      <span className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/70" style={{ fontFamily: "Nestborn, sans-serif" }}>
+                      <span className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-[rgba(20,55,150,0.95)]" style={{ fontFamily: "Nestborn, sans-serif" }}>
                         {event.category}
                       </span>
                       <h3 className="text-3xl md:text-4xl leading-tight text-black" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
@@ -395,7 +395,7 @@ const Illusionist = () => {
                       {event.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-3 py-1 rounded-full text-[0.65rem] md:text-[0.7rem] tracking-[0.2em] uppercase text-black/65"
+                          className="px-3 py-1 rounded-full text-[0.65rem] md:text-[0.7rem] tracking-[0.2em] uppercase text-[rgba(20,55,150,0.95)]"
                           style={{ fontFamily: "Nestborn, sans-serif", border: "1px solid rgba(20, 55, 150, 0.3)", background: "hsla(0,0%,100%,0.05)" }}
                         >
                           {tag}
@@ -412,7 +412,7 @@ const Illusionist = () => {
           <section className="px-6 md:px-16 lg:px-24 pb-10">
             <div className="max-w-5xl mx-auto">
               <motion.div
-                className="flex items-center justify-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.3em] uppercase text-black/70 mb-3"
+                className="flex items-center justify-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.3em] uppercase text-[rgba(20,55,150,0.95)] mb-3"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -448,7 +448,7 @@ const Illusionist = () => {
                     whileHover={{ scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
                   >
                     <div className="flex flex-col gap-2">
-                      <span className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-black/70" style={{ fontFamily: "Nestborn, sans-serif" }}>
+                      <span className="text-[0.7rem] md:text-[0.75rem] tracking-[0.25em] uppercase text-[rgba(20,55,150,0.95)]" style={{ fontFamily: "Nestborn, sans-serif" }}>
                         {exp.format}
                       </span>
                       <h3 className="text-3xl md:text-4xl leading-tight text-black" style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}>
@@ -493,7 +493,7 @@ const Illusionist = () => {
               transition={{ duration: 0.6 }}
               whileHover={{ scale: 1.02, transition: { duration: 0.3, ease: "easeOut" } }}
             >
-              <div className="flex items-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.3em] uppercase text-black/70">
+              <div className="flex items-center gap-3 text-[0.7rem] md:text-[0.75rem] tracking-[0.3em] uppercase text-[rgba(20,55,150,0.95)]">
                 <span className="inline-block w-10 h-[1px]" style={{ background: "rgba(0,0,0,0.5)" }} aria-hidden="true" />
                 <span style={{ fontFamily: "Nestborn, sans-serif" }}>Book an Experience</span>
               </div>
