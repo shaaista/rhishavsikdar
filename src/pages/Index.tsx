@@ -98,7 +98,10 @@ const Index = () => {
       </nav>
 
       {/* Hero */}
-      <main className="relative z-[10] h-screen h-[100dvh] w-full overflow-hidden">
+      <main
+        className="relative z-[10] w-full overflow-hidden"
+        style={{ height: "100dvh" }}
+      >
         {/* Cards image — taller than viewport, anchored to bottom so the float
             never reveals a gap. Left edge fades into the iridescent bg. */}
         <motion.div
@@ -220,14 +223,15 @@ const Index = () => {
         <motion.img
           src={cardsImg}
           alt="Rhishav Sikdar — illusionist with cards"
-          className="md:hidden absolute w-[138vw] max-w-none h-auto block pointer-events-none select-none"
+          className="md:hidden fixed w-[138vw] max-w-none h-auto block pointer-events-none select-none"
           style={{
             // Shift left so the person (who sits on the right half of the
             // image's own composition) ends up roughly centered on screen.
             left: "calc(50% - 82vw)",
-            // Lift the image up a touch from the very bottom so Chrome's
-            // bottom UI / nav bar doesn't clip the magician's lower edge.
-            bottom: "4vh",
+            // position:fixed + bottom:0 anchors to the actual visible
+            // viewport (not <main>), so Chrome's URL bar / bottom UI
+            // can't push the image offscreen.
+            bottom: "0",
             filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
           }}
           initial={{ opacity: 0, scale: 0.97 }}
