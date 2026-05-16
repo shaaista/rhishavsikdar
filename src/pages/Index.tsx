@@ -62,7 +62,7 @@ const Index = () => {
       </nav>
 
       {/* Hero */}
-      <main className="relative z-[10] min-h-screen w-full overflow-hidden">
+      <main className="relative z-[10] min-h-screen min-h-[100dvh] w-full overflow-hidden">
         {/* Cards image — taller than viewport, anchored to bottom so the float
             never reveals a gap. Left edge fades into the iridescent bg. */}
         <motion.div
@@ -89,7 +89,7 @@ const Index = () => {
         </motion.div>
 
         {/* Text content overlay (left side) */}
-        <div className="relative z-[2] min-h-screen w-full flex items-start md:items-center px-6 md:pl-16 lg:pl-24 pt-24 md:pt-0 pb-0 md:pb-0">
+        <div className="relative z-[2] min-h-screen min-h-[100dvh] w-full flex items-start md:items-center px-6 md:pl-16 lg:pl-24 pt-24 md:pt-0 pb-0 md:pb-0">
           <div className="w-full md:w-[50%] flex flex-col gap-4 md:gap-7 items-center md:items-start">
             {/* Title — AquireLight (brand font, restored) */}
             <div className="flex flex-col leading-none text-center md:text-left">
