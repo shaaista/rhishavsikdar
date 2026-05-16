@@ -195,11 +195,11 @@ const Index = () => {
           <motion.img
             src={cardsImg}
             alt="Rhishav Sikdar — illusionist with cards"
-            className="relative z-[1] w-[154vw] max-w-none h-auto block select-none"
+            className="relative z-[1] w-[170vw] max-w-none h-auto block select-none"
             style={{
               // Keep the portrait compact on phones while letting the fade
               // settle into the first name line.
-              maxHeight: "58vh",
+              maxHeight: "65vh",
               maskImage:
                 "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
               WebkitMaskImage:
