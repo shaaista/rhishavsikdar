@@ -195,15 +195,15 @@ const Index = () => {
           <motion.img
             src={cardsImg}
             alt="Rhishav Sikdar — illusionist with cards"
-            className="relative z-[1] w-[188vw] max-w-none h-auto block select-none"
+            className="relative z-[1] w-[182vw] max-w-none h-auto block select-none"
             style={{
               // Pull the portrait upward and reduce its scale so the fade
               // lands around the first name line on phones.
-              maxHeight: "73vh",
+              maxHeight: "70vh",
               maskImage:
-                "linear-gradient(to bottom, #000 0%, #000 78%, rgba(0,0,0,0.82) 92%, transparent 100%)",
+                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
               WebkitMaskImage:
-                "linear-gradient(to bottom, #000 0%, #000 78%, rgba(0,0,0,0.82) 92%, transparent 100%)",
+                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
               filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
             }}
             initial={{ opacity: 0, scale: 0.97 }}
@@ -212,15 +212,26 @@ const Index = () => {
           />
           <div
             aria-hidden="true"
-            className="absolute left-1/2 bottom-[-6vh] h-[26vh] w-[112vw] -translate-x-1/2 rounded-full"
+            className="absolute left-1/2 bottom-[-7vh] z-[2] h-[30vh] w-[124vw] -translate-x-1/2 rounded-full"
             style={{
               background: `
-                radial-gradient(ellipse 58% 46% at 50% 18%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.82) 34%, rgba(255,255,255,0.45) 58%, transparent 100%),
-                radial-gradient(ellipse 48% 34% at 24% 58%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.14) 62%, transparent 100%),
-                radial-gradient(ellipse 46% 32% at 76% 56%, rgba(255,255,255,0.52) 0%, rgba(255,255,255,0.12) 60%, transparent 100%)
+                radial-gradient(ellipse 60% 48% at 50% 16%, rgba(255,255,255,1) 0%, rgba(255,255,255,0.9) 30%, rgba(255,255,255,0.52) 56%, transparent 100%),
+                radial-gradient(ellipse 50% 36% at 22% 56%, rgba(255,255,255,0.62) 0%, rgba(255,255,255,0.18) 60%, transparent 100%),
+                radial-gradient(ellipse 50% 36% at 78% 56%, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.16) 60%, transparent 100%)
               `,
-              filter: "blur(22px)",
-              opacity: 0.96,
+              filter: "blur(30px)",
+              opacity: 0.98,
+              mixBlendMode: "screen",
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="absolute left-1/2 bottom-[0vh] z-[2] h-[12vh] w-[94vw] -translate-x-1/2 rounded-full"
+            style={{
+              background:
+                "radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,255,255,0.58) 0%, rgba(255,255,255,0.24) 42%, transparent 100%)",
+              filter: "blur(18px)",
+              opacity: 0.82,
               mixBlendMode: "screen",
             }}
           />
