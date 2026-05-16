@@ -190,16 +190,16 @@ const Index = () => {
             centered over the stacked name without affecting desktop. */}
         <div
           className="md:hidden fixed top-[1.25vh] left-1/2 z-[1] w-fit pointer-events-none"
-          style={{ transform: "translateX(-60%)" }}
+          style={{ transform: "translateX(-61.5%)" }}
         >
           <motion.img
             src={cardsImg}
             alt="Rhishav Sikdar — illusionist with cards"
-            className="w-[200vw] max-w-none h-auto block select-none"
+            className="w-[196vw] max-w-none h-auto block select-none"
             style={{
               // Pull the portrait upward and reduce its scale so the fade
               // lands around the first name line on phones.
-              maxHeight: "78vh",
+              maxHeight: "76vh",
               maskImage:
                 "linear-gradient(to bottom, #000 0%, #000 78%, rgba(0,0,0,0.82) 92%, transparent 100%)",
               WebkitMaskImage:
