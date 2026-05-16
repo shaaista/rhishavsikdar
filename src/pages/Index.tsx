@@ -66,8 +66,8 @@ const Index = () => {
         {/* Cards image — taller than viewport, anchored to bottom so the float
             never reveals a gap. Left edge fades into the iridescent bg. */}
         <motion.div
-          className="hidden md:flex absolute right-0 items-start justify-end pointer-events-none overflow-visible"
-          style={{ width: "46%", top: "0", height: "100vh" }}
+          className="hidden md:flex absolute right-0 items-end justify-end pointer-events-none overflow-visible"
+          style={{ width: "37%", top: "0", height: "100vh" }}
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.3, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
@@ -75,7 +75,7 @@ const Index = () => {
           <motion.img
             src={cardsImg}
             alt="Rhishav Sikdar — illusionist with cards"
-            className="h-[110vh] w-auto max-w-none block select-none"
+            className="h-[89vh] w-auto max-w-none block select-none"
             style={{
               filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
               transform: "translateX(5%)",
