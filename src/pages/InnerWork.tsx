@@ -324,8 +324,14 @@ const InnerWork = () => {
                   style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
                 >
                   My approach is direct, intuitive, and results-driven — working
-                  at the level of the subconscious mind to create real, lasting
-                  change.
+                  at the level of your subconscious mind so{" "}
+                  <span
+                    className="italic"
+                    style={{ fontFamily: "'Libre Baskerville', 'Baskerville', serif" }}
+                  >
+                    you
+                  </span>{" "}
+                  can create real, lasting change.
                 </p>
                 <p
                   className="text-base md:text-lg leading-relaxed font-light text-black"
