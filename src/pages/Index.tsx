@@ -189,17 +189,17 @@ const Index = () => {
             wrapper translates by image-width percentage to keep the subject
             centered over the stacked name without affecting desktop. */}
         <div
-          className="md:hidden fixed top-[2.1vh] left-1/2 z-[1] w-fit pointer-events-none"
+          className="md:hidden fixed top-[3.2vh] left-1/2 z-[1] w-fit pointer-events-none"
           style={{ transform: "translateX(-61.5%)" }}
         >
           <motion.img
             src={cardsImg}
             alt="Rhishav Sikdar — illusionist with cards"
-            className="relative z-[1] w-[178vw] max-w-none h-auto block select-none"
+            className="relative z-[1] w-[172vw] max-w-none h-auto block select-none"
             style={{
-              // Pull the portrait upward and reduce its scale so the fade
-              // lands around the first name line on phones.
-              maxHeight: "68vh",
+              // Keep the portrait compact on phones while letting the fade
+              // settle into the first name line.
+              maxHeight: "65vh",
               maskImage:
                 "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
               WebkitMaskImage:
