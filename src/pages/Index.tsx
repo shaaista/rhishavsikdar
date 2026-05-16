@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import cardsImg from "@/assets/cards.png";
@@ -21,41 +20,6 @@ const fadeUp = (delay: number) => ({
 
 const Index = () => {
   const navigate = useNavigate();
-
-  // Pin html + body to the dynamic viewport height while on the home page.
-  // Chrome on mobile reports 100vh including the URL-bar area, which makes
-  // <main> taller than the visible viewport — that's what's causing the
-  // gap between the text and the bottom-anchored portrait, plus the small
-  // scroll. Forcing 100dvh on the root elements + position:fixed on body
-  // pins the page to the visible area regardless of URL-bar state.
-  useEffect(() => {
-    const html = document.documentElement;
-    const body = document.body;
-    const prev = {
-      htmlOverflow: html.style.overflow,
-      htmlHeight: html.style.height,
-      bodyOverflow: body.style.overflow,
-      bodyHeight: body.style.height,
-      bodyOverscroll: body.style.overscrollBehaviorY as string | undefined,
-    };
-
-    // NOTE: deliberately not setting body{position:fixed} — that would
-    // disable Chrome's pull-to-refresh. overflow:hidden alone is enough
-    // to prevent scroll-bounce while leaving the gesture working.
-    html.style.overflow = "hidden";
-    html.style.height = "100dvh";
-    body.style.overflow = "hidden";
-    body.style.height = "100dvh";
-    body.style.overscrollBehaviorY = "none";
-
-    return () => {
-      html.style.overflow = prev.htmlOverflow;
-      html.style.height = prev.htmlHeight;
-      body.style.overflow = prev.bodyOverflow;
-      body.style.height = prev.bodyHeight;
-      body.style.overscrollBehaviorY = prev.bodyOverscroll ?? "";
-    };
-  }, []);
 
   return (
     <PageTransition>
@@ -225,21 +189,21 @@ const Index = () => {
             wrapper translates by image-width percentage to keep the subject
             centered over the stacked name without affecting desktop. */}
         <div
-          className="md:hidden fixed top-[4.5vh] left-1/2 z-[1] w-fit pointer-events-none"
+          className="md:hidden fixed top-[1.25vh] left-1/2 z-[1] w-fit pointer-events-none"
           style={{ transform: "translateX(-60%)" }}
         >
           <motion.img
             src={cardsImg}
             alt="Rhishav Sikdar — illusionist with cards"
-            className="w-[220vw] max-w-none h-auto block select-none"
+            className="w-[200vw] max-w-none h-auto block select-none"
             style={{
-              // Let more of the torso stay visible so the portrait sits
-              // closer to the name instead of fading out too early.
-              maxHeight: "80vh",
+              // Pull the portrait upward and reduce its scale so the fade
+              // lands around the first name line on phones.
+              maxHeight: "78vh",
               maskImage:
-                "linear-gradient(to bottom, #000 0%, #000 76%, rgba(0,0,0,0.82) 90%, transparent 100%)",
+                "linear-gradient(to bottom, #000 0%, #000 78%, rgba(0,0,0,0.82) 92%, transparent 100%)",
               WebkitMaskImage:
-                "linear-gradient(to bottom, #000 0%, #000 76%, rgba(0,0,0,0.82) 90%, transparent 100%)",
+                "linear-gradient(to bottom, #000 0%, #000 78%, rgba(0,0,0,0.82) 92%, transparent 100%)",
               filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
             }}
             initial={{ opacity: 0, scale: 0.97 }}
