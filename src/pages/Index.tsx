@@ -127,8 +127,12 @@ const Index = () => {
           />
         </motion.div>
 
-        {/* Text content overlay (left side) */}
-        <div className="relative z-[2] h-full w-full flex items-start md:items-center px-6 md:pl-16 lg:pl-24 pt-24 md:pt-0 pb-0 md:pb-0">
+        {/* Text content overlay
+            Mobile: items-end pushes the name + button block to the BOTTOM
+                    of the viewport (image lives above it).
+            Desktop: items-center vertically centres on the left half (image
+                     is absolute-positioned to the right). */}
+        <div className="relative z-[2] h-full w-full flex items-end md:items-center px-6 md:pl-16 lg:pl-24 pt-4 md:pt-0 pb-10 md:pb-0">
           <div className="w-full md:w-[50%] flex flex-col gap-4 md:gap-7 items-center md:items-start">
             {/* Title — AquireLight (brand font, restored) */}
             <div className="flex flex-col leading-none text-center md:text-left">
@@ -220,18 +224,26 @@ const Index = () => {
             so it always touches the viewport bottom with zero gap. Width
             pushed past 100vw and centred via left:calc() so framer-motion's
             transform on the img can't break the horizontal centering. */}
+        {/* Mobile-only portrait — top of viewport, below nav.
+            A bottom-fade mask blends its lower edge softly into the text
+            area below so it doesn't look like a hard cutout. */}
         <motion.img
           src={cardsImg}
           alt="Rhishav Sikdar — illusionist with cards"
-          className="md:hidden fixed w-[138vw] max-w-none h-auto block pointer-events-none select-none"
+          className="md:hidden fixed w-[145vw] max-w-none h-auto block pointer-events-none select-none"
           style={{
-            // Shift left so the person (who sits on the right half of the
-            // image's own composition) ends up roughly centered on screen.
-            left: "calc(50% - 82vw)",
-            // position:fixed + bottom:0 anchors to the actual visible
-            // viewport (not <main>), so Chrome's URL bar / bottom UI
-            // can't push the image offscreen.
-            bottom: "0",
+            // Shift left so the person ends up roughly centered on screen.
+            left: "calc(50% - 80vw)",
+            top: "2vh",
+            // Cap height so the portrait fills the upper half generously
+            // and overlaps the name area, while leaving CTA visible.
+            maxHeight: "82vh",
+            // Strong bottom fade so the image dissolves smoothly into
+            // the iridescent bg + over the name area instead of cutting.
+            maskImage:
+              "linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,0.5) 78%, transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,0.5) 78%, transparent 100%)",
             filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
           }}
           initial={{ opacity: 0, scale: 0.97 }}
