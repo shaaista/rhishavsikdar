@@ -93,14 +93,13 @@ const SparkleDivider = () => (
 
 // ─── Ace of Spades — real photo with mix-blend-mode to drop the black bg ──────
 const SpadeCard = () => (
-  <motion.div
+  <div
     className="relative mx-auto flex items-center justify-center pointer-events-none"
     style={{
       width: "clamp(215px, 19.5vw, 420px)",
       height: "clamp(145px, 13vw, 280px)",
+      isolation: "isolate",
     }}
-    animate={{ y: [0, -4, 0] }}
-    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
   >
     <img
       src={glitterCardImg}
@@ -111,21 +110,22 @@ const SpadeCard = () => (
         // leaving only the gold swirls / sparkles / white card visible
         mixBlendMode: "screen",
         filter: "brightness(1.05) contrast(1.05)",
+        transform: "scale(1.55)",
+        transformOrigin: "center",
       }}
     />
-  </motion.div>
+  </div>
 );
 
 // ─── Calm image — real photo with mix-blend-mode to drop the dark bg ──────────
 const MeditationFigure = () => (
-  <motion.div
+  <div
     className="relative mx-auto flex items-center justify-center pointer-events-none"
     style={{
       width: "clamp(215px, 19.5vw, 420px)",
       height: "clamp(145px, 13vw, 280px)",
+      isolation: "isolate",
     }}
-    animate={{ y: [0, -4, 0] }}
-    transition={{ duration: 5, delay: 0.6, repeat: Infinity, ease: "easeInOut" }}
   >
     <img
       src={calmImg}
@@ -137,7 +137,7 @@ const MeditationFigure = () => (
         filter: "contrast(1.05) saturate(1.05)",
       }}
     />
-  </motion.div>
+  </div>
 );
 
 interface ExperienceCardProps {
@@ -221,7 +221,7 @@ const ExperienceCard = ({
     <div
       className="flex items-center justify-center flex-nowrap gap-2.5 mb-2.5 uppercase whitespace-nowrap"
       style={{
-        fontSize: "clamp(0.62rem, 0.78vw, 1.15rem)",
+        fontSize: "clamp(0.75rem, 0.9vw, 1.28rem)",
         color: ACCENT,
         letterSpacing: "0.28em",
         fontFamily: "'Nestborn', sans-serif",
@@ -335,7 +335,7 @@ const Experience = () => {
           {...fadeUp(0.1)}
           className="tracking-[0.4em] uppercase mb-2"
           style={{
-            fontSize: "clamp(0.6rem, 0.78vw, 1.15rem)",
+            fontSize: "clamp(0.73rem, 0.9vw, 1.28rem)",
             color: ACCENT,
             fontFamily: "'Nestborn', sans-serif",
             fontWeight: 600,
@@ -353,7 +353,7 @@ const Experience = () => {
           className="text-center uppercase mb-5 md:mb-6 flex flex-col items-center"
           style={{
             fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-            fontSize: "clamp(1.45rem, 3.2vw, 4.5rem)",
+            fontSize: "clamp(1.32rem, 3vw, 4.37rem)",
             fontWeight: 400,
             color: DARK,
             letterSpacing: "0.02em",
