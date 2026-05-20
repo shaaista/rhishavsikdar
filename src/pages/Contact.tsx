@@ -1,9 +1,92 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Send, Check, Instagram, Youtube, Linkedin } from "lucide-react";
+import { ArrowLeft, Send, Check, Instagram, Youtube, Linkedin, Loader2, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
+
+type ToastTone = "success" | "error";
+
+const elegantToast = (tone: ToastTone, message: string) => {
+  toast.custom(
+    (id) => (
+      <div
+        onClick={() => toast.dismiss(id)}
+        style={{
+          background:
+            "linear-gradient(135deg, hsla(0,0%,100%,0.92) 0%, hsla(0,0%,100%,0.78) 100%)",
+          border: "1px solid rgba(20, 55, 150, 0.6)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          boxShadow:
+            "0 0 10px rgba(10, 40, 130, 0.3), 0 0 20px rgba(10, 40, 130, 0.15), 0 0 30px rgba(10, 40, 130, 0.08)",
+          borderRadius: "16px",
+          padding: "14px 18px",
+          display: "flex",
+          alignItems: "center",
+          gap: "12px",
+          minWidth: "280px",
+          maxWidth: "420px",
+          cursor: "pointer",
+        }}
+      >
+        <span
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "26px",
+            height: "26px",
+            borderRadius: "999px",
+            background:
+              tone === "success"
+                ? "rgba(20, 55, 150, 0.12)"
+                : "rgba(160, 25, 40, 0.12)",
+            border:
+              tone === "success"
+                ? "1px solid rgba(20, 55, 150, 0.6)"
+                : "1px solid rgba(160, 25, 40, 0.6)",
+            flexShrink: 0,
+          }}
+          aria-hidden="true"
+        >
+          {tone === "success" ? (
+            <Check
+              className="w-3.5 h-3.5"
+              style={{ color: "rgba(20, 55, 150, 0.95)" }}
+            />
+          ) : (
+            <AlertCircle
+              className="w-3.5 h-3.5"
+              style={{ color: "rgba(160, 25, 40, 0.95)" }}
+            />
+          )}
+        </span>
+        <span
+          style={{
+            fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+            fontSize: "0.95rem",
+            lineHeight: 1.4,
+            color: "hsla(0,0%,0%,0.88)",
+          }}
+        >
+          {message}
+        </span>
+      </div>
+    ),
+    {
+      duration: tone === "success" ? 5000 : 4500,
+      unstyled: true,
+      classNames: { toast: "!bg-transparent !border-0 !shadow-none !p-0" },
+    }
+  );
+};
 import PageTransition from "@/components/PageTransition";
 import Iridescence from "@/components/Iridescence";
+
+// Web3Forms access key — the destination inbox is locked to the email this key
+// was registered under (https://web3forms.com).
+// Notes go to: sikdar.rhishav@gmail.com
+const WEB3FORMS_ACCESS_KEY = "b108c178-cbb2-4edc-bd1b-6c484e457c01";
 
 const inputStyle: React.CSSProperties = {
   width: "100%",
@@ -41,6 +124,60 @@ const Contact = () => {
   const [focused, setFocused] = useState<string | null>(null);
   const [intent, setIntent] = useState<IntentId>("both");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (sending) return;
+
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      elegantToast("error", "Please fill in your name, email and note.");
+      return;
+    }
+
+    if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === "PASTE_YOUR_ACCESS_KEY_HERE") {
+      elegantToast("error", "Email isn't configured yet. Add your Web3Forms access key.");
+      return;
+    }
+
+    const intentLabel =
+      intents.find((i) => i.id === intent)?.title ?? intent;
+
+    setSending(true);
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `New note from ${form.name} — ${intentLabel}`,
+          from_name: form.name,
+          name: form.name,
+          email: form.email,
+          intent: intentLabel,
+          message: form.message,
+          botcheck: "",
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSent(true);
+        setForm({ name: "", email: "", message: "" });
+        setIntent("both");
+        elegantToast("success", "Your note is on its way. I'll reply within 48 hours.");
+      } else {
+        elegantToast("error", data.message || "Something went wrong. Please try again.");
+      }
+    } catch {
+      elegantToast("error", "Couldn't send right now. Please try again in a moment.");
+    } finally {
+      setSending(false);
+    }
+  };
 
   const focusStyle = (field: string): React.CSSProperties =>
     focused === field
@@ -155,7 +292,7 @@ const Contact = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-              onSubmit={(e) => e.preventDefault()}
+              onSubmit={handleSubmit}
             >
               {/* Name */}
               <div className="flex flex-col gap-2">
@@ -280,7 +417,8 @@ const Contact = () => {
               {/* Submit */}
               <motion.button
                 type="submit"
-                className="mt-2 w-full py-4 rounded-2xl flex items-center justify-center gap-3 cursor-pointer"
+                disabled={sending}
+                className="mt-2 w-full py-4 rounded-2xl flex items-center justify-center gap-3 cursor-pointer disabled:cursor-not-allowed disabled:opacity-70"
                 style={{
                   ...glassCardStyle,
                   fontFamily: "'Nestborn', sans-serif",
@@ -290,15 +428,26 @@ const Contact = () => {
                   textTransform: "uppercase",
                   fontWeight: 700,
                 }}
-                whileHover={{
-                  scale: 1.02,
-                  y: -2,
-                }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={sending ? undefined : { scale: 1.02, y: -2 }}
+                whileTap={sending ? undefined : { scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                Send your note
-                <Send className="w-3.5 h-3.5" />
+                {sending ? (
+                  <>
+                    Sending
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  </>
+                ) : sent ? (
+                  <>
+                    Note sent
+                    <Check className="w-3.5 h-3.5" />
+                  </>
+                ) : (
+                  <>
+                    Send your note
+                    <Send className="w-3.5 h-3.5" />
+                  </>
+                )}
               </motion.button>
             </motion.form>
 
