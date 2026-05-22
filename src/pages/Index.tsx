@@ -25,17 +25,22 @@ const Index = () => {
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
   
-  // Synchronously detect iOS/Safari during initial state creation to prevent video mounting on Safari
-  const [useImageFallback, setUseImageFallback] = useState(() => {
-    if (typeof navigator === "undefined") return true;
+  const [isMounted, setIsMounted] = useState(false);
+  const [useImageFallback, setUseImageFallback] = useState(true);
+
+  useEffect(() => {
+    setIsMounted(true);
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
                   (navigator.userAgent.includes("Mac") && "ontouchend" in document);
-    return isSafari || isIOS;
-  });
+
+    if (!isSafari && !isIOS) {
+      setUseImageFallback(false);
+    }
+  }, []);
 
   useEffect(() => {
-    if (!useImageFallback) {
+    if (isMounted && !useImageFallback) {
       const playVideo = (video: HTMLVideoElement | null) => {
         if (!video) return;
         video.muted = true;
@@ -51,10 +56,14 @@ const Index = () => {
         }
       };
 
-      playVideo(desktopVideoRef.current);
-      playVideo(mobileVideoRef.current);
+      const timer = setTimeout(() => {
+        playVideo(desktopVideoRef.current);
+        playVideo(mobileVideoRef.current);
+      }, 50);
+
+      return () => clearTimeout(timer);
     }
-  }, [useImageFallback]);
+  }, [isMounted, useImageFallback]);
 
   return (
     <PageTransition>
@@ -110,7 +119,7 @@ const Index = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // Removed delay and shortened duration for instant load
         >
-          {useImageFallback ? (
+          {!isMounted || useImageFallback ? (
             <motion.img
               src={cardsImg}
               alt="Rhishav Sikdar — illusionist with cards"
@@ -255,7 +264,7 @@ const Index = () => {
           className="md:hidden fixed top-[6vh] left-1/2 z-[1] w-fit pointer-events-none"
           style={{ transform: "translateX(-50%)" }} // Center aligned on mobile
         >
-          {useImageFallback ? (
+          {!isMounted || useImageFallback ? (
             <motion.img
               src={cardsImg}
               alt="Rhishav Sikdar — illusionist with cards"
