@@ -24,31 +24,15 @@ const Index = () => {
   const navigate = useNavigate();
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
-  // Default to true so iOS/Safari never render the video element during mount
-  const [useImageFallback, setUseImageFallback] = useState(true);
-
-  useEffect(() => {
-    // Check if the browser is Safari or running on iOS
+  
+  // Synchronously detect iOS/Safari during initial state creation to prevent video mounting on Safari
+  const [useImageFallback, setUseImageFallback] = useState(() => {
+    if (typeof navigator === "undefined") return true;
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
                   (navigator.userAgent.includes("Mac") && "ontouchend" in document);
-
-    let supportsWebM = false;
-    try {
-      const video = document.createElement("video");
-      const canPlay = video.canPlayType('video/webm; codecs="vp9, alpha"');
-      supportsWebM = canPlay === "probably" || canPlay === "maybe";
-    } catch (e) {
-      supportsWebM = false;
-    }
-
-    // Only disable the image fallback if it's NOT Safari, NOT iOS, and supports WebM
-    if (!isSafari && !isIOS && supportsWebM) {
-      setUseImageFallback(false);
-    } else {
-      setUseImageFallback(true);
-    }
-  }, []);
+    return isSafari || isIOS;
+  });
 
   useEffect(() => {
     if (!useImageFallback) {
@@ -67,12 +51,8 @@ const Index = () => {
         }
       };
 
-      // Defer play call to ensure elements are fully painted and refs populated
-      const handle = requestAnimationFrame(() => {
-        playVideo(desktopVideoRef.current);
-        playVideo(mobileVideoRef.current);
-      });
-      return () => cancelAnimationFrame(handle);
+      playVideo(desktopVideoRef.current);
+      playVideo(mobileVideoRef.current);
     }
   }, [useImageFallback]);
 
