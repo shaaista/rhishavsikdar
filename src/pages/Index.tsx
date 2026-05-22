@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import heroVideo from "@/assets/test-alpha.webm";
+import heroVideoWebm from "@/assets/test-alpha.webm";
+import heroVideoMp4 from "@/assets/test-alpha.mp4";
 import cardsImg from "@/assets/cards.png";
 import Iridescence from "@/components/Iridescence";
 import PageTransition from "@/components/PageTransition";
@@ -147,7 +148,7 @@ const Index = () => {
           ) : (
             <motion.video
               ref={desktopVideoRef}
-              src={heroVideo}
+              src={heroVideoWebm}
               autoPlay
               muted
               playsInline
@@ -295,7 +296,7 @@ const Index = () => {
           ) : (
             <motion.video
               ref={mobileVideoRef}
-              src={heroVideo}
+              src={heroVideoMp4}
               autoPlay
               muted
               playsInline
