@@ -28,6 +28,7 @@ const Index = () => {
   
   const [isMounted, setIsMounted] = useState(false);
   const [useImageFallback, setUseImageFallback] = useState(true);
+  const [isMobileVideoPlaying, setIsMobileVideoPlaying] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -177,6 +178,7 @@ const Index = () => {
               autoPlay
               muted
               playsInline
+              loop={false}
               preload="auto"
               aria-label="Rhishav Sikdar — illusionist with cards"
               className="h-[89vh] w-auto max-w-none block select-none"
@@ -309,15 +311,42 @@ const Index = () => {
             centered over the stacked name without affecting desktop. */}
         <div
           className="md:hidden fixed top-[6vh] left-1/2 z-[1] w-fit pointer-events-none"
-          style={{ transform: "translateX(-50%)" }} // Center aligned on mobile
+          style={{
+            transform: "translateX(-50%)",
+            mixBlendMode: isMobileVideoPlaying ? "lighten" : "normal",
+          }} // Center aligned on mobile
         >
-          {!isMounted || useImageFallback ? (
-            <motion.img
-              src={cardsImg}
-              alt="Rhishav Sikdar — illusionist with cards"
-              className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
+          {/* Static Image Layer */}
+          <motion.img
+            src={cardsImg}
+            alt="Rhishav Sikdar — illusionist with cards"
+            className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
+            style={{
+              maxHeight: "72vh",
+              clipPath: "inset(0 10% 0 10%)",
+              WebkitClipPath: "inset(0 10% 0 10%)",
+              maskImage:
+                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+            }}
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: isMobileVideoPlaying ? 0 : 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          />
+
+          {/* Video Layer */}
+          {isMounted && (
+            <motion.video
+              ref={mobileVideoRef}
+              autoPlay
+              muted
+              playsInline
+              loop={false}
+              preload="auto"
+              aria-label="Rhishav Sikdar — illusionist with cards"
+              className="absolute top-0 left-0 z-[2] w-full h-full block select-none"
               style={{
-                maxHeight: "72vh",
                 clipPath: "inset(0 10% 0 10%)",
                 WebkitClipPath: "inset(0 10% 0 10%)",
                 maskImage:
@@ -325,51 +354,26 @@ const Index = () => {
                 WebkitMaskImage:
                   "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
               }}
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            />
-          ) : (
-            <div style={{ mixBlendMode: "lighten" }}>
-              <motion.video
-                ref={mobileVideoRef}
-                autoPlay
-                muted
-                playsInline
-                preload="auto"
-                aria-label="Rhishav Sikdar — illusionist with cards"
-                className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
-                style={{
-                  maxHeight: "72vh",
-                  clipPath: "inset(0 10% 0 10%)",
-                  WebkitClipPath: "inset(0 10% 0 10%)",
-                  maskImage:
-                    "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-                }}
-                initial={{ opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                onEnded={(e) => {
-                  e.currentTarget.loop = false;
-                  e.currentTarget.pause();
-                }}
-                onError={() => {
-                  console.log("Mobile video decode/playback error, falling back to image");
-                  setUseImageFallback(true);
-                }}
-              >
-                <source 
-                  src={heroVideoMp4} 
-                  type="video/mp4" 
-                  onError={() => {
-                    console.log("Mobile video source error, falling back to image");
-                    setUseImageFallback(true);
-                  }}
-                />
-              </motion.video>
-            </div>
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isMobileVideoPlaying ? 1 : 0 }}
+              transition={{ duration: 0.4 }}
+              onPlay={() => {
+                setIsMobileVideoPlaying(true);
+              }}
+              onEnded={(e) => {
+                e.currentTarget.loop = false;
+                e.currentTarget.pause();
+              }}
+              onError={() => {
+                console.log("Mobile video decode/playback error");
+                setIsMobileVideoPlaying(false);
+              }}
+            >
+              <source 
+                src={heroVideoMp4} 
+                type="video/mp4" 
+              />
+            </motion.video>
           )}
           <div
             aria-hidden="true"
