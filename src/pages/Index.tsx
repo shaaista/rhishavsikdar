@@ -1,7 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import heroVideo from "@/assets/test-alpha.webm";
+import cardsImg from "@/assets/cards.png";
 import Iridescence from "@/components/Iridescence";
 import PageTransition from "@/components/PageTransition";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
@@ -23,31 +24,57 @@ const Index = () => {
   const navigate = useNavigate();
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
+  // Default to true so iOS/Safari never render the video element during mount
+  const [useImageFallback, setUseImageFallback] = useState(true);
 
   useEffect(() => {
-    const playVideo = (video: HTMLVideoElement | null) => {
-      if (!video) return;
-      video.muted = true;
-      video.playsInline = true;
-      video.setAttribute("muted", "");
-      video.setAttribute("playsinline", "");
-      
-      // Ensure we loop
-      video.loop = true;
-      video.setAttribute("loop", "");
+    // Check if the browser is Safari or running on iOS
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                  (navigator.userAgent.includes("Mac") && "ontouchend" in document);
 
-      const promise = video.play();
-      if (promise !== undefined) {
-        promise.catch((error) => {
-          console.log("Autoplay prevented:", error);
-        });
-      }
-    };
+    let supportsWebM = false;
+    try {
+      const video = document.createElement("video");
+      const canPlay = video.canPlayType('video/webm; codecs="vp9, alpha"');
+      supportsWebM = canPlay === "probably" || canPlay === "maybe";
+    } catch (e) {
+      supportsWebM = false;
+    }
 
-    // Trigger video playback immediately
-    playVideo(desktopVideoRef.current);
-    playVideo(mobileVideoRef.current);
+    // Only disable the image fallback if it's NOT Safari, NOT iOS, and supports WebM
+    if (!isSafari && !isIOS && supportsWebM) {
+      setUseImageFallback(false);
+    } else {
+      setUseImageFallback(true);
+    }
   }, []);
+
+  useEffect(() => {
+    if (!useImageFallback) {
+      const playVideo = (video: HTMLVideoElement | null) => {
+        if (!video) return;
+        video.muted = true;
+        video.playsInline = true;
+        video.loop = false;
+        video.removeAttribute("loop");
+
+        const promise = video.play();
+        if (promise !== undefined) {
+          promise.catch((error) => {
+            console.log("Autoplay prevented:", error);
+          });
+        }
+      };
+
+      // Defer play call to ensure elements are fully painted and refs populated
+      const handle = requestAnimationFrame(() => {
+        playVideo(desktopVideoRef.current);
+        playVideo(mobileVideoRef.current);
+      });
+      return () => cancelAnimationFrame(handle);
+    }
+  }, [useImageFallback]);
 
   return (
     <PageTransition>
@@ -103,26 +130,48 @@ const Index = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // Removed delay and shortened duration for instant load
         >
-          <motion.video
-            ref={desktopVideoRef}
-            src={heroVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            aria-label="Rhishav Sikdar — illusionist with cards"
-            className="h-[89vh] w-auto max-w-none block select-none"
-            style={{
-              transform: "translateX(6%)", // Shifted further right on desktop
-              clipPath: "inset(0 10% 0 10%)",
-              WebkitClipPath: "inset(0 10% 0 10%)",
-              maskImage:
-                "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-              WebkitMaskImage:
-                "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-            }}
-          />
+          {useImageFallback ? (
+            <motion.img
+              src={cardsImg}
+              alt="Rhishav Sikdar — illusionist with cards"
+              className="h-[89vh] w-auto max-w-none block select-none"
+              style={{
+                transform: "translateX(6%)", // Match desktop translation
+                clipPath: "inset(0 10% 0 10%)",
+                WebkitClipPath: "inset(0 10% 0 10%)",
+                maskImage:
+                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+                WebkitMaskImage:
+                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+              }}
+            />
+          ) : (
+            <motion.video
+              ref={desktopVideoRef}
+              src={heroVideo}
+              autoPlay
+              muted
+              playsInline
+              loop={false}
+              onEnded={(e) => {
+                e.currentTarget.loop = false;
+                e.currentTarget.pause();
+              }}
+              preload="auto"
+              aria-label="Rhishav Sikdar — illusionist with cards"
+              className="h-[89vh] w-auto max-w-none block select-none"
+              style={{
+                transform: "translateX(6%)", // Shifted further right on desktop
+                clipPath: "inset(0 10% 0 10%)",
+                WebkitClipPath: "inset(0 10% 0 10%)",
+                maskImage:
+                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+                WebkitMaskImage:
+                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+              }}
+              onError={() => setUseImageFallback(true)}
+            />
+          )}
         </motion.div>
 
         {/* Text content overlay
@@ -226,30 +275,55 @@ const Index = () => {
           className="md:hidden fixed top-[6vh] left-1/2 z-[1] w-fit pointer-events-none"
           style={{ transform: "translateX(-50%)" }} // Center aligned on mobile
         >
-          <motion.video
-            ref={mobileVideoRef}
-            src={heroVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            aria-label="Rhishav Sikdar — illusionist with cards"
-            className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
-            style={{
-              maxHeight: "72vh",
-              clipPath: "inset(0 10% 0 10%)",
-              WebkitClipPath: "inset(0 10% 0 10%)",
-              maskImage:
-                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-              WebkitMaskImage:
-                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-              mixBlendMode: "lighten", // Blends out the black background rendered on iOS/Safari
-            }}
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // Removed delay and shortened duration for instant load
-          />
+          {useImageFallback ? (
+            <motion.img
+              src={cardsImg}
+              alt="Rhishav Sikdar — illusionist with cards"
+              className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
+              style={{
+                maxHeight: "72vh",
+                clipPath: "inset(0 10% 0 10%)",
+                WebkitClipPath: "inset(0 10% 0 10%)",
+                maskImage:
+                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+              }}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            />
+          ) : (
+            <motion.video
+              ref={mobileVideoRef}
+              src={heroVideo}
+              autoPlay
+              muted
+              playsInline
+              loop={false}
+              onEnded={(e) => {
+                e.currentTarget.loop = false;
+                e.currentTarget.pause();
+              }}
+              preload="auto"
+              aria-label="Rhishav Sikdar — illusionist with cards"
+              className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
+              style={{
+                maxHeight: "72vh",
+                clipPath: "inset(0 10% 0 10%)",
+                WebkitClipPath: "inset(0 10% 0 10%)",
+                maskImage:
+                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+                mixBlendMode: "lighten",
+              }}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              onError={() => setUseImageFallback(true)}
+            />
+          )}
           <div
             aria-hidden="true"
             className="absolute left-1/2 bottom-[-7vh] z-[2] h-[30vh] w-[124vw] -translate-x-1/2 rounded-full"
