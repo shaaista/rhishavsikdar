@@ -84,7 +84,6 @@ const Index = () => {
             aria-label="Rhishav Sikdar — illusionist with cards"
             className="h-[89vh] w-auto max-w-none block select-none"
             style={{
-              filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
               transform: "translateX(-2%)",
               clipPath: "inset(0 10% 0 10%)",
               WebkitClipPath: "inset(0 10% 0 10%)",
@@ -213,7 +212,6 @@ const Index = () => {
                 "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
               WebkitMaskImage:
                 "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-              filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
             }}
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
