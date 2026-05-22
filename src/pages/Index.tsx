@@ -49,31 +49,57 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
+    let cleanupListeners: (() => void) | null = null;
+
     if (isMounted && !useImageFallback) {
-      const playVideo = (video: HTMLVideoElement | null) => {
+      const playVideo = async (video: HTMLVideoElement | null) => {
         if (!video) return;
+
+        // Force core autoplay attributes directly on the DOM element
         video.muted = true;
+        video.defaultMuted = true;
         video.playsInline = true;
         video.loop = false;
         video.removeAttribute("loop");
 
-        const promise = video.play();
-        if (promise !== undefined) {
-          promise.catch((error) => {
-            console.log("Autoplay prevented:", error);
-            // On mobile or desktop, if autoplay is blocked, revert to clean static image fallback
-            setUseImageFallback(true);
-          });
+        try {
+          await video.play();
+        } catch (error) {
+          console.warn("Autoplay blocked. Registering interaction listeners.", error);
+          
+          // Fallback: Attempt playing on first user gesture
+          const playOnGesture = async () => {
+            try {
+              await video.play();
+              cleanup();
+            } catch (err) {
+              console.error("Playback failed even on user gesture:", err);
+            }
+          };
+
+          const cleanup = () => {
+            window.removeEventListener("touchstart", playOnGesture);
+            window.removeEventListener("click", playOnGesture);
+            window.removeEventListener("scroll", playOnGesture);
+          };
+
+          cleanupListeners = cleanup;
+          window.addEventListener("touchstart", playOnGesture, { passive: true });
+          window.addEventListener("click", playOnGesture, { passive: true });
+          window.addEventListener("scroll", playOnGesture, { passive: true });
         }
       };
 
-      const timer = setTimeout(() => {
-        playVideo(desktopVideoRef.current);
-        playVideo(mobileVideoRef.current);
-      }, 50);
-
-      return () => clearTimeout(timer);
+      // Play synchronously without setTimeout to bypass Safari autoplay restrictions
+      playVideo(desktopVideoRef.current);
+      playVideo(mobileVideoRef.current);
     }
+
+    return () => {
+      if (cleanupListeners) {
+        cleanupListeners();
+      }
+    };
   }, [isMounted, useImageFallback]);
 
   return (
@@ -148,15 +174,9 @@ const Index = () => {
           ) : (
             <motion.video
               ref={desktopVideoRef}
-              src={heroVideoWebm}
               autoPlay
               muted
               playsInline
-              loop={false}
-              onEnded={(e) => {
-                e.currentTarget.loop = false;
-                e.currentTarget.pause();
-              }}
               preload="auto"
               aria-label="Rhishav Sikdar — illusionist with cards"
               className="h-[89vh] w-auto max-w-none block select-none"
@@ -169,8 +189,20 @@ const Index = () => {
                 WebkitMaskImage:
                   "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
               }}
-              onError={() => setUseImageFallback(true)}
-            />
+              onEnded={(e) => {
+                e.currentTarget.loop = false;
+                e.currentTarget.pause();
+              }}
+            >
+              <source 
+                src={heroVideoWebm} 
+                type="video/webm" 
+                onError={() => {
+                  console.log("Desktop video source error, falling back to image");
+                  setUseImageFallback(true);
+                }}
+              />
+            </motion.video>
           )}
         </motion.div>
 
@@ -296,15 +328,9 @@ const Index = () => {
           ) : (
             <motion.video
               ref={mobileVideoRef}
-              src={heroVideoMp4}
               autoPlay
               muted
               playsInline
-              loop={false}
-              onEnded={(e) => {
-                e.currentTarget.loop = false;
-                e.currentTarget.pause();
-              }}
               preload="auto"
               aria-label="Rhishav Sikdar — illusionist with cards"
               className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
@@ -321,8 +347,20 @@ const Index = () => {
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              onError={() => setUseImageFallback(true)}
-            />
+              onEnded={(e) => {
+                e.currentTarget.loop = false;
+                e.currentTarget.pause();
+              }}
+            >
+              <source 
+                src={heroVideoMp4} 
+                type="video/mp4" 
+                onError={() => {
+                  console.log("Mobile video source error, falling back to image");
+                  setUseImageFallback(true);
+                }}
+              />
+            </motion.video>
           )}
           <div
             aria-hidden="true"
