@@ -63,8 +63,17 @@ const Index = () => {
         video.loop = false;
         video.removeAttribute("loop");
 
+        // If the browser already started playing it natively, sync state immediately
+        if (video === mobileVideoRef.current && !video.paused) {
+          setIsMobileVideoPlaying(true);
+          return;
+        }
+
         try {
           await video.play();
+          if (video === mobileVideoRef.current) {
+            setIsMobileVideoPlaying(true);
+          }
         } catch (error) {
           console.warn("Autoplay blocked. Registering interaction listeners.", error);
           
@@ -72,6 +81,9 @@ const Index = () => {
           const playOnGesture = async () => {
             try {
               await video.play();
+              if (video === mobileVideoRef.current) {
+                setIsMobileVideoPlaying(true);
+              }
               cleanup();
             } catch (err) {
               console.error("Playback failed even on user gesture:", err);
@@ -312,8 +324,9 @@ const Index = () => {
         <div
           className="md:hidden fixed top-[6vh] left-1/2 z-[1] w-fit pointer-events-none"
           style={{
-            transform: "translateX(-50%)",
+            transform: "translateX(-50%) translateZ(0)",
             mixBlendMode: isMobileVideoPlaying ? "lighten" : "normal",
+            willChange: "transform, mix-blend-mode",
           }} // Center aligned on mobile
         >
           {/* Static Image Layer */}
@@ -336,45 +349,43 @@ const Index = () => {
           />
 
           {/* Video Layer */}
-          {isMounted && (
-            <motion.video
-              ref={mobileVideoRef}
-              autoPlay
-              muted
-              playsInline
-              loop={false}
-              preload="auto"
-              aria-label="Rhishav Sikdar — illusionist with cards"
-              className="absolute top-0 left-0 z-[2] w-full h-full block select-none"
-              style={{
-                clipPath: "inset(0 10% 0 10%)",
-                WebkitClipPath: "inset(0 10% 0 10%)",
-                maskImage:
-                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-              }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: isMobileVideoPlaying ? 1 : 0 }}
-              transition={{ duration: 0.4 }}
-              onPlay={() => {
-                setIsMobileVideoPlaying(true);
-              }}
-              onEnded={(e) => {
-                e.currentTarget.loop = false;
-                e.currentTarget.pause();
-              }}
-              onError={() => {
-                console.log("Mobile video decode/playback error");
-                setIsMobileVideoPlaying(false);
-              }}
-            >
-              <source 
-                src={heroVideoMp4} 
-                type="video/mp4" 
-              />
-            </motion.video>
-          )}
+          <motion.video
+            ref={mobileVideoRef}
+            autoPlay
+            muted
+            playsInline
+            loop={false}
+            preload="auto"
+            aria-label="Rhishav Sikdar — illusionist with cards"
+            className="absolute top-0 left-0 z-[2] w-full h-full block select-none"
+            style={{
+              clipPath: "inset(0 10% 0 10%)",
+              WebkitClipPath: "inset(0 10% 0 10%)",
+              maskImage:
+                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isMobileVideoPlaying ? 1 : 0 }}
+            transition={{ duration: 0.4 }}
+            onPlay={() => {
+              setIsMobileVideoPlaying(true);
+            }}
+            onEnded={(e) => {
+              e.currentTarget.loop = false;
+              e.currentTarget.pause();
+            }}
+            onError={() => {
+              console.log("Mobile video decode/playback error");
+              setIsMobileVideoPlaying(false);
+            }}
+          >
+            <source 
+              src={heroVideoMp4} 
+              type="video/mp4" 
+            />
+          </motion.video>
           <div
             aria-hidden="true"
             className="absolute left-1/2 bottom-[-7vh] z-[2] h-[30vh] w-[124vw] -translate-x-1/2 rounded-full"
