@@ -193,6 +193,10 @@ const Index = () => {
                 e.currentTarget.loop = false;
                 e.currentTarget.pause();
               }}
+              onError={() => {
+                console.log("Desktop video decode/playback error, falling back to image");
+                setUseImageFallback(true);
+              }}
             >
               <source 
                 src={heroVideoWebm} 
@@ -326,41 +330,46 @@ const Index = () => {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             />
           ) : (
-            <motion.video
-              ref={mobileVideoRef}
-              autoPlay
-              muted
-              playsInline
-              preload="auto"
-              aria-label="Rhishav Sikdar — illusionist with cards"
-              className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
-              style={{
-                maxHeight: "72vh",
-                clipPath: "inset(0 10% 0 10%)",
-                WebkitClipPath: "inset(0 10% 0 10%)",
-                maskImage:
-                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-                mixBlendMode: "lighten",
-              }}
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              onEnded={(e) => {
-                e.currentTarget.loop = false;
-                e.currentTarget.pause();
-              }}
-            >
-              <source 
-                src={heroVideoMp4} 
-                type="video/mp4" 
+            <div style={{ mixBlendMode: "lighten" }}>
+              <motion.video
+                ref={mobileVideoRef}
+                autoPlay
+                muted
+                playsInline
+                preload="auto"
+                aria-label="Rhishav Sikdar — illusionist with cards"
+                className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
+                style={{
+                  maxHeight: "72vh",
+                  clipPath: "inset(0 10% 0 10%)",
+                  WebkitClipPath: "inset(0 10% 0 10%)",
+                  maskImage:
+                    "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+                  WebkitMaskImage:
+                    "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+                }}
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                onEnded={(e) => {
+                  e.currentTarget.loop = false;
+                  e.currentTarget.pause();
+                }}
                 onError={() => {
-                  console.log("Mobile video source error, falling back to image");
+                  console.log("Mobile video decode/playback error, falling back to image");
                   setUseImageFallback(true);
                 }}
-              />
-            </motion.video>
+              >
+                <source 
+                  src={heroVideoMp4} 
+                  type="video/mp4" 
+                  onError={() => {
+                    console.log("Mobile video source error, falling back to image");
+                    setUseImageFallback(true);
+                  }}
+                />
+              </motion.video>
+            </div>
           )}
           <div
             aria-hidden="true"
