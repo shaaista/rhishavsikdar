@@ -31,11 +31,19 @@ const Index = () => {
   useEffect(() => {
     setIsMounted(true);
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                  (navigator.userAgent.includes("Mac") && "ontouchend" in document);
+    const isMobile = window.innerWidth < 768;
 
-    if (!isSafari && !isIOS) {
+    if (isMobile) {
+      // On mobile, try rendering the video for both Android and iOS
+      // mixBlendMode: "lighten" will blend away the black background on iOS
       setUseImageFallback(false);
+    } else {
+      // On desktop, only render the video if it is not Safari (since desktop doesn't use blend mode)
+      if (!isSafari) {
+        setUseImageFallback(false);
+      } else {
+        setUseImageFallback(true);
+      }
     }
   }, []);
 
@@ -52,6 +60,8 @@ const Index = () => {
         if (promise !== undefined) {
           promise.catch((error) => {
             console.log("Autoplay prevented:", error);
+            // On mobile or desktop, if autoplay is blocked, revert to clean static image fallback
+            setUseImageFallback(true);
           });
         }
       };
