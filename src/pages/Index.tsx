@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import heroVideo from "@/assets/test-alpha.webm";
@@ -20,6 +21,33 @@ const fadeUp = (delay: number) => ({
 
 const Index = () => {
   const navigate = useNavigate();
+  const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const playVideo = (video: HTMLVideoElement | null) => {
+      if (!video) return;
+      video.muted = true;
+      video.playsInline = true;
+      video.setAttribute("muted", "");
+      video.setAttribute("playsinline", "");
+      
+      // Ensure we loop
+      video.loop = true;
+      video.setAttribute("loop", "");
+
+      const promise = video.play();
+      if (promise !== undefined) {
+        promise.catch((error) => {
+          console.log("Autoplay prevented:", error);
+        });
+      }
+    };
+
+    // Trigger video playback immediately
+    playVideo(desktopVideoRef.current);
+    playVideo(mobileVideoRef.current);
+  }, []);
 
   return (
     <PageTransition>
@@ -73,18 +101,20 @@ const Index = () => {
           style={{ width: "37%", top: "0", height: "100vh" }}
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.3, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // Removed delay and shortened duration for instant load
         >
           <motion.video
+            ref={desktopVideoRef}
             src={heroVideo}
             autoPlay
+            loop
             muted
             playsInline
             preload="auto"
             aria-label="Rhishav Sikdar — illusionist with cards"
             className="h-[89vh] w-auto max-w-none block select-none"
             style={{
-              transform: "translateX(-2%)",
+              transform: "translateX(6%)", // Shifted further right on desktop
               clipPath: "inset(0 10% 0 10%)",
               WebkitClipPath: "inset(0 10% 0 10%)",
               maskImage:
@@ -194,11 +224,13 @@ const Index = () => {
             centered over the stacked name without affecting desktop. */}
         <div
           className="md:hidden fixed top-[6vh] left-1/2 z-[1] w-fit pointer-events-none"
-          style={{ transform: "translateX(-63%)" }}
+          style={{ transform: "translateX(-50%)" }} // Center aligned on mobile
         >
           <motion.video
+            ref={mobileVideoRef}
             src={heroVideo}
             autoPlay
+            loop
             muted
             playsInline
             preload="auto"
@@ -212,10 +244,11 @@ const Index = () => {
                 "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
               WebkitMaskImage:
                 "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+              mixBlendMode: "lighten", // Blends out the black background rendered on iOS/Safari
             }}
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // Removed delay and shortened duration for instant load
           />
           <div
             aria-hidden="true"
