@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import cardsImg from "@/assets/cards.png";
+import heroVideo from "@/assets/test-alpha.webm";
 import Iridescence from "@/components/Iridescence";
 import PageTransition from "@/components/PageTransition";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
@@ -75,18 +75,23 @@ const Index = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.3, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
         >
-          <motion.img
-            src={cardsImg}
-            alt="Rhishav Sikdar — illusionist with cards"
+          <motion.video
+            src={heroVideo}
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
+            aria-label="Rhishav Sikdar — illusionist with cards"
             className="h-[89vh] w-auto max-w-none block select-none"
             style={{
               filter: "drop-shadow(0 25px 60px rgba(10, 40, 130, 0.18))",
               transform: "translateX(-2%)",
+              clipPath: "inset(0 10% 0 10%)",
+              WebkitClipPath: "inset(0 10% 0 10%)",
               maskImage:
                 "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
               WebkitMaskImage:
                 "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-              mixBlendMode: "lighten",
             }}
           />
         </motion.div>
@@ -192,14 +197,18 @@ const Index = () => {
           className="md:hidden fixed top-[6vh] left-1/2 z-[1] w-fit pointer-events-none"
           style={{ transform: "translateX(-63%)" }}
         >
-          <motion.img
-            src={cardsImg}
-            alt="Rhishav Sikdar — illusionist with cards"
+          <motion.video
+            src={heroVideo}
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
+            aria-label="Rhishav Sikdar — illusionist with cards"
             className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
             style={{
-              // Keep the portrait compact on phones while letting the fade
-              // settle into the first name line.
               maxHeight: "72vh",
+              clipPath: "inset(0 10% 0 10%)",
+              WebkitClipPath: "inset(0 10% 0 10%)",
               maskImage:
                 "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
               WebkitMaskImage:
