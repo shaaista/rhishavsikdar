@@ -29,4 +29,6 @@ dist-ssr
 # Temporary/test files
 .playwright-mcp/
 hero-*.jpeg
+test-results/
+playwright-report/
 
