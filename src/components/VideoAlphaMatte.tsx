@@ -208,11 +208,14 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
           style={{
             position: "fixed",
             top: 0,
-            left: -10000,
-            width: 320,
-            height: 360,
+            left: 0,
+            width: 4,
+            height: 4,
             pointerEvents: "none",
-            zIndex: 0, // must NOT be negative — iOS refuses muted-autoplay for elements behind the root stacking context
+            zIndex: 0,
+            // iOS Safari only grants muted-autoplay to elements INSIDE the
+            // visible viewport. left:-10000 is off-screen → autoplay denied.
+            // 4×4 px at top-left is imperceptible to users but in-viewport.
           }}
         />
         <canvas ref={canvasRef} className={className} style={style} aria-hidden="true" />
