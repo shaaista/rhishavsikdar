@@ -25,41 +25,19 @@ test.describe('Hero Section Video Autoplay and Compatibility Tests', () => {
     const mutedAttr = await video.evaluate((el: HTMLVideoElement) => el.muted);
     expect(mutedAttr).toBe(true);
 
-    // 4. Verify blend mode is 'normal' for Desktop Chrome (WebM) and 'lighten' for Desktop Webkit (Safari/MP4)
-    const container = page.locator('main div.hidden.md\\:flex').first();
-    const blendMode = await container.evaluate((el) => window.getComputedStyle(el).mixBlendMode);
-    console.log(`[Desktop] Container mixBlendMode: ${blendMode}`);
-    
+    // 4. Verify the SVG chroma-key filter is wired up correctly.
+    // - On Chrome/Firefox (WebM with native alpha) the wrapper has no filter.
+    // - On WebKit/Safari the wrapper applies url(#hero-black-to-alpha) so the
+    //   MP4's black background reads as transparent.
+    const filterWrapper = page.locator('main div.hidden.md\\:flex > div').first();
+    const computedFilter = await filterWrapper.evaluate((el) => window.getComputedStyle(el).filter);
+    console.log(`[Desktop] Wrapper filter: ${computedFilter}`);
+
     const isWebKit = testInfo.project.name === 'webkit';
-    expect(blendMode).toBe(isWebKit ? 'lighten' : 'normal');
-  });
-
-  test('Verify blend mode activates on Mobile emulation (Safari/Android fallback)', async ({ page, playwright }) => {
-    // Emulate an iPhone 13 / iOS Safari user agent
-    const iPhone = playwright.devices['iPhone 13'];
-    const mobileContext = await playwright.chromium.launchPersistentContext('', {
-      ...iPhone,
-      headless: true,
-    });
-    const mobilePage = await mobileContext.newPage();
-    await mobilePage.goto('http://localhost:8080/', { waitUntil: 'networkidle', timeout: 30000 }); // Navigate to local preview
-
-    // 1. Verify video is in the DOM
-    const video = mobilePage.locator('main video').first();
-    await expect(video).toBeAttached({ timeout: 15000 });
-
-    // 2. Check the container style
-    const container = mobilePage.locator('main div.hidden.md\\:flex').first();
-    const blendMode = await container.evaluate((el) => window.getComputedStyle(el).mixBlendMode);
-    console.log(`[Mobile Emulation] Container mixBlendMode: ${blendMode}`);
-    
-    // On iOS Safari / Android Chrome, WebM alpha isn't supported, so it should be set to lighten
-    expect(blendMode).toBe('lighten');
-
-    // 3. Verify will-change stacking context helper is set to prevent Safari rendering bugs
-    const willChange = await container.evaluate((el) => window.getComputedStyle(el).willChange);
-    expect(willChange).toContain('mix-blend-mode');
-
-    await mobileContext.close();
+    if (isWebKit) {
+      expect(computedFilter).toContain('hero-black-to-alpha');
+    } else {
+      expect(computedFilter === 'none' || computedFilter === '').toBe(true);
+    }
   });
 });
