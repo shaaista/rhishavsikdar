@@ -22,11 +22,12 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 // Without this, a 900px buffer displayed at 746 CSS × 3 DPR = 2238 physical
 // pixels would cause a visible 2.5× upscale blur on iPhone.
 //
-// The off-screen <video> must NOT be display:none / opacity:0 / size:0 /
+// The source <video> must NOT be display:none / opacity:0 / size:0 /
 // clip-path:inset(100%) — iOS's autoplay heuristic refuses each of those
-// as "not visible to the user." A real 320×180 box positioned at
-// left: -10000px keeps it laid out and "visible" while staying out of
-// the user's viewport.
+// as "not visible to the user." We render it at full 100vw/100vh with
+// opacity:0.001 — technically visible (passes WebKit's on-screen check)
+// but completely imperceptible. The 0.1% bleed of the raw stacked MP4
+// over the iridescent background is invisible in practice.
 
 interface Props {
   /** Path to the color+matte stacked MP4. Top half is RGB color (any bg
@@ -209,13 +210,19 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
             position: "fixed",
             top: 0,
             left: 0,
-            width: 4,
-            height: 4,
+            width: "100%",
+            height: "100%",
+            opacity: 0.001,
+            // opacity:0.001 (not 0) — iOS Safari's muted-autoplay policy
+            // requires the video to be visible on-screen. opacity:0 blocks
+            // autoplay; opacity:0.001 (0.1%) passes the visibility check but
+            // is completely imperceptible to users. Full 100vw/100vh ensures
+            // iOS considers it "large enough" to grant autoplay. The raw
+            // stacked black-bg MP4 underneath the canvas at 0.1% bleed is
+            // invisible in practice.
             pointerEvents: "none",
+            objectFit: "cover",
             zIndex: 0,
-            // iOS Safari only grants muted-autoplay to elements INSIDE the
-            // visible viewport. left:-10000 is off-screen → autoplay denied.
-            // 4×4 px at top-left is imperceptible to users but in-viewport.
           }}
         />
         <canvas ref={canvasRef} className={className} style={style} aria-hidden="true" />
