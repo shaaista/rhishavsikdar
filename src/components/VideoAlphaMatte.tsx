@@ -17,6 +17,11 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 // opacity — unlike a brightness-threshold chroma key, which punches
 // holes through anything dark.
 //
+// Canvas sizing: we use ResizeObserver + devicePixelRatio so the canvas
+// pixel buffer exactly matches the physical screen pixels (Retina / HiDPI).
+// Without this, a 900px buffer displayed at 746 CSS × 3 DPR = 2238 physical
+// pixels would cause a visible 2.5× upscale blur on iPhone.
+//
 // The off-screen <video> must NOT be display:none / opacity:0 / size:0 /
 // clip-path:inset(100%) — iOS's autoplay heuristic refuses each of those
 // as "not visible to the user." A real 320×180 box positioned at
@@ -30,15 +35,11 @@ interface Props {
   src: string;
   className?: string;
   style?: React.CSSProperties;
-  /** Max dimension (px) of the compositing canvas. Higher = sharper but
-   *  costs more CPU (O(w*h) per frame). 900 avoids visible upscale on
-   *  Retina mobile and 1080p desktop while staying smooth on older phones. */
-  maxCanvasDim?: number;
   onPlay?: () => void;
 }
 
 export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
-  ({ src, className, style, maxCanvasDim = 900, onPlay }, forwardedRef) => {
+  ({ src, className, style, onPlay }, forwardedRef) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const colorBufRef = useRef<HTMLCanvasElement | null>(null);
@@ -74,15 +75,38 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
 
       let disposed = false;
       let configured = false;
+
+      // Resize canvas pixel buffer to match the actual physical pixels on screen.
+      // Called both on video metadata load (to establish initial dimensions) and
+      // by ResizeObserver whenever the CSS layout changes. Capping at the source
+      // video resolution avoids wasting CPU on a buffer larger than the source.
       const configureSize = () => {
-        if (configured) return;
         const vw = video.videoWidth;
         const vhFull = video.videoHeight;
         if (!vw || !vhFull) return;
+
         const halfH = vhFull / 2;
-        const scale = Math.min(1, maxCanvasDim / Math.max(vw, halfH));
-        const cw = Math.max(2, Math.round(vw * scale));
-        const ch = Math.max(2, Math.round(halfH * scale));
+        const dpr = (typeof window !== "undefined" ? window.devicePixelRatio : 1) || 1;
+        const rect = canvas.getBoundingClientRect();
+
+        let cw: number, ch: number;
+        if (rect.width > 0 && rect.height > 0) {
+          // Match physical pixels exactly — prevents Retina blur. Cap at source
+          // resolution: the source is 1920 px wide so we can't gain sharpness beyond that.
+          cw = Math.min(Math.round(rect.width * dpr), vw);
+          ch = Math.round(cw * halfH / vw); // maintain source aspect ratio
+        } else {
+          // Canvas not laid out yet — use full source resolution as a safe fallback.
+          // ResizeObserver will fire a correction as soon as layout settles.
+          cw = vw;
+          ch = halfH;
+        }
+
+        cw = Math.max(2, cw);
+        ch = Math.max(2, ch);
+
+        if (cw === canvas.width && ch === canvas.height) return; // nothing changed
+
         canvas.width = cw;
         canvas.height = ch;
         colorBuf.width = cw;
@@ -95,11 +119,16 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
       const colorCtx = colorBuf.getContext("2d", { willReadFrequently: true })!;
       const matteCtx = matteBuf.getContext("2d", { willReadFrequently: true })!;
 
+      // ResizeObserver fires whenever the canvas CSS dimensions change (orientation
+      // change, font-size change, window resize). This keeps the buffer always
+      // matched to the actual rendered size × DPR.
+      const ro = new ResizeObserver(() => configureSize());
+      ro.observe(canvas);
+
       let rafId = 0;
       const render = () => {
         if (disposed) return;
         rafId = requestAnimationFrame(render);
-        configureSize();
         if (!configured) return;
         if (video.readyState < 2) return;
 
@@ -155,6 +184,7 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
       return () => {
         disposed = true;
         cancelAnimationFrame(rafId);
+        ro.disconnect();
         video.removeEventListener("loadedmetadata", configureSize);
         video.removeEventListener("loadeddata", tryPlay);
         video.removeEventListener("canplay", tryPlay);
@@ -162,7 +192,7 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
         window.removeEventListener("touchend", gesture);
         window.removeEventListener("click", gesture);
       };
-    }, [src, maxCanvasDim, onPlay]);
+    }, [src, onPlay]);
 
     return (
       <>
