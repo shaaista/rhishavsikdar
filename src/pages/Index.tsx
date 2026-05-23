@@ -267,7 +267,7 @@ const Index = () => {
         <div
           className="md:hidden fixed top-[6vh] z-[1] w-fit pointer-events-none"
           style={{
-            left: "40%",
+            left: "44%",
             transform: "translateX(-50%) translateZ(0)",
           }}
         >
