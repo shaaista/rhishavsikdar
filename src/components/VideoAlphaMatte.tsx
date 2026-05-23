@@ -1,4 +1,5 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 
 // Renders a transparent-background video on iOS Safari, Mac Safari, and
 // Android Chrome by reading a packed color+matte MP4 and using the matte's
@@ -28,6 +29,12 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 // opacity:0.001 — technically visible (passes WebKit's on-screen check)
 // but completely imperceptible. The 0.1% bleed of the raw stacked MP4
 // over the iridescent background is invisible in practice.
+//
+// Portal: iOS Safari has a known bug where position:fixed inside a CSS-
+// transformed ancestor is positioned relative to that ancestor, NOT the
+// viewport. Since the canvas parent has transform:translateX(-50%), the
+// fixed video would be tiny/off-screen. createPortal(…, document.body)
+// places it as a direct body child so position:fixed = true viewport.
 
 interface Props {
   /** Path to the color+matte stacked MP4. Top half is RGB color (any bg
@@ -195,36 +202,35 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
       };
     }, [src, onPlay]);
 
+    const videoEl = (
+      <video
+        ref={videoRef}
+        src={src}
+        autoPlay
+        muted
+        playsInline
+        loop={false}
+        preload="auto"
+        aria-hidden="true"
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          opacity: 0.001,
+          pointerEvents: "none",
+          objectFit: "cover",
+          zIndex: 0,
+        }}
+      />
+    );
+
     return (
       <>
-        <video
-          ref={videoRef}
-          src={src}
-          autoPlay
-          muted
-          playsInline
-          loop={false}
-          preload="auto"
-          aria-hidden="true"
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            opacity: 0.001,
-            // opacity:0.001 (not 0) — iOS Safari's muted-autoplay policy
-            // requires the video to be visible on-screen. opacity:0 blocks
-            // autoplay; opacity:0.001 (0.1%) passes the visibility check but
-            // is completely imperceptible to users. Full 100vw/100vh ensures
-            // iOS considers it "large enough" to grant autoplay. The raw
-            // stacked black-bg MP4 underneath the canvas at 0.1% bleed is
-            // invisible in practice.
-            pointerEvents: "none",
-            objectFit: "cover",
-            zIndex: 0,
-          }}
-        />
+        {typeof document !== "undefined"
+          ? createPortal(videoEl, document.body)
+          : videoEl}
         <canvas ref={canvasRef} className={className} style={style} aria-hidden="true" />
       </>
     );
