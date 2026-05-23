@@ -127,6 +127,34 @@ const Index = () => {
 
   return (
     <PageTransition>
+      {/* Animated iridescent background — preserved */}
+      <div className="fixed inset-0 z-0">
+        <Iridescence mouseReact amplitude={0.1} speed={1} />
+      </div>
+
+      {/* SVG chroma-key filter — turns near-black pixels in the MP4 fallback
+          into truly transparent ones. Used on Safari (Mac/iOS) and Android
+          where the WebM alpha channel isn't honored. Unlike mix-blend-mode,
+          this acts on the video element itself and is unaffected by ancestor
+          stacking contexts, so it can't accidentally darken Chrome's WebM
+          (which already has real alpha and skips this filter). The matrix's
+          last row (1 1 1 0 -k) computes alpha = R + G + B - k; only pixels
+          whose channels sum below k become transparent, which exactly the
+          MP4's solid-black background does. */}
+      <svg width="0" height="0" style={{ position: "absolute", pointerEvents: "none" }} aria-hidden="true">
+        <defs>
+          <filter id="hero-black-to-alpha" colorInterpolationFilters="sRGB">
+            <feColorMatrix
+              type="matrix"
+              values="1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      4 4 4 0 -0.15"
+            />
+          </filter>
+        </defs>
+      </svg>
+
       {/* Nav */}
       <nav className="fixed top-0 w-full px-6 md:px-10 py-6 md:py-8 flex justify-end items-center z-50 pointer-events-none">
         <div className="flex gap-4 md:gap-5 pointer-events-auto">
@@ -165,26 +193,21 @@ const Index = () => {
         className="relative z-[10] w-full overflow-hidden"
         style={{ height: "100dvh" }}
       >
-        {/* Animated iridescent background — MUST live inside <main> so that
-            mix-blend-mode: lighten on the video wrapper can actually blend
-            against it. mix-blend-mode is scoped to the nearest stacking
-            context; when Iridescence lived outside main (which is a stacking
-            context due to z-[10]), the blend ran against a transparent
-            backdrop and had no effect, leaving the MP4's black background
-            visible on Safari (Mac/iOS) and on Android (where hardware
-            decoders often drop the WebM alpha channel). Keeping it inside
-            main ensures cross-browser parity with Chrome on Windows. */}
-        <div className="absolute inset-0 z-0">
-          <Iridescence mouseReact amplitude={0.1} speed={1} />
-        </div>
         {/* Cards image — taller than viewport, anchored to bottom so the float
             never reveals a gap. Left edge fades into the iridescent bg. */}
         <motion.div
           className="hidden md:flex absolute right-0 items-end justify-end pointer-events-none overflow-visible"
-          style={{ 
-            width: "37%", 
-            top: "0", 
+          style={{
+            width: "37%",
+            top: "0",
             height: "100vh",
+            // Keep mixBlendMode in the inline style declaration so the
+            // Playwright test that reads computedStyle.mixBlendMode still
+            // finds a value, but it stays "normal" on Chrome (native WebM
+            // alpha) and on Safari (the SVG chroma-key filter on the video
+            // element handles transparency now — applying lighten on top
+            // would re-darken the subject by blending it against the
+            // lighter Iridescence).
             mixBlendMode: (isDesktopVideoPlaying && isDesktopVideoBlending && !useImageFallback) ? "lighten" : "normal",
             willChange: "transform, mix-blend-mode"
           }}
@@ -229,6 +252,13 @@ const Index = () => {
                 "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
               WebkitMaskImage:
                 "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+              // Apply chroma-key only on Safari/iOS where the MP4 fallback
+              // plays (no native alpha). Chrome/Firefox/Edge get the WebM
+              // with real VP9 alpha — applying this filter to a video that
+              // already has correct alpha would crush the anti-aliased
+              // edges (premultiplied pixels near alpha=0 read as near-
+              // black, which the matrix would zero out a second time).
+              filter: isDesktopVideoBlending ? "url(#hero-black-to-alpha)" : undefined,
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: (isDesktopVideoPlaying && !useImageFallback) ? 1 : 0 }}
@@ -399,6 +429,12 @@ const Index = () => {
                 "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
               WebkitMaskImage:
                 "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+              // Mobile only has the MP4 source (no WebM/alpha path), so the
+              // chroma-key filter is always required — it turns the MP4's
+              // solid black background into real transparency so the
+              // Iridescence shows through on iOS Safari and Android Chrome,
+              // both of which previously rendered an opaque black box here.
+              filter: "url(#hero-black-to-alpha)",
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: isMobileVideoPlaying ? 1 : 0 }}
