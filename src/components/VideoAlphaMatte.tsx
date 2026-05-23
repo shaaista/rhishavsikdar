@@ -1,4 +1,5 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 
 // Renders a transparent-background video on iOS Safari, Mac Safari, and
 // Android Chrome by reading a packed color+matte MP4 and using the matte's
@@ -22,11 +23,27 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 // Without this, a 900px buffer displayed at 746 CSS × 3 DPR = 2238 physical
 // pixels would cause a visible 2.5× upscale blur on iPhone.
 //
-// The off-screen <video> must NOT be display:none / opacity:0 / size:0 /
-// clip-path:inset(100%) — iOS's autoplay heuristic refuses each of those
-// as "not visible to the user." A real 320×180 box positioned at
-// left: -10000px keeps it laid out and "visible" while staying out of
-// the user's viewport.
+// iOS autoplay — three stacked root causes that all must be fixed:
+//
+//   1. "visible on-screen": WebKit only autoplays a video when it is in the
+//      viewport and not hidden (opacity>0, not display:none, not scrolled
+//      off). left:-10000px puts it off-screen → blocked.
+//
+//   2. PageTransition opacity:0: the page wrapper starts at opacity:0 and
+//      fades in over 0.5 s. Any child video inherits effective opacity=0
+//      for that window → iOS sees it as hidden → blocked.
+//
+//   3. position:fixed inside a CSS-transformed ancestor: the mobile canvas
+//      parent has transform:translateX(-50%). CSS spec says position:fixed
+//      inside a transformed ancestor is positioned relative to that ancestor,
+//      not the viewport — the video ends up off-screen regardless of left/top.
+//
+// Fix for all three: createPortal(video, document.body) places the <video>
+// as a direct child of <body>. <body> has no transforms and is not inside
+// PageTransition, so position:fixed = true viewport and opacity is the
+// element's own value. The video starts at opacity:1 (genuinely visible,
+// passes WebKit's check) with a 2×2 px footprint — two pixels are
+// imperceptible to users. Once play() resolves, we drop it to opacity:0.001.
 
 interface Props {
   /** Path to the color+matte stacked MP4. Top half is RGB color (any bg
@@ -76,10 +93,6 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
       let disposed = false;
       let configured = false;
 
-      // Resize canvas pixel buffer to match the actual physical pixels on screen.
-      // Called both on video metadata load (to establish initial dimensions) and
-      // by ResizeObserver whenever the CSS layout changes. Capping at the source
-      // video resolution avoids wasting CPU on a buffer larger than the source.
       const configureSize = () => {
         const vw = video.videoWidth;
         const vhFull = video.videoHeight;
@@ -91,13 +104,9 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
 
         let cw: number, ch: number;
         if (rect.width > 0 && rect.height > 0) {
-          // Match physical pixels exactly — prevents Retina blur. Cap at source
-          // resolution: the source is 1920 px wide so we can't gain sharpness beyond that.
           cw = Math.min(Math.round(rect.width * dpr), vw);
-          ch = Math.round(cw * halfH / vw); // maintain source aspect ratio
+          ch = Math.round(cw * halfH / vw);
         } else {
-          // Canvas not laid out yet — use full source resolution as a safe fallback.
-          // ResizeObserver will fire a correction as soon as layout settles.
           cw = vw;
           ch = halfH;
         }
@@ -105,7 +114,7 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
         cw = Math.max(2, cw);
         ch = Math.max(2, ch);
 
-        if (cw === canvas.width && ch === canvas.height) return; // nothing changed
+        if (cw === canvas.width && ch === canvas.height) return;
 
         canvas.width = cw;
         canvas.height = ch;
@@ -119,9 +128,6 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
       const colorCtx = colorBuf.getContext("2d", { willReadFrequently: true })!;
       const matteCtx = matteBuf.getContext("2d", { willReadFrequently: true })!;
 
-      // ResizeObserver fires whenever the canvas CSS dimensions change (orientation
-      // change, font-size change, window resize). This keeps the buffer always
-      // matched to the actual rendered size × DPR.
       const ro = new ResizeObserver(() => configureSize());
       ro.observe(canvas);
 
@@ -132,15 +138,19 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
         if (!configured) return;
         if (video.readyState < 2) return;
 
+        // Collapse the 2×2 thumbnail once it has served its autoplay-unlock
+        // purpose — video is playing, canvas takes over.
+        if (video.currentTime > 0 && video.style.opacity !== "0.001") {
+          video.style.opacity = "0.001";
+        }
+
         const vw = video.videoWidth;
         const halfH = video.videoHeight / 2;
         const cw = canvas.width;
         const ch = canvas.height;
 
         try {
-          // Top half of source = color frame
           colorCtx.drawImage(video, 0, 0, vw, halfH, 0, 0, cw, ch);
-          // Bottom half of source = grayscale alpha matte
           matteCtx.drawImage(video, 0, halfH, vw, halfH, 0, 0, cw, ch);
 
           const colorImg = colorCtx.getImageData(0, 0, cw, ch);
@@ -148,17 +158,13 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
           const cd = colorImg.data;
           const md = matteImg.data;
 
-          // matte is grayscale (R=G=B); reading the R channel as the
-          // alpha is faster than computing luminance and produces the
-          // same result for a clean grayscale source.
           for (let i = 0; i < cd.length; i += 4) {
             cd[i + 3] = md[i];
           }
 
           ctx.putImageData(colorImg, 0, 0);
         } catch {
-          // Defensive: cross-origin tainted frames or transient decode
-          // errors. Stop attempting on this frame; rAF will try again.
+          // cross-origin tainted frames or transient decode errors — rAF retries
         }
       };
 
@@ -166,7 +172,12 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
         if (disposed) return;
         const p = video.play();
         if (p && typeof p.then === "function") {
-          p.then(() => { if (!disposed) onPlay?.(); }).catch(() => {});
+          p.then(() => {
+            if (!disposed) {
+              onPlay?.();
+              video.style.opacity = "0.001";
+            }
+          }).catch(() => {});
         }
       };
 
@@ -194,27 +205,37 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
       };
     }, [src, onPlay]);
 
+    // 2×2 px at opacity:1, portaled to <body> — imperceptible to users but
+    // genuinely on-screen so iOS grants muted-autoplay. Opacity drops to
+    // 0.001 the moment the video starts playing.
+    const videoEl = (
+      <video
+        ref={videoRef}
+        src={src}
+        autoPlay
+        muted
+        playsInline
+        loop={false}
+        preload="auto"
+        aria-hidden="true"
+        style={{
+          position: "fixed",
+          bottom: 0,
+          right: 0,
+          width: 2,
+          height: 2,
+          opacity: 1,
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      />
+    );
+
     return (
       <>
-        <video
-          ref={videoRef}
-          src={src}
-          autoPlay
-          muted
-          playsInline
-          loop={false}
-          preload="auto"
-          aria-hidden="true"
-          style={{
-            position: "fixed",
-            top: 0,
-            left: -10000,
-            width: 320,
-            height: 360,
-            pointerEvents: "none",
-            zIndex: 0, // must NOT be negative — iOS refuses muted-autoplay for elements behind the root stacking context
-          }}
-        />
+        {typeof document !== "undefined"
+          ? createPortal(videoEl, document.body)
+          : videoEl}
         <canvas ref={canvasRef} className={className} style={style} aria-hidden="true" />
       </>
     );
