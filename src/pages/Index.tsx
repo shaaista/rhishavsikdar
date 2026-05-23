@@ -23,20 +23,23 @@ const fadeUp = (delay: number) => ({
   },
 });
 
-// Detect at module load time so the very first React render already knows
-// whether to emit <video src={mp4}> directly (Safari/iOS/Android) or a
-// <video> with <source> children (Chrome/Firefox/Edge, where the WebM with
-// native VP9 alpha is preferable). Doing this synchronously is critical —
-// the previous useEffect-based UA detection meant Safari saw two <source>
-// children on first paint, spent its autoplay budget negotiating between
-// them, and missed the muted-autoplay window before any of our code ran.
+// Only iOS Safari and Mac Safari need the canvas-matte path. Android Chrome
+// and all other Chromium browsers on Android support VP9 alpha natively —
+// routing them through canvas would cost quality and CPU for no benefit.
 const detectNeedsMp4Path = (): boolean => {
   if (typeof navigator === "undefined") return false;
   try {
-    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-           /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const ua = navigator.userAgent;
+    // iPhone / iPod always Safari
+    if (/iPhone|iPod/i.test(ua)) return true;
+    // iPad explicit UA (iOS < 13)
+    if (/iPad/i.test(ua)) return true;
+    // iPadOS 13+ reports as Mac + has touch points > 1
+    if (/Mac/i.test(ua) && navigator.maxTouchPoints > 1) return true;
+    // Desktop Mac Safari — exclude Chrome, Edge, Firefox, Android browser
+    return /safari/i.test(ua) && !/chrome|crios|fxios|android|edg/i.test(ua);
   } catch {
-    return true;
+    return false;
   }
 };
 
@@ -45,17 +48,15 @@ const Index = () => {
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
 
-  // Lazy initializer so the value is stable across renders AND available
-  // immediately, not after one useEffect tick. needsMp4Path stays true for
-  // every Safari/iOS/Android user-agent so they always receive the pinned
-  // MP4 src (and the chroma-key filter on the wrapping <div>).
-  const [needsMp4Path] = useState<boolean>(() => detectNeedsMp4Path());
-
-  // On the Chrome/Firefox/Edge path the native <video autoplay muted ...>
-  // is sufficient (and its onPlay handler sets isDesktopVideoPlaying).
-  // On the Safari/iOS/Android path the VideoChromaCanvas component owns
-  // its own muted-attribute + retry-on-loadeddata + gesture-fallback
-  // setup — see VideoChromaCanvas.tsx. No top-level useEffect needed.
+  // Both values resolved synchronously on first render so video elements are
+  // emitted in the correct state immediately — avoids the autoplay-budget race
+  // that affected Safari when UA detection ran in a useEffect.
+  const [{ needsMp4Path, isMobileLayout }] = useState(() => ({
+    needsMp4Path: detectNeedsMp4Path(),
+    // Skip mounting the desktop VideoAlphaMatte on mobile breakpoints so
+    // two copies of the same video don't compete for iOS's autoplay budget.
+    isMobileLayout: typeof window !== "undefined" && window.innerWidth < 768,
+  }));
 
   return (
     <PageTransition>
@@ -102,78 +103,67 @@ const Index = () => {
         className="relative z-[10] w-full overflow-hidden"
         style={{ height: "100dvh" }}
       >
-        {/* Desktop hero: image stays on top (z-2) so the user never sees the
-            video's first paused frame; video sits behind (z-1) and is always
-            opacity 1 — invisible to the user thanks to the image overlay,
-            but visible to iOS Safari's autoplay heuristic so the muted-
-            autoplay grant isn't withheld. The image fades out once playback
-            starts, revealing the playing video underneath. */}
-        <motion.div
-          className="hidden md:flex absolute right-0 items-end justify-end pointer-events-none overflow-visible"
-          style={{
-            width: "37%",
-            top: "0",
-            height: "100vh",
-          }}
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {/* Video layer — z-1, behind the image overlay. On Chrome/Firefox/
-              Edge we render the real <video> with the WebM (native VP9 alpha
-              has no need for any chroma-key hackery). On Safari/iOS/Android
-              we instead render a canvas that JS-chroma-keys each frame from
-              an off-screen <video> — iOS Safari's HW video pipeline ignores
-              CSS filters, so canvas is the only reliable way to remove the
-              MP4's black background on those devices. */}
-          {needsMp4Path ? (
-            // Safari/iOS/Android: canvas composites the packed
-            // color+matte MP4 (preserves the artist's exact alpha — no
-            // chroma-key on dark facial features).
-            <VideoAlphaMatte
-              ref={desktopVideoRef}
-              src={heroVideoMatte}
-              className="absolute bottom-0 right-0 z-[1] h-[89vh] w-auto max-w-none block select-none"
-              style={{
-                transform: "translateX(6%)",
-                clipPath: "inset(0 10% 0 10%)",
-                WebkitClipPath: "inset(0 10% 0 10%)",
-                maskImage:
-                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-                WebkitMaskImage:
-                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-              }}
-            />
-          ) : (
-            // Chrome/Firefox/Edge: native <video> with WebM VP9 alpha.
-            <video
-              ref={desktopVideoRef}
-              autoPlay
-              muted
-              playsInline
-              loop={false}
-              preload="auto"
-              aria-label="Rhishav Sikdar — illusionist with cards"
-              className="absolute bottom-0 right-0 z-[1] h-[89vh] w-auto max-w-none block select-none"
-              style={{
-                transform: "translateX(6%)",
-                clipPath: "inset(0 10% 0 10%)",
-                WebkitClipPath: "inset(0 10% 0 10%)",
-                maskImage:
-                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-                WebkitMaskImage:
-                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-              }}
-              onEnded={(e) => {
-                e.currentTarget.loop = false;
-                e.currentTarget.pause();
-              }}
-            >
-              <source src={heroVideoWebm} type="video/webm" />
-              <source src={heroVideoMp4} type="video/mp4" />
-            </video>
-          )}
-        </motion.div>
+        {/* Desktop / tablet hero video.
+            Not rendered at all on narrow (< 768px) viewports — prevents a
+            hidden VideoAlphaMatte from competing with the mobile one for
+            iOS Safari's muted-autoplay budget on iPhone. */}
+        {!isMobileLayout && (
+          <motion.div
+            className="hidden md:flex absolute right-0 items-end justify-end pointer-events-none overflow-visible"
+            style={{
+              width: "37%",
+              top: "0",
+              height: "100vh",
+            }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {needsMp4Path ? (
+              <VideoAlphaMatte
+                ref={desktopVideoRef}
+                src={heroVideoMatte}
+                className="absolute bottom-0 right-0 z-[1] h-[89vh] w-auto max-w-none block select-none"
+                style={{
+                  transform: "translateX(15%)",
+                  clipPath: "inset(0 10% 0 10%)",
+                  WebkitClipPath: "inset(0 10% 0 10%)",
+                  maskImage:
+                    "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+                  WebkitMaskImage:
+                    "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+                }}
+              />
+            ) : (
+              <video
+                ref={desktopVideoRef}
+                autoPlay
+                muted
+                playsInline
+                loop={false}
+                preload="auto"
+                aria-label="Rhishav Sikdar — illusionist with cards"
+                className="absolute bottom-0 right-0 z-[1] h-[89vh] w-auto max-w-none block select-none"
+                style={{
+                  transform: "translateX(15%)",
+                  clipPath: "inset(0 10% 0 10%)",
+                  WebkitClipPath: "inset(0 10% 0 10%)",
+                  maskImage:
+                    "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+                  WebkitMaskImage:
+                    "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+                }}
+                onEnded={(e) => {
+                  e.currentTarget.loop = false;
+                  e.currentTarget.pause();
+                }}
+              >
+                <source src={heroVideoWebm} type="video/webm" />
+                <source src={heroVideoMp4} type="video/mp4" />
+              </video>
+            )}
+          </motion.div>
+        )}
 
         {/* Text content overlay
             Mobile: items-end pushes the name + button block to the BOTTOM
@@ -275,8 +265,9 @@ const Index = () => {
             The chroma-key filter lives on the video's wrapper, not the
             <video> itself, to avoid interfering with iOS autoplay. */}
         <div
-          className="md:hidden fixed top-[6vh] left-1/2 z-[1] w-fit pointer-events-none"
+          className="md:hidden fixed top-[6vh] z-[1] w-fit pointer-events-none"
           style={{
+            left: "40%",
             transform: "translateX(-50%) translateZ(0)",
           }}
         >

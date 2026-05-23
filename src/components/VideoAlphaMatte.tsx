@@ -30,14 +30,15 @@ interface Props {
   src: string;
   className?: string;
   style?: React.CSSProperties;
-  /** Max dimension (px) the offscreen canvas downsamples to — CPU cost
-   *  is O(w*h) per frame. CSS scales the canvas back up. */
+  /** Max dimension (px) of the compositing canvas. Higher = sharper but
+   *  costs more CPU (O(w*h) per frame). 900 avoids visible upscale on
+   *  Retina mobile and 1080p desktop while staying smooth on older phones. */
   maxCanvasDim?: number;
   onPlay?: () => void;
 }
 
 export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
-  ({ src, className, style, maxCanvasDim = 540, onPlay }, forwardedRef) => {
+  ({ src, className, style, maxCanvasDim = 900, onPlay }, forwardedRef) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const colorBufRef = useRef<HTMLCanvasElement | null>(null);
@@ -179,9 +180,9 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
             top: 0,
             left: -10000,
             width: 320,
-            height: 360, // matches the 16:9 color half stacked over its 16:9 matte
+            height: 360,
             pointerEvents: "none",
-            zIndex: -1,
+            zIndex: 0, // must NOT be negative — iOS refuses muted-autoplay for elements behind the root stacking context
           }}
         />
         <canvas ref={canvasRef} className={className} style={style} aria-hidden="true" />
