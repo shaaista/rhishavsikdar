@@ -36,6 +36,17 @@ const Index = () => {
     setIsMounted(true);
     // Enable video rendering on all platforms (it will fall back to image if playback/decode fails completely)
     setUseImageFallback(false);
+
+    // Synchronously check if the browser supports transparent WebM VP9.
+    // If it doesn't (Safari, iOS browsers), it will use the MP4 source which has a black background
+    // and thus requires the lighten mix-blend-mode. We set this immediately on mount to prevent
+    // black backgrounds from flashing during initial load/play.
+    try {
+      const supportsWebm = document.createElement('video').canPlayType('video/webm; codecs="vp9"') === 'probably';
+      setIsDesktopVideoBlending(!supportsWebm);
+    } catch (e) {
+      setIsDesktopVideoBlending(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -217,14 +228,6 @@ const Index = () => {
               transition={{ duration: 0.4 }}
               onPlay={() => {
                 setIsDesktopVideoPlaying(true);
-              }}
-              onLoadedMetadata={(e) => {
-                const src = e.currentTarget.currentSrc || "";
-                if (src.includes("test-alpha") && src.includes(".mp4")) {
-                  setIsDesktopVideoBlending(true);
-                } else {
-                  setIsDesktopVideoBlending(false);
-                }
               }}
               onEnded={(e) => {
                 e.currentTarget.loop = false;
