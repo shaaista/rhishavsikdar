@@ -1,5 +1,4 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
-import { createPortal } from "react-dom";
 
 // Renders a transparent-background video on iOS Safari, Mac Safari, and
 // Android Chrome by reading a packed color+matte MP4 and using the matte's
@@ -23,14 +22,11 @@ import { createPortal } from "react-dom";
 // Without this, a 900px buffer displayed at 746 CSS × 3 DPR = 2238 physical
 // pixels would cause a visible 2.5× upscale blur on iPhone.
 //
-// iOS autoplay: iOS Safari requires the source <video> to be genuinely
-// visible on screen (opacity > 0, in viewport, not display:none) to grant
-// muted-autoplay. We render the source video via createPortal to document.body
-// (bypassing iOS's position:fixed-in-transformed-ancestor bug AND the
-// PageTransition initial opacity:0 wrapper). The video starts at opacity:1
-// with a 32×18 px footprint so iOS grants autoplay. As soon as the video
-// actually starts playing, tryPlay()'s .then() immediately sets opacity to
-// 0.001 — the 32×18 px thumbnail disappears before the user notices it.
+// The off-screen <video> must NOT be display:none / opacity:0 / size:0 /
+// clip-path:inset(100%) — iOS's autoplay heuristic refuses each of those
+// as "not visible to the user." A real 320×180 box positioned at
+// left: -10000px keeps it laid out and "visible" while staying out of
+// the user's viewport.
 
 interface Props {
   /** Path to the color+matte stacked MP4. Top half is RGB color (any bg
@@ -136,12 +132,6 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
         if (!configured) return;
         if (video.readyState < 2) return;
 
-        // Once playing, make the thumbnail invisible (it served its purpose
-        // of convincing iOS to grant muted-autoplay).
-        if (video.currentTime > 0 && video.style.opacity !== "0.001") {
-          video.style.opacity = "0.001";
-        }
-
         const vw = video.videoWidth;
         const halfH = video.videoHeight / 2;
         const cw = canvas.width;
@@ -176,13 +166,7 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
         if (disposed) return;
         const p = video.play();
         if (p && typeof p.then === "function") {
-          p.then(() => {
-            if (!disposed) {
-              onPlay?.();
-              // Video is playing — hide the thumbnail immediately.
-              video.style.opacity = "0.001";
-            }
-          }).catch(() => {});
+          p.then(() => { if (!disposed) onPlay?.(); }).catch(() => {});
         }
       };
 
@@ -210,43 +194,27 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
       };
     }, [src, onPlay]);
 
-    // Portal to document.body so position:fixed is relative to the true
-    // viewport (not a transformed ancestor) and the video is outside any
-    // PageTransition opacity:0 wrapper — both are required for iOS autoplay.
-    //
-    // The video starts at opacity:1 with a 32×18 px footprint. This is the
-    // minimum "genuinely visible" signal iOS needs to grant muted-autoplay.
-    // As soon as play() resolves (video actually starts) we set opacity 0.001,
-    // so users see this thumbnail for at most ~0.5 s on a fast connection.
-    const videoEl = (
-      <video
-        ref={videoRef}
-        src={src}
-        autoPlay
-        muted
-        playsInline
-        loop={false}
-        preload="auto"
-        aria-hidden="true"
-        style={{
-          position: "fixed",
-          bottom: 0,
-          right: 0,
-          width: 32,
-          height: 18,
-          opacity: 1,
-          pointerEvents: "none",
-          objectFit: "cover",
-          zIndex: 1,
-        }}
-      />
-    );
-
     return (
       <>
-        {typeof document !== "undefined"
-          ? createPortal(videoEl, document.body)
-          : videoEl}
+        <video
+          ref={videoRef}
+          src={src}
+          autoPlay
+          muted
+          playsInline
+          loop={false}
+          preload="auto"
+          aria-hidden="true"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: -10000,
+            width: 320,
+            height: 360,
+            pointerEvents: "none",
+            zIndex: 0, // must NOT be negative — iOS refuses muted-autoplay for elements behind the root stacking context
+          }}
+        />
         <canvas ref={canvasRef} className={className} style={style} aria-hidden="true" />
       </>
     );
