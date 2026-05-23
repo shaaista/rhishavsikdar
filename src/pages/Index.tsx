@@ -29,6 +29,7 @@ const Index = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [useImageFallback, setUseImageFallback] = useState(true);
   const [isMobileVideoPlaying, setIsMobileVideoPlaying] = useState(false);
+  const [isDesktopVideoPlaying, setIsDesktopVideoPlaying] = useState(false);
   const [isDesktopVideoBlending, setIsDesktopVideoBlending] = useState(false);
 
   useEffect(() => {
@@ -56,11 +57,18 @@ const Index = () => {
           setIsMobileVideoPlaying(true);
           return;
         }
+        if (video === desktopVideoRef.current && !video.paused) {
+          setIsDesktopVideoPlaying(true);
+          return;
+        }
 
         try {
           await video.play();
           if (video === mobileVideoRef.current) {
             setIsMobileVideoPlaying(true);
+          }
+          if (video === desktopVideoRef.current) {
+            setIsDesktopVideoPlaying(true);
           }
         } catch (error) {
           console.warn("Autoplay blocked. Registering interaction listeners.", error);
@@ -71,6 +79,9 @@ const Index = () => {
               await video.play();
               if (video === mobileVideoRef.current) {
                 setIsMobileVideoPlaying(true);
+              }
+              if (video === desktopVideoRef.current) {
+                setIsDesktopVideoPlaying(true);
               }
               cleanup();
             } catch (err) {
@@ -152,27 +163,37 @@ const Index = () => {
             never reveals a gap. Left edge fades into the iridescent bg. */}
         <motion.div
           className="hidden md:flex absolute right-0 items-end justify-end pointer-events-none overflow-visible"
-          style={{ width: "37%", top: "0", height: "100vh" }}
+          style={{ 
+            width: "37%", 
+            top: "0", 
+            height: "100vh",
+            mixBlendMode: (isDesktopVideoPlaying && isDesktopVideoBlending && !useImageFallback) ? "lighten" : "normal"
+          }}
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // Removed delay and shortened duration for instant load
         >
-          {!isMounted || useImageFallback ? (
-            <motion.img
-              src={cardsImg}
-              alt="Rhishav Sikdar — illusionist with cards"
-              className="h-[89vh] w-auto max-w-none block select-none"
-              style={{
-                transform: "translateX(6%)", // Match desktop translation
-                clipPath: "inset(0 10% 0 10%)",
-                WebkitClipPath: "inset(0 10% 0 10%)",
-                maskImage:
-                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-                WebkitMaskImage:
-                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-              }}
-            />
-          ) : (
+          {/* Static Image Layer */}
+          <motion.img
+            src={cardsImg}
+            alt="Rhishav Sikdar — illusionist with cards"
+            className="relative z-[1] h-[89vh] w-auto max-w-none block select-none"
+            style={{
+              transform: "translateX(6%)", // Match desktop translation
+              clipPath: "inset(0 10% 0 10%)",
+              WebkitClipPath: "inset(0 10% 0 10%)",
+              maskImage:
+                "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+              WebkitMaskImage:
+                "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+            }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: (isDesktopVideoPlaying && !useImageFallback) ? 0 : 1 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          />
+
+          {/* Video Layer */}
+          {!useImageFallback && (
             <motion.video
               ref={desktopVideoRef}
               autoPlay
@@ -181,7 +202,7 @@ const Index = () => {
               loop={false}
               preload="auto"
               aria-label="Rhishav Sikdar — illusionist with cards"
-              className="h-[89vh] w-auto max-w-none block select-none"
+              className="absolute bottom-0 right-0 z-[2] h-[89vh] w-auto max-w-none block select-none"
               style={{
                 transform: "translateX(6%)", // Shifted further right on desktop
                 clipPath: "inset(0 10% 0 10%)",
@@ -190,7 +211,12 @@ const Index = () => {
                   "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
                 WebkitMaskImage:
                   "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-                mixBlendMode: isDesktopVideoBlending ? "lighten" : "normal",
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: (isDesktopVideoPlaying && !useImageFallback) ? 1 : 0 }}
+              transition={{ duration: 0.4 }}
+              onPlay={() => {
+                setIsDesktopVideoPlaying(true);
               }}
               onLoadedMetadata={(e) => {
                 const src = e.currentTarget.currentSrc || "";
