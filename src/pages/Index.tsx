@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import heroVideoWebm from "@/assets/test-alpha.webm";
@@ -6,6 +6,7 @@ import heroVideoMp4 from "@/assets/test-alpha.mp4";
 import cardsImg from "@/assets/cards.png";
 import Iridescence from "@/components/Iridescence";
 import PageTransition from "@/components/PageTransition";
+import { VideoChromaCanvas } from "@/components/VideoChromaCanvas";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
 
 const DARK = "#0f172a";
@@ -51,82 +52,11 @@ const Index = () => {
   const [isMobileVideoPlaying, setIsMobileVideoPlaying] = useState(false);
   const [isDesktopVideoPlaying, setIsDesktopVideoPlaying] = useState(false);
 
-  useEffect(() => {
-    // Mirrors the Illusionist page's iOS-reliable autoplay setup verbatim:
-    //   1. setAttribute("muted", "") so the HTML attribute is present (iOS
-    //      Safari's muted-autoplay policy keys off the attribute, not the
-    //      IDL property React sets via `muted={true}`).
-    //   2. Try .play() immediately, then retry on `loadeddata` and
-    //      `canplay` — the first attempt usually fires before metadata is
-    //      loaded and silently fails on Safari.
-    //   3. Gesture fallback (touchstart/click) for Safari profiles with
-    //      Auto-Play disabled in preferences. No JS src manipulation
-    //      anywhere — the right src is already in the JSX, so we never
-    //      have to call load() and reset the autoplay context.
-    const setupVideo = (
-      video: HTMLVideoElement | null,
-      onPlay: () => void
-    ): (() => void) | null => {
-      if (!video) return null;
-
-      video.setAttribute("muted", "");
-      video.muted = true;
-      video.defaultMuted = true;
-      video.playsInline = true;
-      video.setAttribute("playsinline", "");
-      video.setAttribute("webkit-playsinline", "");
-
-      let disposed = false;
-      const tryPlay = () => {
-        if (disposed) return;
-        const p = video.play();
-        if (p && typeof p.then === "function") {
-          p.then(() => { if (!disposed) onPlay(); }).catch(() => {});
-        }
-      };
-
-      tryPlay();
-      video.addEventListener("loadeddata", tryPlay);
-      video.addEventListener("canplay", tryPlay);
-      const onPlayEvt = () => { if (!disposed) onPlay(); };
-      video.addEventListener("playing", onPlayEvt);
-
-      const playOnGesture = () => {
-        if (disposed) return;
-        const p = video.play();
-        if (p && typeof p.then === "function") {
-          p.then(() => { if (!disposed) onPlay(); }).catch(() => {});
-        }
-      };
-      window.addEventListener("touchstart", playOnGesture, { passive: true });
-      window.addEventListener("touchend", playOnGesture, { passive: true });
-      window.addEventListener("click", playOnGesture, { passive: true });
-
-      return () => {
-        disposed = true;
-        video.removeEventListener("loadeddata", tryPlay);
-        video.removeEventListener("canplay", tryPlay);
-        video.removeEventListener("playing", onPlayEvt);
-        window.removeEventListener("touchstart", playOnGesture);
-        window.removeEventListener("touchend", playOnGesture);
-        window.removeEventListener("click", playOnGesture);
-      };
-    };
-
-    const cleanupDesktop = setupVideo(
-      desktopVideoRef.current,
-      () => setIsDesktopVideoPlaying(true)
-    );
-    const cleanupMobile = setupVideo(
-      mobileVideoRef.current,
-      () => setIsMobileVideoPlaying(true)
-    );
-
-    return () => {
-      cleanupDesktop?.();
-      cleanupMobile?.();
-    };
-  }, []);
+  // On the Chrome/Firefox/Edge path the native <video autoplay muted ...>
+  // is sufficient (and its onPlay handler sets isDesktopVideoPlaying).
+  // On the Safari/iOS/Android path the VideoChromaCanvas component owns
+  // its own muted-attribute + retry-on-loadeddata + gesture-fallback
+  // setup — see VideoChromaCanvas.tsx. No top-level useEffect needed.
 
   return (
     <PageTransition>
@@ -134,29 +64,6 @@ const Index = () => {
       <div className="fixed inset-0 z-0">
         <Iridescence mouseReact amplitude={0.1} speed={1} />
       </div>
-
-      {/* SVG chroma-key filter — turns near-black pixels in the MP4 fallback
-          into truly transparent ones. Used on Safari (Mac/iOS) and Android
-          where the WebM alpha channel isn't honored. Unlike mix-blend-mode,
-          this acts on the video element itself and is unaffected by ancestor
-          stacking contexts, so it can't accidentally darken Chrome's WebM
-          (which already has real alpha and skips this filter). The matrix's
-          last row (1 1 1 0 -k) computes alpha = R + G + B - k; only pixels
-          whose channels sum below k become transparent, which exactly the
-          MP4's solid-black background does. */}
-      <svg width="0" height="0" style={{ position: "absolute", pointerEvents: "none" }} aria-hidden="true">
-        <defs>
-          <filter id="hero-black-to-alpha" colorInterpolationFilters="sRGB">
-            <feColorMatrix
-              type="matrix"
-              values="1 0 0 0 0
-                      0 1 0 0 0
-                      0 0 1 0 0
-                      4 4 4 0 -0.15"
-            />
-          </filter>
-        </defs>
-      </svg>
 
       {/* Nav */}
       <nav className="fixed top-0 w-full px-6 md:px-10 py-6 md:py-8 flex justify-end items-center z-50 pointer-events-none">
@@ -213,30 +120,41 @@ const Index = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Video layer — z-1, always opacity 1. The chroma-key filter is
-              applied here (on the wrapper, not the <video> element itself)
-              because CSS filter on a <video> on iOS Safari can interfere
-              with the muted-autoplay decision; the wrapper-level filter
-              gets the same visual effect without touching the media element. */}
-          <div
-            className="absolute bottom-0 right-0 z-[1] h-[89vh] w-auto max-w-none block select-none"
-            style={{
-              transform: "translateX(6%)",
-              filter: needsMp4Path ? "url(#hero-black-to-alpha)" : undefined,
-              WebkitFilter: needsMp4Path ? "url(#hero-black-to-alpha)" : undefined,
-            }}
-          >
+          {/* Video layer — z-1, behind the image overlay. On Chrome/Firefox/
+              Edge we render the real <video> with the WebM (native VP9 alpha
+              has no need for any chroma-key hackery). On Safari/iOS/Android
+              we instead render a canvas that JS-chroma-keys each frame from
+              an off-screen <video> — iOS Safari's HW video pipeline ignores
+              CSS filters, so canvas is the only reliable way to remove the
+              MP4's black background on those devices. */}
+          {needsMp4Path ? (
+            <VideoChromaCanvas
+              ref={desktopVideoRef}
+              src={heroVideoMp4}
+              onPlay={() => setIsDesktopVideoPlaying(true)}
+              className="absolute bottom-0 right-0 z-[1] h-[89vh] w-auto max-w-none block select-none"
+              style={{
+                transform: "translateX(6%)",
+                clipPath: "inset(0 10% 0 10%)",
+                WebkitClipPath: "inset(0 10% 0 10%)",
+                maskImage:
+                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+                WebkitMaskImage:
+                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+              }}
+            />
+          ) : (
             <video
               ref={desktopVideoRef}
-              {...(needsMp4Path ? { src: heroVideoMp4 } : {})}
               autoPlay
               muted
               playsInline
               loop={false}
               preload="auto"
               aria-label="Rhishav Sikdar — illusionist with cards"
-              className="h-[89vh] w-auto max-w-none block select-none"
+              className="absolute bottom-0 right-0 z-[1] h-[89vh] w-auto max-w-none block select-none"
               style={{
+                transform: "translateX(6%)",
                 clipPath: "inset(0 10% 0 10%)",
                 WebkitClipPath: "inset(0 10% 0 10%)",
                 maskImage:
@@ -251,14 +169,10 @@ const Index = () => {
                 e.currentTarget.pause();
               }}
             >
-              {!needsMp4Path && (
-                <>
-                  <source src={heroVideoWebm} type="video/webm" />
-                  <source src={heroVideoMp4} type="video/mp4" />
-                </>
-              )}
+              <source src={heroVideoWebm} type="video/webm" />
+              <source src={heroVideoMp4} type="video/mp4" />
             </video>
-          </div>
+          )}
 
           {/* Image overlay — z-2, on top. Hides the video's still/first frame
               from the user until playback actually begins, then fades out. */}
@@ -386,40 +300,24 @@ const Index = () => {
             transform: "translateX(-50%) translateZ(0)",
           }}
         >
-          {/* Video layer — back, always opacity 1, filter on the wrapper */}
-          <div
-            className="absolute top-0 left-0 z-[1] w-full h-full"
+          {/* Video layer — canvas-chroma-key render so the black background
+              is truly transparent on iOS Safari and Android Chrome (CSS
+              filter on a <video> doesn't reach iOS's hardware video
+              compositing pipeline). */}
+          <VideoChromaCanvas
+            ref={mobileVideoRef}
+            src={heroVideoMp4}
+            onPlay={() => setIsMobileVideoPlaying(true)}
+            className="absolute top-0 left-0 z-[1] w-full h-full block select-none"
             style={{
-              filter: "url(#hero-black-to-alpha)",
-              WebkitFilter: "url(#hero-black-to-alpha)",
+              clipPath: "inset(0 10% 0 10%)",
+              WebkitClipPath: "inset(0 10% 0 10%)",
+              maskImage:
+                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
             }}
-          >
-            <video
-              ref={mobileVideoRef}
-              src={heroVideoMp4}
-              autoPlay
-              muted
-              playsInline
-              loop={false}
-              preload="auto"
-              aria-label="Rhishav Sikdar — illusionist with cards"
-              className="w-full h-full block select-none"
-              style={{
-                clipPath: "inset(0 10% 0 10%)",
-                WebkitClipPath: "inset(0 10% 0 10%)",
-                maskImage:
-                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-              }}
-              onPlay={() => setIsMobileVideoPlaying(true)}
-              onPlaying={() => setIsMobileVideoPlaying(true)}
-              onEnded={(e) => {
-                e.currentTarget.loop = false;
-                e.currentTarget.pause();
-              }}
-            />
-          </div>
+          />
 
           {/* Image overlay — front, fades out when the video starts. */}
           <motion.img
