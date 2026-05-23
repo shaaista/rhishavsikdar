@@ -29,24 +29,12 @@ const Index = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [useImageFallback, setUseImageFallback] = useState(true);
   const [isMobileVideoPlaying, setIsMobileVideoPlaying] = useState(false);
+  const [isDesktopVideoBlending, setIsDesktopVideoBlending] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    const isMobile = window.innerWidth < 768;
-
-    if (isMobile) {
-      // On mobile, try rendering the video for both Android and iOS
-      // mixBlendMode: "lighten" will blend away the black background on iOS
-      setUseImageFallback(false);
-    } else {
-      // On desktop, only render the video if it is not Safari (since desktop doesn't use blend mode)
-      if (!isSafari) {
-        setUseImageFallback(false);
-      } else {
-        setUseImageFallback(true);
-      }
-    }
+    // Enable video rendering on all platforms (it will fall back to image if playback/decode fails completely)
+    setUseImageFallback(false);
   }, []);
 
   useEffect(() => {
@@ -202,6 +190,15 @@ const Index = () => {
                   "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
                 WebkitMaskImage:
                   "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+                mixBlendMode: isDesktopVideoBlending ? "lighten" : "normal",
+              }}
+              onLoadedMetadata={(e) => {
+                const src = e.currentTarget.currentSrc || "";
+                if (src.includes("test-alpha") && src.includes(".mp4")) {
+                  setIsDesktopVideoBlending(true);
+                } else {
+                  setIsDesktopVideoBlending(false);
+                }
               }}
               onEnded={(e) => {
                 e.currentTarget.loop = false;
@@ -212,13 +209,15 @@ const Index = () => {
                 setUseImageFallback(true);
               }}
             >
+              {/* WebM transparent video for Chrome/Firefox/Edge */}
               <source 
                 src={heroVideoWebm} 
                 type="video/webm" 
-                onError={() => {
-                  console.log("Desktop video source error, falling back to image");
-                  setUseImageFallback(true);
-                }}
+              />
+              {/* MP4 video fallback for Safari (which will be blended using mixBlendMode: lighten) */}
+              <source
+                src={heroVideoMp4}
+                type="video/mp4"
               />
             </motion.video>
           )}
