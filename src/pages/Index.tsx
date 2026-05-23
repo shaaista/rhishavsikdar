@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import heroVideoWebm from "@/assets/test-alpha.webm";
 import heroVideoMp4 from "@/assets/test-alpha.mp4";
-import cardsImg from "@/assets/cards.png";
+import heroVideoMatte from "@/assets/hero-matte.mp4";
 import Iridescence from "@/components/Iridescence";
 import PageTransition from "@/components/PageTransition";
-import { VideoChromaCanvas } from "@/components/VideoChromaCanvas";
+import { VideoAlphaMatte } from "@/components/VideoAlphaMatte";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
+
 
 const DARK = "#0f172a";
 const GOLD = "#c4a373"; // warm gold accent — bullets, sparkle, button border
@@ -49,8 +50,6 @@ const Index = () => {
   // every Safari/iOS/Android user-agent so they always receive the pinned
   // MP4 src (and the chroma-key filter on the wrapping <div>).
   const [needsMp4Path] = useState<boolean>(() => detectNeedsMp4Path());
-  const [isMobileVideoPlaying, setIsMobileVideoPlaying] = useState(false);
-  const [isDesktopVideoPlaying, setIsDesktopVideoPlaying] = useState(false);
 
   // On the Chrome/Firefox/Edge path the native <video autoplay muted ...>
   // is sufficient (and its onPlay handler sets isDesktopVideoPlaying).
@@ -128,10 +127,12 @@ const Index = () => {
               CSS filters, so canvas is the only reliable way to remove the
               MP4's black background on those devices. */}
           {needsMp4Path ? (
-            <VideoChromaCanvas
+            // Safari/iOS/Android: canvas composites the packed
+            // color+matte MP4 (preserves the artist's exact alpha — no
+            // chroma-key on dark facial features).
+            <VideoAlphaMatte
               ref={desktopVideoRef}
-              src={heroVideoMp4}
-              onPlay={() => setIsDesktopVideoPlaying(true)}
+              src={heroVideoMatte}
               className="absolute bottom-0 right-0 z-[1] h-[89vh] w-auto max-w-none block select-none"
               style={{
                 transform: "translateX(6%)",
@@ -144,6 +145,7 @@ const Index = () => {
               }}
             />
           ) : (
+            // Chrome/Firefox/Edge: native <video> with WebM VP9 alpha.
             <video
               ref={desktopVideoRef}
               autoPlay
@@ -162,8 +164,6 @@ const Index = () => {
                 WebkitMaskImage:
                   "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
               }}
-              onPlay={() => setIsDesktopVideoPlaying(true)}
-              onPlaying={() => setIsDesktopVideoPlaying(true)}
               onEnded={(e) => {
                 e.currentTarget.loop = false;
                 e.currentTarget.pause();
@@ -173,26 +173,6 @@ const Index = () => {
               <source src={heroVideoMp4} type="video/mp4" />
             </video>
           )}
-
-          {/* Image overlay — z-2, on top. Hides the video's still/first frame
-              from the user until playback actually begins, then fades out. */}
-          <motion.img
-            src={cardsImg}
-            alt="Rhishav Sikdar — illusionist with cards"
-            className="absolute bottom-0 right-0 z-[2] h-[89vh] w-auto max-w-none block select-none"
-            style={{
-              transform: "translateX(6%)",
-              clipPath: "inset(0 10% 0 10%)",
-              WebkitClipPath: "inset(0 10% 0 10%)",
-              maskImage:
-                "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-              WebkitMaskImage:
-                "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-            }}
-            initial={{ opacity: 1 }}
-            animate={{ opacity: isDesktopVideoPlaying ? 0 : 1 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          />
         </motion.div>
 
         {/* Text content overlay
@@ -300,32 +280,18 @@ const Index = () => {
             transform: "translateX(-50%) translateZ(0)",
           }}
         >
-          {/* Video layer — canvas-chroma-key render so the black background
-              is truly transparent on iOS Safari and Android Chrome (CSS
-              filter on a <video> doesn't reach iOS's hardware video
-              compositing pipeline). */}
-          <VideoChromaCanvas
+          {/* Canvas composites the packed color+matte MP4 so the bg is
+              truly transparent on iOS Safari and Android Chrome (CSS
+              filter, mix-blend-mode, and SVG feColorMatrix can't reach
+              iOS's HW video compositing pipeline). Sized as the layout
+              element since the static image overlay was removed. */}
+          <VideoAlphaMatte
             ref={mobileVideoRef}
-            src={heroVideoMp4}
-            onPlay={() => setIsMobileVideoPlaying(true)}
-            className="absolute top-0 left-0 z-[1] w-full h-full block select-none"
-            style={{
-              clipPath: "inset(0 10% 0 10%)",
-              WebkitClipPath: "inset(0 10% 0 10%)",
-              maskImage:
-                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-              WebkitMaskImage:
-                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-            }}
-          />
-
-          {/* Image overlay — front, fades out when the video starts. */}
-          <motion.img
-            src={cardsImg}
-            alt="Rhishav Sikdar — illusionist with cards"
-            className="relative z-[2] w-[190vw] max-w-none h-auto block select-none"
+            src={heroVideoMatte}
+            className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
             style={{
               maxHeight: "72vh",
+              aspectRatio: "16 / 9",
               clipPath: "inset(0 10% 0 10%)",
               WebkitClipPath: "inset(0 10% 0 10%)",
               maskImage:
@@ -333,9 +299,6 @@ const Index = () => {
               WebkitMaskImage:
                 "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
             }}
-            initial={{ opacity: 1, scale: 0.97 }}
-            animate={{ opacity: isMobileVideoPlaying ? 0 : 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           />
           <div
             aria-hidden="true"

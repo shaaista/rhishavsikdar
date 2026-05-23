@@ -8,8 +8,12 @@ test.describe('Hero Section Video Autoplay and Compatibility Tests', () => {
     const video = page.locator('main video').first();
     await expect(video).toBeAttached({ timeout: 15000 });
 
-    // Wait long enough for autoplay to start and a frame to be decoded.
-    await page.waitForTimeout(2500);
+    // Poll until currentTime advances — fixed waitForTimeout was flaky
+    // when the WebM/matte MP4 metadata took longer than expected to load.
+    await expect.poll(
+      async () => await video.evaluate((el: HTMLVideoElement) => el.currentTime),
+      { timeout: 15000, intervals: [250, 500, 1000] }
+    ).toBeGreaterThan(0);
 
     const probe = await video.evaluate((el: HTMLVideoElement) => ({
       paused: el.paused,
