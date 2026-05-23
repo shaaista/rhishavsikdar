@@ -127,11 +127,6 @@ const Index = () => {
 
   return (
     <PageTransition>
-      {/* Animated iridescent background — preserved */}
-      <div className="fixed inset-0 z-0">
-        <Iridescence mouseReact amplitude={0.1} speed={1} />
-      </div>
-
       {/* Nav */}
       <nav className="fixed top-0 w-full px-6 md:px-10 py-6 md:py-8 flex justify-end items-center z-50 pointer-events-none">
         <div className="flex gap-4 md:gap-5 pointer-events-auto">
@@ -170,6 +165,18 @@ const Index = () => {
         className="relative z-[10] w-full overflow-hidden"
         style={{ height: "100dvh" }}
       >
+        {/* Animated iridescent background — MUST live inside <main> so that
+            mix-blend-mode: lighten on the video wrapper can actually blend
+            against it. mix-blend-mode is scoped to the nearest stacking
+            context; when Iridescence lived outside main (which is a stacking
+            context due to z-[10]), the blend ran against a transparent
+            backdrop and had no effect, leaving the MP4's black background
+            visible on Safari (Mac/iOS) and on Android (where hardware
+            decoders often drop the WebM alpha channel). Keeping it inside
+            main ensures cross-browser parity with Chrome on Windows. */}
+        <div className="absolute inset-0 z-0">
+          <Iridescence mouseReact amplitude={0.1} speed={1} />
+        </div>
         {/* Cards image — taller than viewport, anchored to bottom so the float
             never reveals a gap. Left edge fades into the iridescent bg. */}
         <motion.div
