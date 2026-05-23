@@ -34,96 +34,106 @@ const Index = () => {
 
   useEffect(() => {
     setIsMounted(true);
-    // Enable video rendering on all platforms (it will fall back to image if playback/decode fails completely)
     setUseImageFallback(false);
 
-    // Synchronously check if the browser is on mobile (Android/iOS) or Safari.
-    // Mobile Chrome/Safari and desktop Safari cannot render WebM alpha natively,
-    // so we apply lighten mix-blend-mode immediately to prevent any black background flashes.
+    // UA sniff: Mobile/Safari cannot decode WebM VP9 alpha natively (Android
+    // HW decoders strip it, iOS/desktop Safari can't decode it at all). Used
+    // to switch the desktop <video> from the WebM source to the MP4 + the
+    // SVG chroma-key filter that fakes transparency.
+    let needsMp4Path = false;
     try {
-      const isMobileOrSafari = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || 
-                               /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-      setIsDesktopVideoBlending(isMobileOrSafari);
-    } catch (e) {
-      setIsDesktopVideoBlending(true);
+      needsMp4Path = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+                     /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    } catch {
+      needsMp4Path = true;
     }
-  }, []);
+    setIsDesktopVideoBlending(needsMp4Path);
 
-  useEffect(() => {
-    let cleanupListeners: (() => void) | null = null;
+    // iOS Safari autoplay pattern (mirrors Illusionist.tsx, which already
+    // autoplays reliably on iPhone/iPad):
+    //   1. setAttribute("muted", "")  — iOS checks the HTML attribute, not
+    //      just the IDL property React sets via `muted={true}`. Without an
+    //      explicit attribute write, the muted-autoplay policy doesn't apply
+    //      and the play() promise rejects with NotAllowedError.
+    //   2. Force-pin video.src to the MP4 on Safari/iOS so the browser does
+    //      not have to negotiate the WebM <source> first. Multiple <source>
+    //      children with mixed codecs delay metadata enough that Safari
+    //      misses its own autoplay window.
+    //   3. Retry .play() on `loadeddata` and `canplay` — the very first
+    //      attempt usually fires before metadata is ready and silently fails.
+    const setupVideo = (
+      video: HTMLVideoElement | null,
+      onPlay: () => void,
+      forceMp4Src: string | null
+    ): (() => void) | null => {
+      if (!video) return null;
 
-    if (isMounted && !useImageFallback) {
-      const playVideo = async (video: HTMLVideoElement | null) => {
-        if (!video) return;
+      video.setAttribute("muted", "");
+      video.muted = true;
+      video.defaultMuted = true;
+      video.playsInline = true;
+      video.setAttribute("playsinline", "");
+      video.setAttribute("webkit-playsinline", "");
 
-        // Force core autoplay attributes directly on the DOM element
-        video.muted = true;
-        video.defaultMuted = true;
-        video.playsInline = true;
-        video.loop = false;
-        video.removeAttribute("loop");
+      if (forceMp4Src && video.currentSrc !== forceMp4Src && !video.src) {
+        video.src = forceMp4Src;
+        video.load();
+      }
 
-        // If the browser already started playing it natively, sync state immediately
-        if (video === mobileVideoRef.current && !video.paused) {
-          setIsMobileVideoPlaying(true);
-          return;
-        }
-        if (video === desktopVideoRef.current && !video.paused) {
-          setIsDesktopVideoPlaying(true);
-          return;
-        }
-
-        try {
-          await video.play();
-          if (video === mobileVideoRef.current) {
-            setIsMobileVideoPlaying(true);
-          }
-          if (video === desktopVideoRef.current) {
-            setIsDesktopVideoPlaying(true);
-          }
-        } catch (error) {
-          console.warn("Autoplay blocked. Registering interaction listeners.", error);
-          
-          // Fallback: Attempt playing on first user gesture
-          const playOnGesture = async () => {
-            try {
-              await video.play();
-              if (video === mobileVideoRef.current) {
-                setIsMobileVideoPlaying(true);
-              }
-              if (video === desktopVideoRef.current) {
-                setIsDesktopVideoPlaying(true);
-              }
-              cleanup();
-            } catch (err) {
-              console.error("Playback failed even on user gesture:", err);
-            }
-          };
-
-          const cleanup = () => {
-            window.removeEventListener("touchstart", playOnGesture);
-            window.removeEventListener("click", playOnGesture);
-            window.removeEventListener("scroll", playOnGesture);
-          };
-
-          cleanupListeners = cleanup;
-          window.addEventListener("touchstart", playOnGesture, { passive: true });
-          window.addEventListener("click", playOnGesture, { passive: true });
-          window.addEventListener("scroll", playOnGesture, { passive: true });
+      let disposed = false;
+      const tryPlay = () => {
+        if (disposed) return;
+        const p = video.play();
+        if (p && typeof p.then === "function") {
+          p.then(() => { if (!disposed) onPlay(); }).catch(() => {});
         }
       };
 
-      // Play synchronously without setTimeout to bypass Safari autoplay restrictions
-      playVideo(desktopVideoRef.current);
-      playVideo(mobileVideoRef.current);
-    }
+      tryPlay();
+      video.addEventListener("loadeddata", tryPlay);
+      video.addEventListener("canplay", tryPlay);
+
+      const onPlayEvt = () => { if (!disposed) onPlay(); };
+      video.addEventListener("playing", onPlayEvt);
+
+      const playOnGesture = () => {
+        if (disposed) return;
+        const p = video.play();
+        if (p && typeof p.then === "function") {
+          p.then(() => { if (!disposed) onPlay(); }).catch(() => {});
+        }
+      };
+      window.addEventListener("touchstart", playOnGesture, { passive: true });
+      window.addEventListener("touchend", playOnGesture, { passive: true });
+      window.addEventListener("click", playOnGesture, { passive: true });
+
+      return () => {
+        disposed = true;
+        video.removeEventListener("loadeddata", tryPlay);
+        video.removeEventListener("canplay", tryPlay);
+        video.removeEventListener("playing", onPlayEvt);
+        window.removeEventListener("touchstart", playOnGesture);
+        window.removeEventListener("touchend", playOnGesture);
+        window.removeEventListener("click", playOnGesture);
+      };
+    };
+
+    const cleanupDesktop = setupVideo(
+      desktopVideoRef.current,
+      () => setIsDesktopVideoPlaying(true),
+      needsMp4Path ? heroVideoMp4 : null
+    );
+    const cleanupMobile = setupVideo(
+      mobileVideoRef.current,
+      () => setIsMobileVideoPlaying(true),
+      heroVideoMp4
+    );
 
     return () => {
-      if (cleanupListeners) {
-        cleanupListeners();
-      }
+      cleanupDesktop?.();
+      cleanupMobile?.();
     };
-  }, [isMounted, useImageFallback]);
+  }, []);
 
   return (
     <PageTransition>
