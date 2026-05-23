@@ -37,13 +37,13 @@ const Index = () => {
     // Enable video rendering on all platforms (it will fall back to image if playback/decode fails completely)
     setUseImageFallback(false);
 
-    // Synchronously check if the browser supports transparent WebM VP9.
-    // If it doesn't (Safari, iOS browsers), it will use the MP4 source which has a black background
-    // and thus requires the lighten mix-blend-mode. We set this immediately on mount to prevent
-    // black backgrounds from flashing during initial load/play.
+    // Synchronously check if the browser is on mobile (Android/iOS) or Safari.
+    // Mobile Chrome/Safari and desktop Safari cannot render WebM alpha natively,
+    // so we apply lighten mix-blend-mode immediately to prevent any black background flashes.
     try {
-      const supportsWebm = document.createElement('video').canPlayType('video/webm; codecs="vp9"') === 'probably';
-      setIsDesktopVideoBlending(!supportsWebm);
+      const isMobileOrSafari = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || 
+                               /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      setIsDesktopVideoBlending(isMobileOrSafari);
     } catch (e) {
       setIsDesktopVideoBlending(true);
     }
@@ -178,7 +178,8 @@ const Index = () => {
             width: "37%", 
             top: "0", 
             height: "100vh",
-            mixBlendMode: (isDesktopVideoPlaying && isDesktopVideoBlending && !useImageFallback) ? "lighten" : "normal"
+            mixBlendMode: (isDesktopVideoPlaying && isDesktopVideoBlending && !useImageFallback) ? "lighten" : "normal",
+            willChange: "transform, mix-blend-mode"
           }}
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -204,52 +205,50 @@ const Index = () => {
           />
 
           {/* Video Layer */}
-          {!useImageFallback && (
-            <motion.video
-              ref={desktopVideoRef}
-              autoPlay
-              muted
-              playsInline
-              loop={false}
-              preload="auto"
-              aria-label="Rhishav Sikdar — illusionist with cards"
-              className="absolute bottom-0 right-0 z-[2] h-[89vh] w-auto max-w-none block select-none"
-              style={{
-                transform: "translateX(6%)", // Shifted further right on desktop
-                clipPath: "inset(0 10% 0 10%)",
-                WebkitClipPath: "inset(0 10% 0 10%)",
-                maskImage:
-                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-                WebkitMaskImage:
-                  "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
-              }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: (isDesktopVideoPlaying && !useImageFallback) ? 1 : 0 }}
-              transition={{ duration: 0.4 }}
-              onPlay={() => {
-                setIsDesktopVideoPlaying(true);
-              }}
-              onEnded={(e) => {
-                e.currentTarget.loop = false;
-                e.currentTarget.pause();
-              }}
-              onError={() => {
-                console.log("Desktop video decode/playback error, falling back to image");
-                setUseImageFallback(true);
-              }}
-            >
-              {/* WebM transparent video for Chrome/Firefox/Edge */}
-              <source 
-                src={heroVideoWebm} 
-                type="video/webm" 
-              />
-              {/* MP4 video fallback for Safari (which will be blended using mixBlendMode: lighten) */}
-              <source
-                src={heroVideoMp4}
-                type="video/mp4"
-              />
-            </motion.video>
-          )}
+          <motion.video
+            ref={desktopVideoRef}
+            autoPlay
+            muted
+            playsInline
+            loop={false}
+            preload="auto"
+            aria-label="Rhishav Sikdar — illusionist with cards"
+            className="absolute bottom-0 right-0 z-[2] h-[89vh] w-auto max-w-none block select-none"
+            style={{
+              transform: "translateX(6%)", // Shifted further right on desktop
+              clipPath: "inset(0 10% 0 10%)",
+              WebkitClipPath: "inset(0 10% 0 10%)",
+              maskImage:
+                "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+              WebkitMaskImage:
+                "radial-gradient(ellipse 75% 95% at 65% 50%, #000 35%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.4) 82%, transparent 100%)",
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: (isDesktopVideoPlaying && !useImageFallback) ? 1 : 0 }}
+            transition={{ duration: 0.4 }}
+            onPlay={() => {
+              setIsDesktopVideoPlaying(true);
+            }}
+            onEnded={(e) => {
+              e.currentTarget.loop = false;
+              e.currentTarget.pause();
+            }}
+            onError={() => {
+              console.log("Desktop video decode/playback error, falling back to image");
+              setUseImageFallback(true);
+            }}
+          >
+            {/* WebM transparent video for Chrome/Firefox/Edge */}
+            <source 
+              src={heroVideoWebm} 
+              type="video/webm" 
+            />
+            {/* MP4 video fallback for Safari (which will be blended using mixBlendMode: lighten) */}
+            <source
+              src={heroVideoMp4}
+              type="video/mp4"
+            />
+          </motion.video>
         </motion.div>
 
         {/* Text content overlay
