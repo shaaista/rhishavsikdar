@@ -258,13 +258,11 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Mobile-only portrait.
-            Same image-on-top / video-behind layering as the desktop block so
-            iOS Safari sees an opacity-1 muted video element with a single
-            src attribute (mirrors the Illusionist page's autoplay setup).
-            The chroma-key filter lives on the video's wrapper, not the
-            <video> itself, to avoid interfering with iOS autoplay. */}
-        <div
+        {/* Mobile-only portrait. Guarded by isMobileLayout so it only mounts
+            on actual mobile devices. Without this guard, on iPad both the
+            desktop VideoAlphaMatte AND this one would portal their source
+            videos to document.body, competing for iOS's autoplay budget. */}
+        {isMobileLayout && <div
           className="md:hidden fixed top-[6vh] z-[1] w-fit pointer-events-none"
           style={{
             left: "44%",
@@ -316,7 +314,7 @@ const Index = () => {
               mixBlendMode: "screen",
             }}
           />
-        </div>
+        </div>}
       </main>
     </PageTransition>
   );

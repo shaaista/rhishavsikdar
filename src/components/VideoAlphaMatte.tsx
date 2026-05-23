@@ -23,18 +23,14 @@ import { createPortal } from "react-dom";
 // Without this, a 900px buffer displayed at 746 CSS × 3 DPR = 2238 physical
 // pixels would cause a visible 2.5× upscale blur on iPhone.
 //
-// The source <video> must NOT be display:none / opacity:0 / size:0 /
-// clip-path:inset(100%) — iOS's autoplay heuristic refuses each of those
-// as "not visible to the user." We render it at full 100vw/100vh with
-// opacity:0.001 — technically visible (passes WebKit's on-screen check)
-// but completely imperceptible. The 0.1% bleed of the raw stacked MP4
-// over the iridescent background is invisible in practice.
-//
-// Portal: iOS Safari has a known bug where position:fixed inside a CSS-
-// transformed ancestor is positioned relative to that ancestor, NOT the
-// viewport. Since the canvas parent has transform:translateX(-50%), the
-// fixed video would be tiny/off-screen. createPortal(…, document.body)
-// places it as a direct body child so position:fixed = true viewport.
+// iOS autoplay: iOS Safari requires the source <video> to be genuinely
+// visible on screen (opacity > 0, in viewport, not display:none) to grant
+// muted-autoplay. We render the source video via createPortal to document.body
+// (bypassing iOS's position:fixed-in-transformed-ancestor bug AND the
+// PageTransition initial opacity:0 wrapper). The video starts at opacity:1
+// with a 32×18 px footprint so iOS grants autoplay. As soon as the video
+// actually starts playing, tryPlay()'s .then() immediately sets opacity to
+// 0.001 — the 32×18 px thumbnail disappears before the user notices it.
 
 interface Props {
   /** Path to the color+matte stacked MP4. Top half is RGB color (any bg
@@ -140,6 +136,12 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
         if (!configured) return;
         if (video.readyState < 2) return;
 
+        // Once playing, make the thumbnail invisible (it served its purpose
+        // of convincing iOS to grant muted-autoplay).
+        if (video.currentTime > 0 && video.style.opacity !== "0.001") {
+          video.style.opacity = "0.001";
+        }
+
         const vw = video.videoWidth;
         const halfH = video.videoHeight / 2;
         const cw = canvas.width;
@@ -174,7 +176,13 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
         if (disposed) return;
         const p = video.play();
         if (p && typeof p.then === "function") {
-          p.then(() => { if (!disposed) onPlay?.(); }).catch(() => {});
+          p.then(() => {
+            if (!disposed) {
+              onPlay?.();
+              // Video is playing — hide the thumbnail immediately.
+              video.style.opacity = "0.001";
+            }
+          }).catch(() => {});
         }
       };
 
@@ -202,6 +210,14 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
       };
     }, [src, onPlay]);
 
+    // Portal to document.body so position:fixed is relative to the true
+    // viewport (not a transformed ancestor) and the video is outside any
+    // PageTransition opacity:0 wrapper — both are required for iOS autoplay.
+    //
+    // The video starts at opacity:1 with a 32×18 px footprint. This is the
+    // minimum "genuinely visible" signal iOS needs to grant muted-autoplay.
+    // As soon as play() resolves (video actually starts) we set opacity 0.001,
+    // so users see this thumbnail for at most ~0.5 s on a fast connection.
     const videoEl = (
       <video
         ref={videoRef}
@@ -214,14 +230,14 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
         aria-hidden="true"
         style={{
           position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          opacity: 0.001,
+          bottom: 0,
+          right: 0,
+          width: 32,
+          height: 18,
+          opacity: 1,
           pointerEvents: "none",
           objectFit: "cover",
-          zIndex: 0,
+          zIndex: 1,
         }}
       />
     );
