@@ -21,16 +21,14 @@ const AnimatedRoutes = () => {
 
   return (
     <AnimatePresence mode="wait">
-      <Suspense fallback={<div className="w-screen h-screen bg-transparent" />} key={location.pathname}>
-        <Routes location={location}>
-          <Route path="/" element={<Index />} />
-          <Route path="/experience" element={<Experience />} />
-          <Route path="/illusionist" element={<Illusionist />} />
-          <Route path="/innerwork" element={<InnerWork />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Suspense fallback={<div className="w-screen h-screen bg-transparent" />}><Index /></Suspense>} />
+        <Route path="/experience" element={<Suspense fallback={<div className="w-screen h-screen bg-transparent" />}><Experience /></Suspense>} />
+        <Route path="/illusionist" element={<Suspense fallback={<div className="w-screen h-screen bg-transparent" />}><Illusionist /></Suspense>} />
+        <Route path="/innerwork" element={<Suspense fallback={<div className="w-screen h-screen bg-transparent" />}><InnerWork /></Suspense>} />
+        <Route path="/contact" element={<Suspense fallback={<div className="w-screen h-screen bg-transparent" />}><Contact /></Suspense>} />
+        <Route path="*" element={<Suspense fallback={<div className="w-screen h-screen bg-transparent" />}><NotFound /></Suspense>} />
+      </Routes>
     </AnimatePresence>
   );
 };
