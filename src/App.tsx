@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { lazy, Suspense, ComponentType } from "react";
+import { lazy, Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 import Iridescence from "@/components/Iridescence";
 
@@ -16,25 +16,21 @@ const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 const queryClient = new QueryClient();
 
-const SuspendedRoute = ({ Component }: { Component: ComponentType }) => (
-  <Suspense fallback={<div className="w-screen h-screen bg-transparent" />}>
-    <Component />
-  </Suspense>
-);
-
 const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<SuspendedRoute Component={Index} />} />
-        <Route path="/experience" element={<SuspendedRoute Component={Experience} />} />
-        <Route path="/illusionist" element={<SuspendedRoute Component={Illusionist} />} />
-        <Route path="/innerwork" element={<SuspendedRoute Component={InnerWork} />} />
-        <Route path="/contact" element={<SuspendedRoute Component={Contact} />} />
-        <Route path="*" element={<SuspendedRoute Component={NotFound} />} />
-      </Routes>
+      <Suspense fallback={<div className="w-screen h-screen bg-transparent" />} key={location.pathname}>
+        <Routes location={location}>
+          <Route path="/" element={<Index />} />
+          <Route path="/experience" element={<Experience />} />
+          <Route path="/illusionist" element={<Illusionist />} />
+          <Route path="/innerwork" element={<InnerWork />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   );
 };
