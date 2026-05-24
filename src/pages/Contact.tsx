@@ -81,7 +81,6 @@ const elegantToast = (tone: ToastTone, message: string) => {
   );
 };
 import PageTransition from "@/components/PageTransition";
-import Iridescence from "@/components/Iridescence";
 
 // Web3Forms access key — the destination inbox is locked to the email this key
 // was registered under (https://web3forms.com).
@@ -189,11 +188,8 @@ const Contact = () => {
 
   return (
     <PageTransition>
-      <div className="relative w-screen min-h-screen bg-black">
-        {/* Background */}
-        <div className="fixed inset-0 z-0">
-          <Iridescence mouseReact amplitude={0.1} speed={1} />
-        </div>
+      <div className="relative w-screen min-h-screen bg-transparent">
+
         <div
           className="fixed inset-0 z-[1] pointer-events-none"
           style={{

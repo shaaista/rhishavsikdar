@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import heroVideoWebm from "@/assets/test-alpha.webm";
 import heroVideoMp4 from "@/assets/test-alpha.mp4";
 import heroVideoMatte from "@/assets/hero-matte.mp4";
-import Iridescence from "@/components/Iridescence";
 import PageTransition from "@/components/PageTransition";
 import { VideoAlphaMatte } from "@/components/VideoAlphaMatte";
 import { Instagram, Youtube, Linkedin } from "lucide-react";
@@ -60,10 +59,7 @@ const Index = () => {
 
   return (
     <PageTransition>
-      {/* Animated iridescent background — preserved */}
-      <div className="fixed inset-0 z-0">
-        <Iridescence mouseReact amplitude={0.1} speed={1} />
-      </div>
+
 
       {/* Nav */}
       <nav className="fixed top-0 w-full px-6 md:px-10 py-6 md:py-8 flex justify-end items-center z-50 pointer-events-none">
@@ -115,9 +111,14 @@ const Index = () => {
               top: "0",
               height: "100vh",
             }}
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            variants={{
+              initial: { opacity: 0, scale: 0.96 },
+              animate: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+              exit: { x: 200, opacity: 0, transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }
+            }}
+            initial="initial"
+            animate="animate"
+            exit="exit"
           >
             {needsMp4Path ? (
               <VideoAlphaMatte
@@ -171,7 +172,12 @@ const Index = () => {
             Desktop: items-center vertically centres on the left half (image
                      is absolute-positioned to the right). */}
         <div className="relative z-[2] h-full w-full flex items-end md:items-center px-6 md:pl-16 lg:pl-24 pt-4 md:pt-0 pb-10 md:pb-0">
-          <div className="w-full md:w-[50%] flex flex-col gap-4 md:gap-7 items-center md:items-start">
+          <motion.div
+            className="w-full md:w-[50%] flex flex-col gap-4 md:gap-7 items-center md:items-start"
+            variants={{
+              exit: { x: -200, opacity: 0, transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }
+            }}
+          >
             {/* Title — AquireLight (brand font, restored) */}
             <div className="flex flex-col leading-none text-center md:text-left">
               <motion.h1
@@ -255,19 +261,27 @@ const Index = () => {
               </motion.span>
             </motion.button>
 
-          </div>
+          </motion.div>
         </div>
 
         {/* Mobile-only portrait. isMobileLayout guard prevents this from
             mounting on iPad — without it both the desktop and mobile
             VideoAlphaMatte would portal their source videos to <body>,
             competing for iOS's autoplay budget and breaking both. */}
-        {isMobileLayout && <div
+        {isMobileLayout && <motion.div
           className="md:hidden fixed top-[6vh] z-[1] w-fit pointer-events-none"
           style={{
             left: "44%",
             transform: "translateX(-50%) translateZ(0)",
           }}
+          variants={{
+            initial: { opacity: 0, y: 30 },
+            animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+            exit: { y: 150, opacity: 0, transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }
+          }}
+          initial="initial"
+          animate="animate"
+          exit="exit"
         >
           {/* Canvas composites the packed color+matte MP4 so the bg is
               truly transparent on iOS Safari and Android Chrome (CSS
@@ -314,7 +328,7 @@ const Index = () => {
               mixBlendMode: "screen",
             }}
           />
-        </div>}
+        </motion.div>}
       </main>
     </PageTransition>
   );

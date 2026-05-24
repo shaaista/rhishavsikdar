@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import Iridescence from "@/components/Iridescence";
 import PageTransition from "@/components/PageTransition";
 import { Instagram, Youtube, Linkedin, ArrowRight, ArrowLeft } from "lucide-react";
 import glitterCardImg from "@/assets/glitter-card.png";
@@ -148,6 +147,7 @@ interface ExperienceCardProps {
   onClick: () => void;
   delay: number;
   cardBg?: string;
+  variants?: any;
 }
 
 const DEFAULT_CARD_BG =
@@ -161,11 +161,11 @@ const ExperienceCard = ({
   onClick,
   delay,
   cardBg,
+  variants,
 }: ExperienceCardProps) => (
   <motion.div
-    {...fadeUp(delay)}
     onClick={onClick}
-    className="rounded-[1.5rem] flex flex-col items-center text-center cursor-pointer relative overflow-visible group"
+    className="rounded-[1.5rem] flex flex-col items-center text-center cursor-pointer relative overflow-visible group h-full"
     style={{
       padding: "clamp(1rem, 1.8vw, 2.5rem) clamp(1.25rem, 2vw, 3rem)",
       background: cardBg ?? DEFAULT_CARD_BG,
@@ -177,6 +177,10 @@ const ExperienceCard = ({
       boxShadow:
         "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
     }}
+    variants={variants}
+    initial="initial"
+    animate="animate"
+    exit="exit"
     whileHover={{
       y: -6,
       boxShadow:
@@ -282,10 +286,7 @@ const Experience = () => {
 
   return (
     <PageTransition>
-      {/* Iridescent background */}
-      <div className="fixed inset-0 z-0">
-        <Iridescence mouseReact amplitude={0.1} speed={1} />
-      </div>
+
 
       {/* Pearly white veil so the cards read against a soft silk-like backdrop */}
       <div
@@ -346,37 +347,47 @@ const Experience = () => {
       {/* Hero — viewport-fitted */}
       <main className="relative z-[10] min-h-screen md:h-screen w-full flex flex-col items-center justify-start px-6 md:px-10 overflow-y-auto md:overflow-hidden pt-20 md:pt-14 pb-10 md:pb-0">
         <motion.div
-          {...fadeUp(0.1)}
-          className="tracking-[0.4em] uppercase mb-2"
-          style={{
-            fontSize: "clamp(0.73rem, 0.9vw, 1.28rem)",
-            color: ACCENT,
-            fontFamily: "'Nestborn', sans-serif",
-            fontWeight: 600,
+          className="flex flex-col items-center"
+          variants={{
+            initial: { opacity: 0, y: -70 },
+            animate: { opacity: 1, y: 0, transition: { duration: 1.2, delay: 0.15, ease: [0.16, 1, 0.3, 1] } },
+            exit: { opacity: 0, y: -50, transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] } }
           }}
+          initial="initial"
+          animate="animate"
+          exit="exit"
         >
-          Choose your experience
-        </motion.div>
+          <div
+            className="tracking-[0.4em] uppercase mb-2 text-center"
+            style={{
+              fontSize: "clamp(0.73rem, 0.9vw, 1.28rem)",
+              color: ACCENT,
+              fontFamily: "'Nestborn', sans-serif",
+              fontWeight: 600,
+            }}
+          >
+            Choose your experience
+          </div>
 
-        <motion.div {...fadeUp(0.2)} className="mb-3">
-          <SparkleDivider />
-        </motion.div>
+          <div className="mb-3">
+            <SparkleDivider />
+          </div>
 
-        <motion.h1
-          {...fadeUp(0.3)}
-          className="text-center uppercase mb-5 md:mb-6 flex flex-col items-center"
-          style={{
-            fontFamily: "'Libre Baskerville', 'Baskerville', serif",
-            fontSize: "clamp(1.32rem, 3vw, 4.37rem)",
-            fontWeight: 400,
-            color: DARK,
-            letterSpacing: "0.02em",
-            lineHeight: 1.15,
-          }}
-        >
-          <span>The Art of Illusion.</span>
-          <span>The Science of Inner Work</span>
-        </motion.h1>
+          <h1
+            className="text-center uppercase mb-5 md:mb-6 flex flex-col items-center"
+            style={{
+              fontFamily: "'Libre Baskerville', 'Baskerville', serif",
+              fontSize: "clamp(1.32rem, 3vw, 4.37rem)",
+              fontWeight: 400,
+              color: DARK,
+              letterSpacing: "0.02em",
+              lineHeight: 1.15,
+            }}
+          >
+            <span>The Art of Illusion.</span>
+            <span>The Science of Inner Work</span>
+          </h1>
+        </motion.div>
 
         <div
           className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 w-full"
@@ -388,17 +399,28 @@ const Experience = () => {
             tags={["Magic", "Mentalism"]}
             description="Performance, wonder, and unforgettable live experiences."
             onClick={() => navigate("/illusionist")}
-            delay={0.5}
+            delay={0}
             cardBg="linear-gradient(160deg, rgba(232,240,252,0.72) 0%, rgba(225,235,250,0.4) 60%, rgba(232,240,252,0.58) 100%)"
+            variants={{
+              initial: { opacity: 0, x: -150 },
+              animate: { opacity: 1, x: 0, transition: { duration: 1.3, delay: 0.3, ease: [0.16, 1, 0.3, 1] } },
+              exit: { opacity: 0, x: -100, transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] } }
+            }}
           />
+
           <ExperienceCard
             visual={<MeditationFigure />}
             title="Inner Work"
             tags={["Reiki", "Hypnotherapy"]}
             description="Mindset, healing, and inner transformation."
             onClick={() => navigate("/innerwork")}
-            delay={0.65}
+            delay={0}
             cardBg="linear-gradient(160deg, rgba(232,240,252,0.72) 0%, rgba(225,235,250,0.4) 60%, rgba(232,240,252,0.58) 100%)"
+            variants={{
+              initial: { opacity: 0, x: 150 },
+              animate: { opacity: 1, x: 0, transition: { duration: 1.3, delay: 0.3, ease: [0.16, 1, 0.3, 1] } },
+              exit: { opacity: 0, x: 100, transition: { duration: 0.6, ease: [0.76, 0, 0.24, 1] } }
+            }}
           />
         </div>
       </main>

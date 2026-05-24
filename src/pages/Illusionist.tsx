@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import GetInTouchButton from "@/components/GetInTouchButton";
 import PageTransition from "@/components/PageTransition";
-import Iridescence from "@/components/Iridescence";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
 import illusionVideo from "@/assets/illusiongif.mp4";
 import googleLogo from "@/assets/logos/google.png";
@@ -165,10 +164,8 @@ const Illusionist = () => {
 
   return (
     <PageTransition>
-      <div className="relative w-screen min-h-screen bg-black">
-        <div className="fixed inset-0 z-0">
-          <Iridescence mouseReact amplitude={0.1} speed={1} />
-        </div>
+      <div className="relative w-screen min-h-screen bg-transparent">
+
         <div
           className="fixed inset-0 z-[1] pointer-events-none"
           style={{ background: "linear-gradient(to bottom, hsla(0,0%,100%,0.1) 0%, hsla(0,0%,100%,0.15) 40%, hsla(0,0%,100%,0.25) 100%)" }}
