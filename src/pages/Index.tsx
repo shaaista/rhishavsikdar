@@ -112,8 +112,8 @@ const Index = () => {
               height: "100vh",
             }}
             variants={{
-              initial: { opacity: 0, scale: 0.96 },
-              animate: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+              initial: { opacity: 0, scale: 0.96, x: 0 },
+              animate: { opacity: 1, scale: 1, x: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
               exit: { x: 200, opacity: 0, transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }
             }}
             initial="initial"
@@ -272,12 +272,11 @@ const Index = () => {
           className="md:hidden fixed top-[6vh] z-[1] w-fit pointer-events-none"
           style={{
             left: "44%",
-            transform: "translateX(-50%) translateZ(0)",
           }}
           variants={{
-            initial: { opacity: 0, y: 30 },
-            animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
-            exit: { y: 150, opacity: 0, transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }
+            initial: { opacity: 0, y: 30, x: "-50%" },
+            animate: { opacity: 1, y: 0, x: "-50%", transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+            exit: { y: 150, opacity: 0, x: "-50%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }
           }}
           initial="initial"
           animate="animate"
