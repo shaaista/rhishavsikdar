@@ -222,11 +222,10 @@ export const VideoAlphaMatte = forwardRef<HTMLVideoElement, Props>(
           position: "fixed",
           bottom: 0,
           right: 0,
-          width: 32,
-          height: 18,
+          width: 2,
+          height: 2,
           opacity: 1,
           pointerEvents: "none",
-          objectFit: "cover",
           zIndex: 1,
         }}
       />

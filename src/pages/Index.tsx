@@ -175,6 +175,8 @@ const Index = () => {
           <motion.div
             className="w-full md:w-[50%] flex flex-col gap-4 md:gap-7 items-center md:items-start"
             variants={{
+              initial: { x: 0, opacity: 1 },
+              animate: { x: 0, opacity: 1 },
               exit: { x: -200, opacity: 0, transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }
             }}
           >
