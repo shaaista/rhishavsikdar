@@ -508,7 +508,7 @@ const Illusionist = () => {
             </motion.div>
           </section>
 
-          {/* ── Trusted By ── */}
+          {/* ── Chosen By ── */}
           <section className="px-6 md:px-16 lg:px-24 pb-12">
             <motion.div
               className="max-w-6xl mx-auto"
@@ -517,9 +517,17 @@ const Illusionist = () => {
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7 }}
             >
-              <p className="text-center text-2xl md:text-4xl uppercase tracking-[0.35em] mb-6 font-bold" style={{ fontFamily: "Nestborn, sans-serif", color: "hsla(0, 0%, 0%, 0.95)" }}>
-                Trusted By
-              </p>
+              <motion.div
+                className="flex items-center justify-center gap-4 md:gap-6 text-[rgba(20,55,150,0.95)] mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <span className="inline-block w-8 md:w-16 h-[1.5px]" style={{ background: "rgba(0,0,0,0.5)" }} aria-hidden="true" />
+                <span className="text-2xl md:text-4xl uppercase tracking-[0.35em] font-bold" style={{ fontFamily: "Nestborn, sans-serif", color: "hsla(0, 0%, 0%, 0.95)" }}>Chosen By</span>
+                <span className="inline-block w-8 md:w-16 h-[1.5px]" style={{ background: "rgba(0,0,0,0.5)" }} aria-hidden="true" />
+              </motion.div>
               <div className="mt-12 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
                 <InfiniteSlider gap={40} speed={180}>
                   {topLogos.map((logo) => {
