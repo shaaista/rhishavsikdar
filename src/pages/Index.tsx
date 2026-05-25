@@ -196,7 +196,7 @@ const Index = () => {
               </motion.h1>
               <motion.h1
                 {...fadeUp(0.35)}
-                className="uppercase text-[16vw] md:text-[8.2vw] leading-[0.95]"
+                className="uppercase text-[16vw] md:text-[8.2vw] leading-[0.95] mobile-outline-title"
                 style={{
                   fontFamily: "'AquireLight', sans-serif",
                   fontWeight: 400,
@@ -219,10 +219,10 @@ const Index = () => {
               }}
             >
               <span>Magician</span>
-              <span style={{ color: "rgba(20, 55, 150, 0.95)", fontSize: "0.9em" }}>●</span>
+              <span style={{ color: GOLD, fontSize: "0.9em" }}>●</span>
               <span>Mentalist</span>
-              <span style={{ color: "rgba(20, 55, 150, 0.95)", fontSize: "0.9em" }}>●</span>
-              <span>Hypnotherapist</span>
+              <span style={{ color: GOLD, fontSize: "0.9em" }}>●</span>
+              <span>Illusionist</span>
             </motion.div>
 
             {/* CTA button — matches Connect button on other pages (Nestborn font) */}
@@ -232,19 +232,19 @@ const Index = () => {
               className="group flex items-center gap-3 px-7 md:px-9 py-3.5 md:py-4 rounded-full uppercase text-[0.75rem] md:text-base tracking-[0.15em] md:tracking-[0.3em] cursor-pointer font-bold whitespace-nowrap"
               style={{
                 fontFamily: "'Nestborn', sans-serif",
-                border: "1px solid rgba(20, 55, 150, 0.6)",
+                border: `1px solid rgba(196, 163, 115, 0.6)`,
                 color: DARK,
                 background:
                   "linear-gradient(135deg, hsla(0,0%,100%,0.04) 0%, hsla(0,0%,100%,0.01) 100%)",
                 backdropFilter: "blur(20px)",
                 WebkitBackdropFilter: "blur(20px)",
                 boxShadow:
-                  "0 0 10px rgba(10, 40, 130, 0.4), 0 0 20px rgba(10, 40, 130, 0.2), 0 0 30px rgba(10, 40, 130, 0.1)",
+                  "0 0 10px rgba(196, 163, 115, 0.15), 0 0 20px rgba(196, 163, 115, 0.1), 0 0 30px rgba(196, 163, 115, 0.05)",
               }}
               whileHover={{
                 scale: 1.04,
                 boxShadow:
-                  "0 0 14px rgba(10, 40, 130, 0.55), 0 0 28px rgba(10, 40, 130, 0.3), 0 0 42px rgba(10, 40, 130, 0.15)",
+                  "0 0 14px rgba(196, 163, 115, 0.25), 0 0 28px rgba(196, 163, 115, 0.15), 0 0 42px rgba(196, 163, 115, 0.08)",
               }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -252,7 +252,7 @@ const Index = () => {
               <span>Enter the Experience</span>
               <motion.span
                 style={{
-                  color: "rgba(20, 55, 150, 0.95)",
+                  color: GOLD,
                   fontSize: "0.95rem",
                   display: "inline-block",
                 }}
