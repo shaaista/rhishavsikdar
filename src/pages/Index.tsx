@@ -271,7 +271,7 @@ const Index = () => {
             VideoAlphaMatte would portal their source videos to <body>,
             competing for iOS's autoplay budget and breaking both. */}
         {isMobileLayout && <motion.div
-          className="md:hidden fixed top-[10vh] z-[1] w-fit pointer-events-none"
+          className="md:hidden fixed top-[8vh] z-[1] w-fit pointer-events-none"
           style={{
             left: "44%",
           }}
@@ -288,9 +288,9 @@ const Index = () => {
             <VideoAlphaMatte
               ref={mobileVideoRef}
               src={heroVideoMatte}
-              className="relative z-[1] w-[180vw] max-w-none h-auto block select-none"
+              className="relative z-[1] w-[171vw] max-w-none h-auto block select-none"
               style={{
-                maxHeight: "68vh",
+                maxHeight: "64.8vh",
                 aspectRatio: "16 / 9",
                 clipPath: "inset(0 10% 0 10%)",
                 WebkitClipPath: "inset(0 10% 0 10%)",
@@ -309,9 +309,9 @@ const Index = () => {
               loop={false}
               preload="auto"
               aria-label="Rhishav Sikdar — illusionist with cards"
-              className="relative z-[1] w-[180vw] max-w-none h-auto block select-none"
+              className="relative z-[1] w-[171vw] max-w-none h-auto block select-none"
               style={{
-                maxHeight: "68vh",
+                maxHeight: "64.8vh",
                 aspectRatio: "16 / 9",
                 clipPath: "inset(0 10% 0 10%)",
                 WebkitClipPath: "inset(0 10% 0 10%)",
