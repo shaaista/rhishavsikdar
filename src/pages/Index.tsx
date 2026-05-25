@@ -284,26 +284,51 @@ const Index = () => {
           animate="animate"
           exit="exit"
         >
-          {/* Canvas composites the packed color+matte MP4 so the bg is
-              truly transparent on iOS Safari and Android Chrome (CSS
-              filter, mix-blend-mode, and SVG feColorMatrix can't reach
-              iOS's HW video compositing pipeline). Sized as the layout
-              element since the static image overlay was removed. */}
-          <VideoAlphaMatte
-            ref={mobileVideoRef}
-            src={heroVideoMatte}
-            className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
-            style={{
-              maxHeight: "72vh",
-              aspectRatio: "16 / 9",
-              clipPath: "inset(0 10% 0 10%)",
-              WebkitClipPath: "inset(0 10% 0 10%)",
-              maskImage:
-                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-              WebkitMaskImage:
-                "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
-            }}
-          />
+          {needsMp4Path ? (
+            <VideoAlphaMatte
+              ref={mobileVideoRef}
+              src={heroVideoMatte}
+              className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
+              style={{
+                maxHeight: "72vh",
+                aspectRatio: "16 / 9",
+                clipPath: "inset(0 10% 0 10%)",
+                WebkitClipPath: "inset(0 10% 0 10%)",
+                maskImage:
+                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+              }}
+            />
+          ) : (
+            <video
+              ref={mobileVideoRef}
+              autoPlay
+              muted
+              playsInline
+              loop={false}
+              preload="auto"
+              aria-label="Rhishav Sikdar — illusionist with cards"
+              className="relative z-[1] w-[190vw] max-w-none h-auto block select-none"
+              style={{
+                maxHeight: "72vh",
+                aspectRatio: "16 / 9",
+                clipPath: "inset(0 10% 0 10%)",
+                WebkitClipPath: "inset(0 10% 0 10%)",
+                maskImage:
+                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,0.95) 82%, rgba(0,0,0,0.62) 91%, transparent 100%)",
+              }}
+              onEnded={(e) => {
+                e.currentTarget.loop = false;
+                e.currentTarget.pause();
+              }}
+            >
+              <source src={heroVideoWebm} type="video/webm" />
+              <source src={heroVideoMp4} type="video/mp4" />
+            </video>
+          )}
           <div
             aria-hidden="true"
             className="absolute left-1/2 bottom-[-7vh] z-[2] h-[30vh] w-[124vw] -translate-x-1/2 rounded-full"
