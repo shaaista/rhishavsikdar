@@ -271,7 +271,7 @@ const Index = () => {
             VideoAlphaMatte would portal their source videos to <body>,
             competing for iOS's autoplay budget and breaking both. */}
         {isMobileLayout && <motion.div
-          className="md:hidden fixed top-[6vh] z-[1] w-fit pointer-events-none"
+          className="md:hidden fixed top-[10vh] z-[1] w-fit pointer-events-none"
           style={{
             left: "44%",
           }}
