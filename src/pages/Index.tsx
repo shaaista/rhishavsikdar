@@ -49,35 +49,52 @@ const Index = () => {
 
   useEffect(() => {
     // Lock scrolling and disable overscroll elastic bounce on mobile touch browsers
+    // while permitting native pull-to-refresh overscroll gestures.
     if (typeof document !== "undefined") {
       const html = document.documentElement;
       const body = document.body;
 
       const originalHtmlOverflow = html.style.overflow;
+      const originalHtmlOverflowX = html.style.overflowX;
+      const originalHtmlOverflowY = html.style.overflowY;
       const originalHtmlHeight = html.style.height;
+      const originalHtmlOverscrollY = html.style.overscrollBehaviorY;
+
       const originalBodyOverflow = body.style.overflow;
+      const originalBodyOverflowX = body.style.overflowX;
+      const originalBodyOverflowY = body.style.overflowY;
       const originalBodyHeight = body.style.height;
       const originalBodyPosition = body.style.position;
       const originalBodyWidth = body.style.width;
       const originalBodyOverscroll = body.style.overscrollBehavior;
+      const originalBodyOverscrollY = body.style.overscrollBehaviorY;
 
-      html.style.overflow = "hidden";
+      html.style.overflowY = "auto";
+      html.style.overflowX = "hidden";
       html.style.height = "100%";
-      body.style.overflow = "hidden";
+      html.style.overscrollBehaviorY = "contain";
+
+      body.style.overflowY = "auto";
+      body.style.overflowX = "hidden";
       body.style.height = "100%";
-      body.style.position = "fixed";
-      body.style.width = "100%";
-      body.style.overscrollBehavior = "none";
+      body.style.overscrollBehaviorY = "contain";
 
       return () => {
         // Restore previous styles when leaving the landing page
         html.style.overflow = originalHtmlOverflow;
+        html.style.overflowX = originalHtmlOverflowX;
+        html.style.overflowY = originalHtmlOverflowY;
         html.style.height = originalHtmlHeight;
+        html.style.overscrollBehaviorY = originalHtmlOverscrollY;
+
         body.style.overflow = originalBodyOverflow;
+        body.style.overflowX = originalBodyOverflowX;
+        body.style.overflowY = originalBodyOverflowY;
         body.style.height = originalBodyHeight;
         body.style.position = originalBodyPosition;
         body.style.width = originalBodyWidth;
         body.style.overscrollBehavior = originalBodyOverscroll;
+        body.style.overscrollBehaviorY = originalBodyOverscrollY;
       };
     }
   }, []);
@@ -132,7 +149,7 @@ const Index = () => {
       {/* Hero */}
       <main
         className="relative z-[10] w-full overflow-hidden"
-        style={{ height: "100dvh", touchAction: "none" }}
+        style={{ height: "100dvh", touchAction: "pan-y" }}
       >
         {/* Desktop / tablet hero video.
             Not rendered at all on narrow (< 768px) viewports — prevents a
