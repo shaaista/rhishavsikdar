@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import heroVideoWebm from "@/assets/test-alpha.webm";
@@ -46,6 +46,41 @@ const Index = () => {
   const navigate = useNavigate();
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    // Lock scrolling and disable overscroll elastic bounce on mobile touch browsers
+    if (typeof document !== "undefined") {
+      const html = document.documentElement;
+      const body = document.body;
+
+      const originalHtmlOverflow = html.style.overflow;
+      const originalHtmlHeight = html.style.height;
+      const originalBodyOverflow = body.style.overflow;
+      const originalBodyHeight = body.style.height;
+      const originalBodyPosition = body.style.position;
+      const originalBodyWidth = body.style.width;
+      const originalBodyOverscroll = body.style.overscrollBehavior;
+
+      html.style.overflow = "hidden";
+      html.style.height = "100%";
+      body.style.overflow = "hidden";
+      body.style.height = "100%";
+      body.style.position = "fixed";
+      body.style.width = "100%";
+      body.style.overscrollBehavior = "none";
+
+      return () => {
+        // Restore previous styles when leaving the landing page
+        html.style.overflow = originalHtmlOverflow;
+        html.style.height = originalHtmlHeight;
+        body.style.overflow = originalBodyOverflow;
+        body.style.height = originalBodyHeight;
+        body.style.position = originalBodyPosition;
+        body.style.width = originalBodyWidth;
+        body.style.overscrollBehavior = originalBodyOverscroll;
+      };
+    }
+  }, []);
 
   // Both values resolved synchronously on first render so video elements are
   // emitted in the correct state immediately — avoids the autoplay-budget race
@@ -97,7 +132,7 @@ const Index = () => {
       {/* Hero */}
       <main
         className="relative z-[10] w-full overflow-hidden"
-        style={{ height: "100dvh" }}
+        style={{ height: "100dvh", touchAction: "none" }}
       >
         {/* Desktop / tablet hero video.
             Not rendered at all on narrow (< 768px) viewports — prevents a
