@@ -125,6 +125,7 @@ const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [botcheck, setBotcheck] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -137,6 +138,14 @@ const Contact = () => {
 
     if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === "PASTE_YOUR_ACCESS_KEY_HERE") {
       elegantToast("error", "Email isn't configured yet. Add your Web3Forms access key.");
+      return;
+    }
+
+    // Silent bot drop — honeypot was filled, fake success to avoid tipping off the bot
+    if (botcheck) {
+      setSent(true);
+      setForm({ name: "", email: "", message: "" });
+      setIntent("both");
       return;
     }
 
@@ -159,7 +168,7 @@ const Contact = () => {
           email: form.email,
           intent: intentLabel,
           message: form.message,
-          botcheck: "",
+          botcheck,
         }),
       });
       const data = await res.json();
@@ -290,6 +299,26 @@ const Contact = () => {
               transition={{ duration: 0.8, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
               onSubmit={handleSubmit}
             >
+              {/* Honeypot — invisible to humans, attractive to bots. Do not remove. */}
+              <input
+                type="checkbox"
+                name="botcheck"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                checked={!!botcheck}
+                onChange={(e) => setBotcheck(e.target.checked ? "true" : "")}
+                style={{
+                  position: "absolute",
+                  left: "-9999px",
+                  top: "-9999px",
+                  width: 0,
+                  height: 0,
+                  opacity: 0,
+                  pointerEvents: "none",
+                }}
+              />
+
               {/* Name */}
               <div className="flex flex-col gap-2">
                 <label
