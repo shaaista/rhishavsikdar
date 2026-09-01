@@ -82,10 +82,16 @@ const elegantToast = (tone: ToastTone, message: string) => {
 };
 import PageTransition from "@/components/PageTransition";
 
-// Web3Forms access key — the destination inbox is locked to the email this key
-// was registered under (https://web3forms.com).
-// Notes go to: sikdar.rhishav@gmail.com
-const WEB3FORMS_ACCESS_KEY = "b108c178-cbb2-4edc-bd1b-6c484e457c01";
+// Web3Forms access keys — each key's destination inbox is locked to the email it
+// was registered under (https://web3forms.com). Every submission is sent to all
+// keys, so each inbox below receives the note directly.
+// Notes go to:
+//   sikdar.rhishav@gmail.com   (key b108c178-…)
+//   connect@rhishavsikdar.com  (key 59896e0a-…)
+const WEB3FORMS_ACCESS_KEYS = [
+  "b108c178-cbb2-4edc-bd1b-6c484e457c01",
+  "59896e0a-4623-4200-b771-9c8ccca6d139",
+];
 
 const inputStyle: React.CSSProperties = {
   width: "100%",
@@ -136,7 +142,10 @@ const Contact = () => {
       return;
     }
 
-    if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === "PASTE_YOUR_ACCESS_KEY_HERE") {
+    if (
+      WEB3FORMS_ACCESS_KEYS.length === 0 ||
+      WEB3FORMS_ACCESS_KEYS.some((k) => !k || k === "PASTE_YOUR_ACCESS_KEY_HERE")
+    ) {
       elegantToast("error", "Email isn't configured yet. Add your Web3Forms access key.");
       return;
     }
@@ -154,31 +163,47 @@ const Contact = () => {
 
     setSending(true);
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `New note from ${form.name} — ${intentLabel}`,
-          from_name: form.name,
-          name: form.name,
-          email: form.email,
-          intent: intentLabel,
-          message: form.message,
-          botcheck,
-        }),
-      });
-      const data = await res.json();
-      if (data.success) {
+      const payload = {
+        subject: `New note from ${form.name} — ${intentLabel}`,
+        from_name: form.name,
+        name: form.name,
+        email: form.email,
+        intent: intentLabel,
+        message: form.message,
+        botcheck,
+      };
+
+      // Fire one submission per access key so every configured inbox
+      // receives the note directly. allSettled keeps one inbox failing
+      // from stopping delivery to the other.
+      const results = await Promise.allSettled(
+        WEB3FORMS_ACCESS_KEYS.map((key) =>
+          fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({ access_key: key, ...payload }),
+          }).then((r) => r.json() as Promise<{ success?: boolean; message?: string }>)
+        )
+      );
+
+      const anySuccess = results.some(
+        (r) => r.status === "fulfilled" && r.value?.success
+      );
+
+      if (anySuccess) {
         setSent(true);
         setForm({ name: "", email: "", message: "" });
         setIntent("both");
         elegantToast("success", "Your note is on its way. I'll reply within 48 hours.");
       } else {
-        elegantToast("error", data.message || "Something went wrong. Please try again.");
+        const firstMessage = results.find(
+          (r): r is PromiseFulfilledResult<{ success?: boolean; message?: string }> =>
+            r.status === "fulfilled" && !!r.value?.message
+        )?.value.message;
+        elegantToast("error", firstMessage || "Something went wrong. Please try again.");
       }
     } catch {
       elegantToast("error", "Couldn't send right now. Please try again in a moment.");
