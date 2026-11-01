@@ -25,6 +25,8 @@ import jpMorganLogo from "@/assets/logos/jpmorgan.png";
 import withumLogo from "@/assets/logos/withum.png";
 import metaLogo from "@/assets/logos/meta.png";
 import bentleyLogo from "@/assets/logos/bentley.png";
+import rollsRoyceLogo from "@/assets/logos/rollsroyce.png";
+import sattvaLogo from "@/assets/logos/sattva.png";
 import corenetLogo from "@/assets/logos/corenet.png";
 import nipponPaintsLogo from "@/assets/logos/nipponpaints.png";
 import netcoreLogo from "@/assets/logos/netcore.png";
@@ -42,6 +44,7 @@ const topLogos = [
   { src: googleLogo, alt: "Google" },
   { src: sonyLogo, alt: "Sony" },
   { src: metaLogo, alt: "Meta" },
+  { src: rollsRoyceLogo, alt: "Rolls-Royce" },
   { src: bentleyLogo, alt: "Bentley" },
   { src: bmwLogo, alt: "BMW" },
   { src: vistaraLogo, alt: "Vistara" },
@@ -50,6 +53,7 @@ const topLogos = [
   { src: exonLogo, alt: "ExxonMobil" },
   { src: bpLogo, alt: "Bharat Petroleum" },
   { src: brigadeLogo, alt: "Brigade" },
+  { src: sattvaLogo, alt: "Sattva" },
   { src: puravankaraLogo, alt: "Puravankara" },
   { src: nexusLogo, alt: "Nexus" },
   { src: jwMarriottLogo, alt: "JW Marriott" },
